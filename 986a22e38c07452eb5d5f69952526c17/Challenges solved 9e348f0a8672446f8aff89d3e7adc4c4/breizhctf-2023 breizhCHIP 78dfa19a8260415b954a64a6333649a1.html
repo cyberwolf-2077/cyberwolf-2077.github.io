@@ -1,0 +1,687 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>breizhctf-2023 : breizhCHIP</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="78dfa19a-8260-415b-954a-64a6333649a1" class="page sans"><header><img class="page-cover-image" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/2023-03-23_17-22.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://cdn.iconscout.com/icon/premium/png-512-thumb/seven-segment-2915045-2413947.png?f=avif&amp;w=256"/></div><h1 class="page-title"><strong>breizhctf-2023 : breizhCHIP</strong></h1><p class="page-description"></p></header><div class="page-body"><nav id="77057e7b-1e88-4ccf-aa5f-bf6994cd638b" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#34f5a559-8668-4f6e-ba74-35cc889365e2">Challenge instructions and file</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1359fe15-960e-4227-8e4a-c0492aed2fd2">Step 1 : Get the software to open the file</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#582dd7cb-4f25-4217-a864-eab00ad3ce72">Step 2 : open the file and take a look</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d9d3d24c-9638-4980-9c0c-856091a55f9b">Step 2-A : get scared</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1580e3e8-3c43-4148-a739-f359a1ff8b83">Step 2-B : Let’s remove the useless part</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#752ae35a-f7ca-4423-a70d-89bcc9502e0d">Step 3 : Extracting the XOR key</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d4178d2c-0a18-4d3e-aa24-68f580d4450f">Step 3-A : just a few bytes to be sure</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c461a313-3170-45ac-856a-9acb63332836">Step 3-B : Let’s decode the message</a></div></nav><h1 id="34f5a559-8668-4f6e-ba74-35cc889365e2" class="block-color-purple_background">Challenge instructions and file</h1><figure id="15f9aa4c-e3de-4a84-987a-0a9f7f170a90" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled.png"><img style="width:557px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled.png"/></a></figure><figure id="dc936216-da95-4336-999e-751ddd6be999"><a href="https://github.com/BreizhCTF/breizhctf-2023/tree/main/challenges/reverse/breizhCHIP/Challenge" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">breizhctf-2023/challenges/reverse/breizhCHIP/Challenge at main · BreizhCTF/breizhctf-2023</div><div class="bookmark-description">BreizhCTF 2023 - Challenges. Contribute to BreizhCTF/breizhctf-2023 development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/fluidicon.png" class="icon bookmark-icon"/>https://github.com/BreizhCTF/breizhctf-2023/tree/main/challenges/reverse/breizhCHIP/Challenge</div></div><img src="https://opengraph.githubassets.com/6fc2e18c68aa4afa6671f550faf1f597d817833b05a3b83c8e5181fdbe2c8727/BreizhCTF/breizhctf-2023" class="bookmark-image"/></a></figure><h1 id="1359fe15-960e-4227-8e4a-c0492aed2fd2" class="block-color-purple_background">Step 1 : Get the software to open the file</h1><p id="0cb90b61-d6cd-46f8-a335-d908788d1287" class="">As explained in the challenge, we need to get our hands on logisim evolution, the software can be found at the following link :</p><figure id="6e6755cc-8b86-4ac4-9d95-026077f46b76"><a href="https://github.com/logisim-evolution/logisim-evolution" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub - logisim-evolution/logisim-evolution: Digital logic design tool and simulator</div><div class="bookmark-description">Digital logic design tool and simulator. Contribute to logisim-evolution/logisim-evolution development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/fluidicon.png" class="icon bookmark-icon"/>https://github.com/logisim-evolution/logisim-evolution</div></div><img src="https://repository-images.githubusercontent.com/24217298/952e5096-8116-4cf7-82c7-10b3a5f7087c" class="bookmark-image"/></a></figure><h1 id="582dd7cb-4f25-4217-a864-eab00ad3ce72" class="block-color-purple_background">Step 2 : open the file and take a look</h1><h2 id="d9d3d24c-9638-4980-9c0c-856091a55f9b" class="block-color-pink_background">Step 2-A : get scared</h2><p id="2bd3c521-78bd-4d46-8597-1ed288983d30" class="">Once we open the file we are facing some electronic schematics. My first taught was to reverse it to make it the way around to give us back the entered value.</p><div id="43813a6d-04de-4a9d-9921-10857d83cb94" class="column-list"><div id="8cbbfa21-d343-4d01-a3f7-014d78adf629" style="width:68.75%" class="column"><figure id="2fda81bf-0eec-42d7-ba4b-3e4fb2fb1135" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%201.png"><img style="width:1920px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%201.png"/></a></figure></div><div id="5ba83c72-e60d-4b43-b9f0-d77be755ad96" style="width:31.25%" class="column"><figure id="21ebc634-20eb-42a1-b856-ec771efc3d7e" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/105.png"><img style="width:512px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/105.png"/></a></figure></div></div><h2 id="1580e3e8-3c43-4148-a739-f359a1ff8b83" class="block-color-pink_background">Step 2-B : Let’s remove the useless part</h2><p id="f2b406b3-2c88-41a9-a833-f1fb0f31be31" class="">I decided to take a closer look at the schematics. Here are some interesting things I figured out. The red section is not useful in the entire process so we could just bypass it </p><p id="723623c0-8292-481f-8823-f191dbb382b8" class="">In fact, the signal outputted by this section stays to 0 in the entire process which means that the first XOR will be XORed with 0 and therefor won’t change</p><div id="58e30eda-fde8-4218-a8d4-f35e4874eec7" class="column-list"><div id="4050444d-c22b-4e6d-b2f9-47b487348395" style="width:37.5%" class="column"><figure id="8abe5d1f-1b83-4b42-8598-d8ebef4ee6b7" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/32.png"><img style="width:432px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/32.png"/></a></figure><p id="7fb0f237-c495-4af8-9612-90de53cb4063" class="">
+</p></div><div id="0efd3a86-8347-4037-b85a-68e8bebf7b47" style="width:62.5%" class="column"><figure id="433c8950-94ae-46c6-9a8c-c148af6db40f" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%202.png"><img style="width:1144px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%202.png"/></a></figure></div></div><h1 id="752ae35a-f7ca-4423-a70d-89bcc9502e0d" class="block-color-purple_background">Step 3 : Extracting the XOR key</h1><h2 id="d4178d2c-0a18-4d3e-aa24-68f580d4450f" class="block-color-pink_background">Step 3-A : just a few bytes to be sure</h2><p id="153791f7-a972-4436-ace0-a56858d385f4" class="">I reloaded the file to make sure it starts fresh as I previously tested multiple clock counts to make sure I could remove a section of the schematics</p><p id="5472fa32-5cc0-4578-b173-7b22663c7ced" class="">When we run the system for à few clock turns we can see it gives us different values on the 7 segments displays, if we try to XOR it with the original output given in the challenge we can see some promising results</p><div id="b9cdaa0f-1606-403a-b22a-5749de11c73a" class="column-list"><div id="aab51501-50d2-4667-b59b-acb7b725a27b" style="width:12.5%" class="column"><figure id="d8dc1582-2fe0-4469-83e8-58cee9d5ce1f" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%203.png"><img style="width:151px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%203.png"/></a></figure></div><div id="88f41f28-e331-43da-87eb-ed4de89110d8" style="width:12.5%" class="column"><figure id="98ffcaa9-a207-41c3-8d70-e58068ab8d61" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%204.png"><img style="width:145px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%204.png"/></a></figure></div><div id="c081cfdc-6af5-4516-827b-50e82024af5e" style="width:12.5%" class="column"><figure id="c27257c9-a472-420a-95a4-1d0e9e9ffe00" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%205.png"><img style="width:155px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%205.png"/></a></figure></div><div id="c4fc7fe4-e31e-4fbc-9c13-8fff724f37eb" style="width:62.5%" class="column"><figure id="3f939df6-71cf-445f-bcd2-d7435db2a9a3" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%206.png"><img style="width:149px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%206.png"/></a></figure></div></div><div id="3b5ed7bc-4562-4aee-bf6e-cd363da135dc" class="column-list"><div id="ff802ed8-9b24-49cf-b3e4-96d6bdfbeddf" style="width:25%" class="column"><figure id="9a5cf468-841f-461b-929f-6e13b3118b2a" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/8_(2).png"><img style="width:512px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/8_(2).png"/></a></figure></div><div id="47a03c13-fc35-47db-a30e-8b7fb0ea0877" style="width:75%" class="column"><figure id="052fce19-4321-4ce7-9ea3-dc4a3a3d3f91" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%207.png"><img style="width:1537px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%207.png"/></a><figcaption>as we can see the first 4 letters decoded are <code>BZHC</code>which is the start of the flag headers</figcaption></figure><p id="7730ed9c-7c7a-4a4a-bfa7-5aece0b96b51" class="">This looks quite promising</p><figure id="2771d012-9cc7-4397-94b1-ae1738d3b580"><a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;Auto&#x27;)XOR(%7B&#x27;option&#x27;:&#x27;Hex&#x27;,&#x27;string&#x27;:&#x27;14%2067%2040%2011&#x27;%7D,&#x27;Standard&#x27;,false)&amp;input=NTYgM2QgMDggNTIgMzAgNTEgN2IgNmQgMjcgNGEgNmQgNDIgMTEgNjcgMzQgMjMgNGIgMjQgMDggMjAgMzQgM2EgMmQgNmQgMjcgMWE" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">CyberChef</div><div class="bookmark-description">The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis</div></div><div class="bookmark-href"><img src="https://gchq.github.io/CyberChef/assets/aecc661b69309290f600.ico" class="icon bookmark-icon"/>https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;Auto&#x27;)XOR(%7B&#x27;option&#x27;:&#x27;Hex&#x27;,&#x27;string&#x27;:&#x27;14%2067%2040%2011&#x27;%7D,&#x27;Standard&#x27;,false)&amp;input=NTYgM2QgMDggNTIgMzAgNTEgN2IgNmQgMjcgNGEgNmQgNDIgMTEgNjcgMzQgMjMgNGIgMjQgMDggMjAgMzQgM2EgMmQgNmQgMjcgMWE</div></div></a></figure></div></div><h2 id="c461a313-3170-45ac-856a-9acb63332836" class="block-color-pink_background">Step 3-B : Let’s decode the message</h2><p id="1ecd1387-30ce-44c6-b9d1-76d8eed454f1" class="">If we run the system longer, we get the entire key :</p><div id="49d7feb5-d2fb-43ce-88d8-065a7fb02444" class="column-list"><div id="85e77f9a-1879-42ed-b5ef-00dce71ef726" style="width:12.500000000000004%" class="column"><figure id="05e2d559-b68c-4d57-a7a0-2461e40948f8" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%208.png"><img style="width:151px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%208.png"/></a></figure></div><div id="ad3c3f30-461a-4cbe-b62c-70f02131f6dc" style="width:12.500000000000004%" class="column"><figure id="7f21e19a-7862-46e6-b4ee-6567e3755f49" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%209.png"><img style="width:145px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%209.png"/></a></figure></div><div id="9fec9cf7-6020-40eb-95fd-5ec10e13154a" style="width:12.500000000000004%" class="column"><figure id="a8d5f346-7659-4732-8413-f68d87226eee" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2010.png"><img style="width:155px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2010.png"/></a></figure></div><div id="9195ef92-9f1e-4ebc-9202-d386dc043185" style="width:12.500000000000004%" class="column"><figure id="cb06dcdb-7e52-4b38-9cf9-e5b890a85c88" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2011.png"><img style="width:149px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2011.png"/></a></figure></div><div id="d6695591-2f88-4c3c-96b8-b425f0181296" style="width:12.500000000000004%" class="column"><figure id="365938e2-c754-4678-8dfa-58b0a6ccf5b6" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2012.png"><img style="width:154px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2012.png"/></a></figure></div><div id="83efc155-405f-4206-bb29-0497f1ad9cff" style="width:12.5%" class="column"><figure id="069ad8f9-2f01-4040-ae2a-5843ef935bb9" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2013.png"><img style="width:144px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2013.png"/></a></figure></div><div id="060bacbf-27a0-4c3c-b353-468f898978c8" style="width:12.5%" class="column"><figure id="dcfbf860-02fe-4cde-ac88-cc75b9b3dcf0" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2014.png"><img style="width:150px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2014.png"/></a></figure></div><div id="435a5b63-911f-410e-9dd5-a1ec8af42d06" style="width:12.5%" class="column"><figure id="d378014e-ea7a-4996-b91f-3ccfe89b7377" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2015.png"><img style="width:143px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2015.png"/></a></figure></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fc33a8f-0a1a-4c9c-85f0-364e421b121d" class="code"><code class="language-Arduino" style="white-space:pre-wrap;word-break:break-all">14 67 40 11 64 17 00 51</code></pre><p id="7e0fa667-856b-4287-aed6-954bacf7710b" class="">After these 8 values it starts over again with the same values</p><p id="b6701a36-efeb-4007-8112-d9ec04b498e9" class="">Let’s put it back in cyberchef and see the result :</p><div id="485fb3dc-1ab4-4285-870c-30f7eb0fb0c9" class="column-list"><div id="16257707-30d4-44f2-ab45-92d650a3e000" style="width:68.75%" class="column"><figure id="19665e32-4cbc-4a39-8799-97cccd71523a" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2016.png"><img style="width:1543px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/Untitled%2016.png"/></a></figure><figure id="e134b01c-0d80-48c8-b30f-601ab8d5065f"><a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;Auto&#x27;)XOR(%7B&#x27;option&#x27;:&#x27;Hex&#x27;,&#x27;string&#x27;:&#x27;14%2067%2040%2011%2064%2017%2000%2051&#x27;%7D,&#x27;Standard&#x27;,false)&amp;input=NTYgM2QgMDggNTIgMzAgNTEgN2IgNmQgMjcgNGEgNmQgNDIgMTEgNjcgMzQgMjMgNGIgMjQgMDggMjAgMzQgM2EgMmQgNmQgMjcgMWE" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">CyberChef</div><div class="bookmark-description">The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis</div></div><div class="bookmark-href"><img src="https://gchq.github.io/CyberChef/assets/aecc661b69309290f600.ico" class="icon bookmark-icon"/>https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;Auto&#x27;)XOR(%7B&#x27;option&#x27;:&#x27;Hex&#x27;,&#x27;string&#x27;:&#x27;14%2067%2040%2011%2064%2017%2000%2051&#x27;%7D,&#x27;Standard&#x27;,false)&amp;input=NTYgM2QgMDggNTIgMzAgNTEgN2IgNmQgMjcgNGEgNmQgNDIgMTEgNjcgMzQgMjMgNGIgMjQgMDggMjAgMzQgM2EgMmQgNmQgMjcgMWE</div></div></a></figure><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="2586c29a-a9da-4ff7-aa03-b7ffe1334d33"><div style="font-size:1.5em"><span class="icon">🚩</span></div><div style="width:100%">BZHCTF{&lt;3--Sup4r_CH1P--&lt;3}</div></figure><p id="75be4b20-67ee-4dfb-be1d-3f62729a0561" class="">
+</p></div><div id="d3e750da-cf56-40c4-81bf-7a15987d4a18" style="width:31.249999999999993%" class="column"><figure id="48bb28ee-32f9-46c0-825d-95ea2509c601" class="image"><a href="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/23.png"><img style="width:384px" src="breizhctf-2023%20breizhCHIP%2078dfa19a8260415b954a64a6333649a1/23.png"/></a></figure></div></div><p id="83f70b49-32a3-4344-a72d-16edb77ad383" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

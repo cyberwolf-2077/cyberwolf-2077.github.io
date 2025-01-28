@@ -1,0 +1,688 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Introduction</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="80cffb20-a61a-4063-b313-2904ca3dc72a" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1631378297854-185cff6b0986?ixlib=rb-4.0.3&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb" style="object-position:center 69.33%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📝</span></div><h1 class="page-title">Introduction</h1><p class="page-description"></p></header><div class="page-body"><h1 id="67f13d7d-6662-40f3-9833-145e43a95ac8" class="">Required equipment</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0fb26103-304e-4dcd-b5d2-a747641ff394"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%"><p id="024cd63b-e4ea-455c-87d5-1cb6d44f3c05" class="">I know that some equipment and micro chips prices skyrocketed in the past months. We do our best to provide you with equipment in DLS classroom.</p><figure id="25008765-c712-497d-9f7c-c9c76a281172" class="image" style="text-align:center"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/1.png"><img style="width:240px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/1.png"/></a></figure></div></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">ATMEGA328P-PU</summary><div class="indented"><h3 id="e814da7c-a3fb-4511-81af-3ca67dece5ed" class="">On boards </h3><figure id="945ee196-f5f4-4feb-874d-aa78a1de9a92"><a href="https://www.amazon.fr/Elegoo-ATmega328P-ATMEGA16U2-Controller-Microcontr%C3%B4leur/dp/B01N91PVIS" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://www.amazon.fr/favicon.ico" class="icon bookmark-icon"/>https://www.amazon.fr/Elegoo-ATmega328P-ATMEGA16U2-Controller-Microcontr%C3%B4leur/dp/B01N91PVIS</div></div></a></figure><figure id="87b65a8d-7e9f-4e91-9d02-3481348d1562"><a href="https://www.amazon.fr/Arduino-A000066-M%C3%A9moire-flash-32/dp/B008GRTSV6/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://www.amazon.fr/favicon.ico" class="icon bookmark-icon"/>https://www.amazon.fr/Arduino-A000066-M%C3%A9moire-flash-32/dp/B008GRTSV6/</div></div></a></figure><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="aeaa1287-88b6-497e-891a-bd144e221ba7"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">On boards chips are easier to flash, probe and in general to use for beginners </div></figure><h3 id="6f1fbb0b-e51e-4a32-ada7-fd8ace619283" class="">Bare metal</h3><figure id="54569537-c8f1-417e-91f0-a66fabed81e0"><a href="https://fr.farnell.com/microchip/atmega328-pu/micro-8-bits-avr-32k-flash-28pdip/dp/1972087" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">ATMEGA328-PU - Microcontrôleur 8 Bits, Famille AVR ATmega Microcontrôleurs Série ATmega328, 20 MHz, 1 Ko, 32 Ko</div><div class="bookmark-description">L&#x27;ATMEGA328-PU est un microcontrôleur 8 bits CMOS basse puissance basé sur l&#x27;architecture RISC optimisée AVR. En exécutant des instructions puissantes en un seul cycle d&#x27;horloge, l&#x27;ATMEGA328-PU atteint des débits approchant les 1MIPS par MHz, permettant aux concepteurs système d&#x27;optimiser la consommation d&#x27;énergie par rapport à la vitesse de traitement.</div></div><div class="bookmark-href"><img src="https://fr.farnell.com/favicon.ico" class="icon bookmark-icon"/>https://fr.farnell.com/microchip/atmega328-pu/micro-8-bits-avr-32k-flash-28pdip/dp/1972087</div></div><img src="https://fr.farnell.com/productimages/large/fr_FR/GE28PDIP05-40.jpg" class="bookmark-image"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">USB to UART (some are at DLS)</summary><div class="indented"><figure id="ab3060b8-f47a-48c7-a85a-1c08c4ff5f82"><a href="https://www.amazon.fr/Rtinle-Adaptateur-Conversion-dinterface-Compatible/dp/B0B7RHPMT7/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://www.amazon.fr/favicon.ico" class="icon bookmark-icon"/>https://www.amazon.fr/Rtinle-Adaptateur-Conversion-dinterface-Compatible/dp/B0B7RHPMT7/</div></div></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">AVRISP-MKII w/ ISP Interface</summary><div class="indented"><figure id="340d43ce-4544-4b14-adb1-312b7ba3a556"><a href="https://www.amazon.fr/ARCELI-AVRISP-Programmeur-int%C3%A9gr%C3%A9-Charge/dp/B07R6LVVZW" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://www.amazon.fr/favicon.ico" class="icon bookmark-icon"/>https://www.amazon.fr/ARCELI-AVRISP-Programmeur-int%C3%A9gr%C3%A9-Charge/dp/B07R6LVVZW</div></div></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Logic analyseur (Some are at DLS)</summary><div class="indented"><figure id="e466b63a-b026-4269-9dcd-72a973be5fa4"><a href="https://www.amazon.fr/AZDelivery-Logic-Analyser-compatible-version/dp/B01MUFRHQ2/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://www.amazon.fr/favicon.ico" class="icon bookmark-icon"/>https://www.amazon.fr/AZDelivery-Logic-Analyser-compatible-version/dp/B01MUFRHQ2/</div></div></a></figure></div></details><h1 id="06d1eb10-74f9-485d-9cc0-56732aaafa55" class="">Required software</h1><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Xloader</summary><div class="indented"><figure id="484be7eb-6c67-4ea5-b7ff-8f7be186b2ff"><a href="https://whiterose-infosec.super.site/documentation" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Documentation</div></div><div class="bookmark-href"><img src="https://whiterose-infosec.super.site/favicon.ico" class="icon bookmark-icon"/>https://whiterose-infosec.super.site/documentation</div></div></a></figure><figure id="25ee7dd0-2534-4d25-873f-19fc6ba27324" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled.png"><img style="width:528px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled.png"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">MobaXterm</summary><div class="indented"><figure id="b3bcc5b6-fcee-4393-a632-59a054d9e4b1"><a href="https://mobaxterm.mobatek.net/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">MobaXterm free Xserver and tabbed SSH client for Windows</div><div class="bookmark-description">Get your ultimate toolbox for remote computing now MobaXterm X server and SSH client MobaXterm is your ultimate toolbox for remote computing. In a single Windows application, it provides loads of functions that are tailored for programmers, webmasters, IT administrators and pretty much all users who need to handle their remote jobs in a more simple fashion.</div></div><div class="bookmark-href"><img src="https://mobaxterm.mobatek.net/favicon.ico" class="icon bookmark-icon"/>https://mobaxterm.mobatek.net/</div></div><img src="https://mobaxterm.mobatek.net/screenshot.png" class="bookmark-image"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Saleae Logic </summary><div class="indented"><figure id="675ca5c8-9f50-4eb3-b21c-17606691efd3"><a href="https://www.saleae.com/downloads/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Logic analyzer software from Saleae</div><div class="bookmark-description">Download the world&#x27;s best and most popular logic analyzer software.</div></div><div class="bookmark-href"><img src="https://www.saleae.com/images/favicon.png" class="icon bookmark-icon"/>https://www.saleae.com/downloads/</div></div><img src="https://www.saleae.com/images/SAL-00115@2x.jpg" class="bookmark-image"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">AVRDude</summary><div class="indented"><figure id="c9a23aa1-40a1-4552-a9a1-c505b1ba1bea"><a href="https://www.nongnu.org/avrdude/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">AVRDUDE - AVR Downloader/UploaDEr</div><div class="bookmark-description">AVRDUDE is a utility to download/upload/manipulate the ROM and EEPROM contents of AVR microcontrollers using the in-system programming technique (ISP). Documentation can be downloaded from the download area, or read online here. AVRDUDE has once been started by Brian S.</div></div><div class="bookmark-href">https://www.nongnu.org/avrdude/</div></div></a></figure></div></details><hr id="26084cab-48ce-497e-b82a-30c1f409e5a6"/><h1 id="bab4a139-84d4-4f01-9bf0-cb570e2e62d0" class="">How to flash a .hex file to my board</h1><p id="1ffa6664-abee-460b-a760-5c88bf099fbb" class="">Most of the time, you will be provided with some .hex files that will have to be flashed on the ATMEGA328P-PU. </p><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="b92d2fb5-3460-4eab-8c21-6fc2a4fd767d"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">if you are provided with other files or formats, additional informations will be provided to explain the setup part.</div></figure><h2 id="49c4129a-08d8-4c1b-8693-6368a9da33ae" class="">I want to flash the chip on my board</h2><figure id="07058d5c-0833-4d25-8ad4-77753fcf8d07" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/15.png"><img style="width:240px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/15.png"/></a></figure><p id="0b6779f2-007b-4af5-8c0d-6b026b468502" class="">Lucky for you, this step is quite simple, all you have to do is to download XLoader (linked above) and plug your board to your computer.<br/>Fire up the XLoader app and select the .hex file you want to flash on the board<br/></p><div id="56fd9cc5-a505-4bcb-89b8-1b5547168d4b" class="column-list"><div id="86824a00-1187-4245-8338-cc0ca1b227cc" style="width:31.25%" class="column"><figure id="650eaad0-bd7c-40ae-84ce-e260aa386fb1" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%201.png"><img style="width:209px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%201.png"/></a></figure></div><div id="75e177ff-6f89-4bbd-b3f0-17c3c3639034" style="width:68.75%" class="column"><figure id="a42d8c88-6a87-4ca3-980c-893a3e71b35b" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%202.png"><img style="width:363.9940490722656px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%202.png"/></a></figure><p id="8ba643c5-fdb6-48bc-9988-0d59e2d15b5b" class="">
+</p></div></div><p id="072b3def-5ca1-4fa4-b6ae-f4512013fff0" class="">Once you selected the file to upload to the board, you can select the type of board you plugged to your computer and the com port that is related to the board </p><div id="4156220f-0536-4435-ad6d-572f9ef6dc71" class="column-list"><div id="7e667749-3fc4-40b0-b17f-9182abd1da32" style="width:50%" class="column"><figure id="39f9385a-5a30-4203-be88-1dc88975433f" class="image" style="text-align:left"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%203.png"><img style="width:217px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%203.png"/></a></figure></div><div id="56922689-6ed1-4990-9c03-d9e041bde685" style="width:50%" class="column"><figure id="dcd468b1-3b80-4ccf-a8ce-7249b39ca777" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%204.png"><img style="width:209px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%204.png"/></a></figure></div></div><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="7b14c311-c458-4559-9245-6c09c4432082"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Baud rate should be automatically changed to fit the board type<ul id="8f4131ed-c489-45c1-bf1f-8ce5477b018a" class="toggle"><li><details open=""><summary>If that’s not the case here is a table with boards, IC, and baud rate </summary><table id="860aa739-cb59-4f95-9eb7-a06ab0e0ea79" class="simple-table"><tbody><tr id="c977b385-b18c-452a-88a1-ef38c55f05cf"><td id="x}IZ" class=""><strong>Board</strong></td><td id="dFDa" class=""><strong>IC</strong></td><td id="qdJy" class=""><strong>Upload Speed</strong></td></tr><tr id="3367dc58-985f-4b1e-98cf-40dd62ce7edd"><td id="x}IZ" class=""><strong>Arduino Yun</strong></td><td id="dFDa" class=""><strong>ATmega32u4</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="70d3f956-d2e6-4334-950b-1a75442650b2"><td id="x}IZ" class=""><strong>Arduino Uno</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>115200</strong></td></tr><tr id="6e1675c9-64ef-449d-be49-c5a500926404"><td id="x}IZ" class=""><strong>Arduino Duemilanove</strong></td><td id="dFDa" class=""><strong>ATmega328</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="7521cb83-b545-48b5-8396-951c2754c7ab"><td id="x}IZ" class=""><strong>Arduino Duemilanove</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="38c1c40a-3f2f-4d52-9aa9-3bf697885ff8"><td id="x}IZ" class=""><strong>Arduino Nano</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="7746c944-4526-4ce8-a3df-b5507b524530"><td id="x}IZ" class=""><strong>Arduino Nano</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="59ec848a-8b7c-496c-98ad-03de1e15e660"><td id="x}IZ" class=""><strong>Arduino Mega</strong></td><td id="dFDa" class=""><strong>ATmega2560</strong></td><td id="qdJy" class=""><strong>115200</strong></td></tr><tr id="0a677d10-4857-458d-81f3-fd8561430a9e"><td id="x}IZ" class=""><strong>Arduino Mega</strong></td><td id="dFDa" class=""><strong>ATmega1280</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="f1baee4a-15a1-4cec-8bb2-5353f13d7d36"><td id="x}IZ" class=""><strong>Arduino Leonardo</strong></td><td id="dFDa" class=""><strong>ATmega32u4</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="1b0580d4-28db-44cc-9527-6bc77d582522"><td id="x}IZ" class=""><strong>Arduino Micro</strong></td><td id="dFDa" class=""><strong>ATmega32u4</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="9f54c39a-9760-4625-8eeb-202cfb0ecfff"><td id="x}IZ" class=""><strong>Arduino Esplora</strong></td><td id="dFDa" class=""><strong>ATmega32u4</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="82270542-f0d0-4f3e-93d4-443c644fb2d9"><td id="x}IZ" class=""><strong>Arduino Mini</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>115200</strong></td></tr><tr id="9114b653-20ae-4cfb-9cd5-6def30a7d32f"><td id="x}IZ" class=""><strong>Arduino Mini</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="96ab66b1-9eb1-47a9-b30b-608032c28733"><td id="x}IZ" class=""><strong>Arduino Pro Mini (5V, 16 MHz)</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="62885a4c-5b62-4515-b710-6a89c472b8f7"><td id="x}IZ" class=""><strong>Arduino Pro or Pro Mini (3.3V, 8 MHz)</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="c1177051-52ee-4f0d-acb8-c076f811c2b0"><td id="x}IZ" class=""><strong>Arduino BT</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="4740d373-dec2-4bcc-9685-db8619f35ac1"><td id="x}IZ" class=""><strong>Arduino BT</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="ef9ca320-e75b-4932-a51c-1048dffe35e7"><td id="x}IZ" class=""><strong>Arduino NG</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="82694781-2367-455b-ac9f-2b5758cabef5"><td id="x}IZ" class=""><strong>Arduino NG</strong></td><td id="dFDa" class=""><strong>ATmega8</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr><tr id="31109b07-bd6e-41f0-a63e-fa04f51c6614"><td id="x}IZ" class=""><strong>Arduino Robot</strong></td><td id="dFDa" class=""><strong>ATmega32u4</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="82367cbe-d15c-480a-be1d-5be23b0fb0ad"><td id="x}IZ" class=""><strong>LilyPad Arduino</strong></td><td id="dFDa" class=""><strong>ATmega328p</strong></td><td id="qdJy" class=""><strong>57600</strong></td></tr><tr id="7c5634cb-fba0-4916-83ea-59088db47ffe"><td id="x}IZ" class=""><strong>LilyPad Arduino</strong></td><td id="dFDa" class=""><strong>ATmega168</strong></td><td id="qdJy" class=""><strong>19200</strong></td></tr></tbody></table></details></li></ul></div></figure><p id="4ba1b560-29e2-4955-ba1d-fd864cf52707" class="">Just have to click upload then to push the file to the board</p><h2 id="3f7d478a-6ee4-4172-9819-f650065df908" class="">I want to flash my bare metal chip</h2><div id="68c7153d-d177-4003-b724-6194f659352e" class="column-list"><div id="3f7ba865-439c-4cfe-9018-7ac7757564a5" style="width:81.25%" class="column"><p id="af09a5c6-4d4e-4af4-bf43-1700adaef0a0" class="">This way of doing require more equipment and might be time consuming, if you own an Arduino board or equivalent, I strongly recommend to use it instead.<br/>Otherwise, here is how to do so :<br/></p><p id="640d8835-6652-4f13-9456-1cfac33b8c0f" class="">The first step is to hock the chip to the USB/UART board as follow:</p></div><div id="de68433f-291a-41f5-b3d6-5ae7ef915d8f" style="width:18.750000000000004%" class="column"><figure id="697b4020-bdc0-4ab0-9859-eefa25159b70" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/17.png"><img style="width:240px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/17.png"/></a></figure></div></div><figure id="4a22d258-fe2b-4d9c-8904-8de33e24ded5" class="image"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%205.png"><img style="width:1600px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/Untitled%205.png"/></a></figure><p id="92843b9a-9cb8-4855-a0c1-9ead8c1f4b83" class="">Then in a terminal you can start AVRdude and use the following command :</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6f80e9ca-9a74-41ff-80b5-061ed62818a6" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">sudo avrdude -c arduino -p m328p -P /dev/ttyUSB0 -U ./pathTo/chall.ino.hex</code></pre><p id="90acaea8-c4a9-463a-a3ff-3bb48ed9ded8" class="">Some options might change depending on the chip you are using, here is some documentation for  a first troubleshooting </p><figure id="9dde8b56-ca2f-4b26-8f9e-41b435a8963c"><a href="https://adduino.com/upload-hex-file-on-arduino-using-avrdude-programming-avr-boards/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Upload Hex file on Arduino using AVRDUDE (Programming AVR Boards)</div><div class="bookmark-description">In this tutorial, you will learn exactly what AVR DUDE is? How to install it? and how to upload a HEX file on any Arduino board or AVR Microcontroller using AVRDUDE. First lets get into the details of AVRDUDE! AVRDUDE: AVRDUDE is an acronym for AVR downloader uploader.</div></div><div class="bookmark-href"><img src="https://adduino.com/wp-content/themes/aspire-pro/images/favicon.ico" class="icon bookmark-icon"/>https://adduino.com/upload-hex-file-on-arduino-using-avrdude-programming-avr-boards/</div></div></a></figure><hr id="1c97592f-1f94-4459-8321-8a1458f21072"/><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="23f6c779-0827-48e0-9844-99c3ed1dd0db"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">More informations and datasheets can be found on my website <figure id="3dfc7406-7f41-4192-b9ed-3d013646e79a"><a href="https://whiterose-infosec.super.site/documentation" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Documentation</div></div><div class="bookmark-href"><img src="https://whiterose-infosec.super.site/favicon.ico" class="icon bookmark-icon"/>https://whiterose-infosec.super.site/documentation</div></div></a></figure></div></figure><p id="9f550d4a-4356-45e4-9ea9-e5e08a3b860f" class="">Here is the flag to confirm you have read the informations about the basics of electronics and that you are ready to dive in the upcoming challenges  :  <code>CTF-DLS{l3tS_Burn_S0m3_ChipS}</code></p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="bb0e66f5-ab07-4d07-8bc4-7c365383f65d"><div style="font-size:1.5em"><span class="icon">✅</span></div><div style="width:100%">Feel free to contact me on Discord <code>Whiterose#6600</code> so I can assist you in the process or answer to any technical difficulties regarding the flashing process or other.<figure id="1d37847b-6546-48e7-b7ee-fe1b94a3f2c3" class="image" style="text-align:center"><a href="Introduction%2080cffb20a61a4063b3132904ca3dc72a/20.png"><img style="width:384px" src="Introduction%2080cffb20a61a4063b3132904ca3dc72a/20.png"/></a></figure><p id="9cc37a52-3c41-4790-9ef6-83b8022a6602" class="">Remember : <code>Read the doc twice, cable up once</code> and most importantly, have fun </p></div></figure><p id="9af6b120-edff-4aa3-918f-371c9f6ba0e4" class="">
+</p><p id="082d769e-5ce0-4dc3-8c81-01fb0ee8712b" class="">
+</p><p id="dd8cd628-1aff-4d2c-9d2d-cb1e7414ecc2" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
