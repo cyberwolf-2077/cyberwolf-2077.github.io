@@ -1,0 +1,692 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>JEEMAK Vision 4K - teardown and pwn</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="bbae42c6-e49b-4257-baf3-db49574f2862" class="page mono"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1571190144364-1da84d9ca448?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 68.89%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📷</span></div><h1 class="page-title">JEEMAK Vision 4K - teardown and pwn</h1><p class="page-description"></p></header><div class="page-body"><nav id="7cb315f5-5186-4680-9fb1-b10589a426d0" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#868b9323-7c33-4b6f-837b-33863890a340">Photos of the boards</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#40b09417-7382-4331-8add-dd5f9afafb4a">Front side</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6d36c3f4-3fb3-4755-a413-1ee10abc9f09">Main components of the front side</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#34fe8673-55cd-43bf-91eb-6c1856930ede">Back side</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#c1207c15-e7e8-4406-8f8d-25255b6ffc77">Main components of the back side</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#187778a2-a541-4fbf-bea2-6495f1d22d9f">Other boards of the device</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#09955dc5-4242-4a17-a7d3-09ec2bf45d19">Bluetooth board</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a7b03978-f730-4d46-b3e7-1907050c7b31">Buttons support</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1bb9c414-771d-4eaa-9f0d-53cb3af712a8">Trying to find debug / serial interface</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a93ba02a-06c2-468a-bed7-f4ee94c1f752">Let’s take a look at the EEPROM</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a57d3b49-585d-46a6-a5d3-ef044fc8ef54">Binary analysis</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6d574758-fdc2-4120-81c1-61f14e278f17">Looking at the content of the .bin file</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f8d99f54-bba7-45ed-a58b-24db62f52d23">Extracting the data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b297039e-3487-4b06-9036-8b0df85b7437">Browsing the data</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3fafd2df-9ac0-4d68-ab60-0e1f34c9e46f">Finding informations about the WiFi</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e8aec32c-b521-416c-b903-fde78287eb55">Get some information about the components of the camera</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#04e3141a-30d6-497f-9de1-44cc11c36f9f">Looks like they reused some code from others manufacturers </a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0da00f0b-2f43-450e-a5f5-369e40213939">Some functionnalities still available</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#5fdd09c7-c4de-40b9-a319-d4edaab71b6e">More android structure</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#26d894c0-65dc-48e9-94f4-580eb1990152">Let’s exploit the device as an Android device through ADB</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8d95e4d9-cd25-4b30-b1c0-11b07ec03068">Find the device</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3205563b-f39f-4c52-a1dd-9a9af3291b41">Dump the firmware</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#974e5515-8a55-45c8-a24d-5c1c6e3637a6">Exploit the device</a></div></nav><h1 id="868b9323-7c33-4b6f-837b-33863890a340" class="block-color-purple_background">Photos of the boards</h1><div id="4730e008-d13e-4fcf-9ac3-4f0895c18ac6" class="column-list"><div id="3bed269d-7089-47ef-904d-c72506752be6" style="width:50%" class="column"><h2 id="40b09417-7382-4331-8add-dd5f9afafb4a" class="block-color-pink_background">Front side</h2><figure id="7671ac40-2155-4f82-91f2-40e8f431488d" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled.png"><img style="width:624px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled.png"/></a></figure><h3 id="6d36c3f4-3fb3-4755-a413-1ee10abc9f09" class="block-color-red_background">Main components of the front side</h3><p id="ce27c2e1-4464-4d2c-ab79-5e42b63e62fe" class=""><mark class="highlight-brown">EP951 </mark>: HDMI interface :</p><figure id="6df1623e-369d-4fd8-8e97-971a38030f81"><a href="https://bbs.aw-ol.com/assets/uploads/files/1639040585144-ep952-%E6%8A%80%E6%9C%AF%E5%8F%82%E6%95%B0.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://bbs.aw-ol.com/assets/uploads/files/1639040585144-ep952-%E6%8A%80%E6%9C%AF%E5%8F%82%E6%95%B0.pdf</div></div></a></figure><p id="ba478de5-ea25-4b90-bb3c-3e70d0fee1be" class=""><mark class="highlight-blue">W631GG6KB </mark>: IC DRAM 1GBIT :</p><figure id="24536ea4-3a05-43d2-9d93-5853777dacac"><a href="https://www.winbond.com/resource-files/w631gg6kb_a10.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://www.winbond.com/resource-files/w631gg6kb_a10.pdf</div></div></a></figure><p id="0cf5162e-8e00-46f0-a130-9d10bf8c7edc" class=""><mark class="highlight-pink">Allwinner_V3 </mark>: ARM CPU : (discovered after removing the black cover)</p><figure id="1e4c9af3-49b8-45b6-b4e9-ab53b1c723c9"><a href="https://linux-sunxi.org/images/f/f5/Allwinner_V3_Datasheet_V1.1.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://linux-sunxi.org/images/f/f5/Allwinner_V3_Datasheet_V1.1.pdf</div></div></a></figure></div><div id="2b2aa064-93d7-483b-8f7e-d71281a2a534" style="width:50%" class="column"><h2 id="34fe8673-55cd-43bf-91eb-6c1856930ede" class="block-color-pink_background">Back side</h2><figure id="e34ffe19-1e03-479d-ac18-7ced955af750" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%201.png"><img style="width:819.65625px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%201.png"/></a></figure><h3 id="c1207c15-e7e8-4406-8f8d-25255b6ffc77" class="block-color-red_background">Main components of the back side</h3><p id="13d125d0-175c-471b-9263-aec3cdd1011d" class=""><mark class="highlight-red">XR819</mark> :  Single-Chip IEEE 802.11 b/g/n WLAN</p><figure id="f99d1a0d-3f72-474c-afe9-98eefe8e0e36"><a href="https://linux-sunxi.org/images/8/8f/XR819_Datasheet_V1.0-EN.pdf](https://linux-sunxi.org/images/8/8f/XR819_Datasheet_V1.0-EN.pdf)" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://linux-sunxi.org/images/8/8f/XR819_Datasheet_V1.0-EN.pdf](https://linux-sunxi.org/images/8/8f/XR819_Datasheet_V1.0-EN.pdf)</div></div></a></figure><p id="c2189721-7b23-43ae-b73d-3c6557d3ddd9" class=""><mark class="highlight-yellow">AXP209 </mark>: single Cell Li-Battery and Power System Management IC :</p><figure id="911cf6c1-94f0-4ef5-9214-cdbce579aef0"><a href="https://dl.linux-sunxi.org/AXP/AXP209_Datasheet_v1.0en.pdf](https://dl.linux-sunxi.org/AXP/AXP209_Datasheet_v1.0en.pdf)" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://dl.linux-sunxi.org/AXP/AXP209_Datasheet_v1.0en.pdf](https://dl.linux-sunxi.org/AXP/AXP209_Datasheet_v1.0en.pdf)</div></div></a></figure></div></div><h2 id="187778a2-a541-4fbf-bea2-6495f1d22d9f" class="block-color-pink_background">Other boards of the device</h2><div id="fa648d02-514c-422e-81b7-09db48e67f11" class="column-list"><div id="22d1a5e5-ce69-4524-be7d-4be254b8d25e" style="width:50%" class="column"><h3 id="09955dc5-4242-4a17-a7d3-09ec2bf45d19" class="block-color-red_background">Bluetooth board</h3><figure id="c21f0823-5920-40af-9365-8850d7612ce9" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%202.png"><img style="width:819.6458740234375px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%202.png"/></a></figure><figure id="46d9d40c-87f9-4547-adc4-9834d63c18bb" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%203.png"><img style="width:819.65625px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%203.png"/></a></figure><p id="eef9b776-087a-44a0-8cd7-2fdac7c01d04" class="">
+</p></div><div id="2bad9a13-1328-4616-8336-81777da731d7" style="width:50%" class="column"><h3 id="a7b03978-f730-4d46-b3e7-1907050c7b31" class="block-color-red_background">Buttons support</h3><figure id="14cf6965-727d-410c-865b-c467bed9f1f2" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%204.png"><img style="width:819.65625px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%204.png"/></a></figure></div></div><h1 id="1bb9c414-771d-4eaa-9f0d-53cb3af712a8" class="block-color-purple_background">Trying to find debug / serial interface</h1><p id="82fdfbf5-b0a7-4291-8de1-2582d9954a6a" class="">One of the first thing I would like to find is a debug or a serial interface so I could interact with the ARM processor and maybe gain access to it. To do so, I looked at the main board and notices 4 pins that seems to be not in use but still present.</p><div id="1355a8bb-0ca4-448d-8680-3b781b59e0ab" class="column-list"><div id="efe44e92-1540-452a-a987-563e68cbcb3c" style="width:56.25%" class="column"><figure id="00b9c4b3-57fe-4494-af49-698218e63fbc" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%205.png"><img style="width:816px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%205.png"/></a></figure></div><div id="cbcefdf4-982e-42ca-9eac-68bf947211af" style="width:43.75%" class="column"><figure id="b37f4d95-3b09-40b1-88f7-d2e185b128f0" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/6.png"><img style="width:336px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/6.png"/></a></figure></div></div><p id="bb8ae92f-a158-46a0-bec0-4b410049fdff" class="">I soldered some cables to it and hoocked up the logic analyser to see if anything goes through it</p><div id="ed56e985-e072-406b-aacb-455635137b6c" class="column-list"><div id="81f7e8c4-e2da-4097-84c4-534dbb3fe2a2" style="width:37.5%" class="column"><figure id="9b5b9ba4-cff5-4370-a9d0-330b69cb5b79" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/10.png"><img style="width:432px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/10.png"/></a></figure></div><div id="b71addc4-038e-45d2-9102-2545f5b52e5b" style="width:62.5%" class="column"><figure id="7fb63a3d-9468-44cf-b5be-ea0d4ccc19b0" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%206.png"><img style="width:3289px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%206.png"/></a></figure></div></div><p id="2d174f6e-9e72-4c77-bec4-2e2b71e60fa9" class="">Now, let’s fire the logic analyser software and plug the device to see if anything come out from one of those pins</p><figure id="38416582-b826-4a70-a932-a13a3703f50e" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%207.png"><img style="width:1685.291748046875px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%207.png"/></a></figure><figure id="62e33b17-6e96-426f-98fa-85caf7fddb9c" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%208.png"><img style="width:1685.2708740234375px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%208.png"/></a></figure><p id="df3d95ef-4460-48ed-afde-6e6752462048" class="">Two other things that have to be determined is the frequency of the communication and the protocol they use (Serial, I2C) but I’m not sure if it would lead somewhere interesting since all the signals appear to be the same just played multiple times.</p><h1 id="a93ba02a-06c2-468a-bed7-f4ee94c1f752" class="block-color-purple_background">Let’s take a look at the EEPROM</h1><p id="f8e58a66-e29d-4898-8c36-bd374d90822a" class="">After being unsuccessful at reading informations from the different pins that are on the board, I decided to take a new look at it at try another way to break in. That’s where I found the EEPROM on the board it appears to be a Winbond W25Q128FW.</p><div id="045a327e-94a7-4335-819b-82c461345602" class="column-list"><div id="7cc126b9-5963-43d4-851a-43f5b954359e" style="width:75%" class="column"><figure id="c14cbc1e-d0af-4c39-9bd0-0ed47d2eabf8" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%209.png"><img style="width:1008px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%209.png"/></a></figure><figure id="972e7816-fefa-4c27-bc4c-f115d4f496d6"><a href="https://www.winbond.com/hq/support/documentation/levelOne.jsp?__locale=en&amp;DocNo=DA00-W25Q128FW.1" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Documentation - Winbond</div><div class="bookmark-description">Winbond Electronics Corporation Specialty Memory IC Company engaged in design, manufacturing and sales services</div></div><div class="bookmark-href"><img src="https://www.winbond.com/hq/system/modules/com.thesys.project.winbond/resources/images/favicon.ico" class="icon bookmark-icon"/>https://www.winbond.com/hq/support/documentation/levelOne.jsp?__locale=en&amp;DocNo=DA00-W25Q128FW.1</div></div><img src="https://www.winbond.com/export/system/modules/com.thesys.project.winbond/resources/images/logo.gif" class="bookmark-image"/></a></figure></div><div id="f9d26bf0-5b12-4c6a-95d6-51be45222436" style="width:24.999999999999996%" class="column"><p id="a1244ed5-ad43-47dc-bcb4-af8a7e696943" class="">      </p><figure id="aa7313fa-3c6c-45cf-9bfe-534909f73dc6" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/18.png"><img style="width:409.8333435058594px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/18.png"/></a></figure></div></div><p id="c6008f6c-3896-431d-b0a1-9890086fa916" class="">I plugged it to the CH341A and red it through it’s software and it looks quite promising.</p><div id="7509cb88-7829-4181-8632-56263fb706ca" class="column-list"><div id="fa5be226-d100-4e81-b0d5-bc55a971f1e6" style="width:43.75%" class="column"><figure id="6979db15-5edd-4a45-b122-1a2e9eff6aa1" class="image" style="text-align:center"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2010.png"><img style="width:336px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2010.png"/></a></figure></div><div id="da618b54-1bf7-40da-a167-c702dcafcf8e" style="width:56.25%" class="column"><figure id="5fefcec4-3fbb-435c-b713-dfaaae09ccfd" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2011.png"><img style="width:720px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2011.png"/></a></figure></div></div><p id="28c134bb-7a13-4e95-a54f-bcbc798cf439" class="">The complete binary file can be found at the following link</p><figure id="08dffe64-a4cf-4350-b9b2-2a32623dd03c"><a href="http://cyberwolf2077-vps.ddns.net:2077/BinaryFiles/W25Q128FW_dump.bin" class="block-color-default bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/BinaryFiles/W25Q128FW_dump.bin</div></div></a></figure><h1 id="a57d3b49-585d-46a6-a5d3-ef044fc8ef54" class="block-color-purple_background">Binary analysis</h1><p id="8fded63c-a9e4-4404-a13f-b5887b7510e1" class="">Now that I have the firmware in a bin file, I pushed it into a Kali linux VM to see what I could get from it.</p><h2 id="6d574758-fdc2-4120-81c1-61f14e278f17" class="block-color-pink_background">Looking at the content of the .bin file</h2><p id="3eb435f1-3b23-43c7-ba2a-f59916c617a2" class="">I first made a binwalk of the file to get an idea of what it contains using </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="263bab53-5c40-435a-b17e-20e7a3e5eb16" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">binwalk &lt;file.bin&gt;</code></pre><figure id="1d9078e5-a392-41de-9ebf-b477bea9558f" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2012.png"><img style="width:1248px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2012.png"/></a></figure><h2 id="f8d99f54-bba7-45ed-a58b-24db62f52d23" class="block-color-pink_background">Extracting the data</h2><p id="ff83c02b-0c45-4042-ad25-822e851233b5" class="">I then extracted all this to get a closer look at the files that could be interesting using</p><div id="745fb65e-8983-4614-8c51-3963d1f4b3a0" class="column-list"><div id="b26d5b3f-1b8a-4783-a156-51938b8de02b" style="width:50%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0238cb81-a5f1-4956-9242-4fc04fc41d64" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">binwalk -e &lt;file.bin&gt;</code></pre></div><div id="2751a61b-30cb-407f-976f-43ae5c278d0b" style="width:50%" class="column"><figure id="083e041b-1366-477a-b714-9e54be51f9ad" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2013.png"><img style="width:576px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2013.png"/></a></figure></div></div><figure id="4c4c1d67-8a5d-4aa5-a0e9-ac006118ec2a" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2014.png"><img style="width:1685.291748046875px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2014.png"/></a></figure><p id="7e02f839-34fe-4066-aa63-9b1e5a7cb8cd" class="">One of the interesting things I saw while extracting the content of the bin file was this line </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7bc97460-de07-454d-a5bf-cd647a698485" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">151733 0x250B5 Android bootimg, kernel size: 1869570560 bytes, kernel addr: 0x203A6174, ramdisk size: 543449442 bytes, ramdisk addr: 0x746F6F62, product name: &quot;a boot.img?&quot;</code></pre><p id="0d81e063-d358-4883-b79c-40ff7dd4a5c2" class="">This mean the device would be running under some kind of android ? that could be interesting to test, but first let’s try to see if we can find some informations </p><h2 id="b297039e-3487-4b06-9036-8b0df85b7437" class="block-color-pink_background">Browsing the data</h2><h3 id="3fafd2df-9ac0-4d68-ab60-0e1f34c9e46f" class="block-color-red_background">Finding informations about the WiFi</h3><p id="eac1edf6-3810-4b97-9169-926f8ffc85ec" class="">In the path <code>_W25Q128FW_dump.bin.extracted/squashfs-root/etc/wifi</code> It is possible to find a file called <code>p2p_supplicant.conf</code> This file contains some informations like the Channel, SSID, BSSID, and the PSK of the network amongst other things</p><div id="bb6d05d7-7ff7-407f-b17c-3faa4c93c08f" class="column-list"><div id="830ab2df-c141-4641-b07e-74d1bc506cd6" style="width:56.25%" class="column"><figure id="483037a2-1cf6-43a9-a2bd-b66b656339d8" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2015.png"><img style="width:672px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2015.png"/></a></figure></div><div id="9365fdbb-4aad-4e73-a53d-a13401748942" style="width:43.75000000000001%" class="column"><figure id="75c41a72-928c-4fb4-b13a-891850a0fede" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/9.png"><img style="width:384px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/9.png"/></a></figure></div></div><h3 id="e8aec32c-b521-416c-b903-fde78287eb55" class="block-color-red_background">Get some information about the components of the camera</h3><div id="82344854-6556-4689-a5f1-d84906d86de8" class="column-list"><div id="13ba3671-b7a1-4863-9d41-3a5ef60299c2" style="width:56.25%" class="column"><p id="d4da519b-0f42-486a-99db-67cf9e57fe4a" class="">When looking at <code>info.xml</code> that is in <code>_W25Q128FW_dump.bin.extracted/squashfs-root/etc</code> it is possible to get some information about the screen that is used, but also the camera module and the firmware date of release</p><figure id="90535575-ffc8-4eb0-85b8-cb23048c65e2" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/26.png"><img style="width:288px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/26.png"/></a></figure></div><div id="f779e366-c4ac-42ef-b705-af768ae96589" style="width:43.75000000000001%" class="column"><figure id="ef5a1f84-c707-4650-97b2-6b3208897f04" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2016.png"><img style="width:396px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2016.png"/></a></figure></div></div><h3 id="04e3141a-30d6-497f-9de1-44cc11c36f9f" class="block-color-red_background">Looks like they reused some code from others manufacturers </h3><div id="87d27860-8e0a-465c-bcbc-52e0b843b491" class="column-list"><div id="f99bfa1d-a326-4ce2-a1c5-07dffd8194be" style="width:45.83333333333333%" class="column"><figure id="1c2296d6-a577-4662-9e2c-896113ff6e68" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2017.png"><img style="width:816px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2017.png"/></a></figure></div><div id="ed3d0a6f-1263-41b1-a90f-fbdeb444e364" style="width:20.833333333333343%" class="column"><p id="ffd426db-eacb-47ef-bda6-4523f72de35f" class="">In <code>vold.fstab</code> it is possible to see some references to HTC Passion. I took a look online as I had no idea of what it could be linked to. Turns out this is the code name of the HTC Nexus One </p><figure id="e18a059b-aeef-4353-a42b-f90a9f7f5db5"><a href="https://wiki.postmarketos.org/wiki/HTC_Nexus_One_(htc-passion)" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">HTC Nexus One (htc-passion) - postmarketOS</div></div><div class="bookmark-href"><img src="https://wiki.postmarketos.org/favicon.ico" class="icon bookmark-icon"/>https://wiki.postmarketos.org/wiki/HTC_Nexus_One_(htc-passion)</div></div></a></figure></div><div id="af47c54d-f4bf-4afe-ad01-5cff9f41bf2f" style="width:33.33333333333333%" class="column"><figure id="71c21de9-79a0-4286-900d-896df5719453" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/16.png"><img style="width:432px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/16.png"/></a></figure></div></div><p id="54f3f7e5-4730-4a4b-a465-7c7031fe280f" class="">Turns out they also used some of the HTC Nexus One code for the WiFi part of their device </p><figure id="4598eb35-4cdf-476f-8041-7811347e9d6e" class="image" style="text-align:left"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2018.png"><img style="width:692px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2018.png"/></a></figure><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="c3539889-91fa-403e-8013-3f2b3afe94f1"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">After further researches and some discussions with a friend, these code elements could be from NixOS, which they probably use at it still provide support to it. These lines are present in a lot of IoT projects over GitHub so it must be some well known code.<figure id="056f1538-1b8a-4ee3-8a38-1fd1bd9a388e"><a href="https://github.com/search?q=%2BHTC-VHTcapable&amp;type=code" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://github.com/search?q=%2BHTC-VHTcapable&amp;type=code</div></div></a></figure><p id="7604d91b-c362-44af-a126-f815b561bdc8" class="">It even is inside FreeBSD code</p><figure id="f752824b-9bdf-4c85-b1cb-1f791b38c1e6"><a href="https://github.com/search?q=repo%3Afreebsd%2Ffreebsd-src%20HTC&amp;type=code" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://github.com/search?q=repo%3Afreebsd%2Ffreebsd-src%20HTC&amp;type=code</div></div></a></figure></div></figure><h3 id="0da00f0b-2f43-450e-a5f5-369e40213939" class="block-color-red_background">Some functionnalities still available</h3><figure id="4edc020d-1be3-49cd-9bef-f3808266365d" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2019.png"><img style="width:1248px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2019.png"/></a></figure><h3 id="5fdd09c7-c4de-40b9-a319-d4edaab71b6e" class="">More android structure</h3><p id="1913c713-9c05-4715-bfc4-12e75351b03c" class="">The idea that the device is actually running android seems interesting, the line I noticed earlier makes it really possible, the informations that can be found in the directory <code>_W25Q128FW_dump.bin.extracted/squashfs-root/etc/firmware</code> are also helping with this theory.</p><div id="5240c4c7-1341-4f7b-8276-bdbe027afaf4" class="column-list"><div id="d4354cb6-3e89-4465-8a44-b16257a22214" style="width:50%" class="column"><figure id="75dba74c-e2bd-4d5a-9172-903623c0e490" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2020.png"><img style="width:659px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2020.png"/></a></figure></div><div id="0699feaf-de2d-44d2-acdb-b3e1b151ab24" style="width:50%" class="column"><p id="4df66561-49e1-4794-b66a-59b7e949a5c7" class=""><br/>boot_xr819.bin could be the boot.img, <br/>sdd_xr819.bin the uboot.img, <br/>and fw_xr819.bin the system.img.<br/></p></div></div><h1 id="26d894c0-65dc-48e9-94f4-580eb1990152" class="block-color-purple_background">Let’s exploit the device as an Android device through ADB</h1><h2 id="8d95e4d9-cd25-4b30-b1c0-11b07ec03068" class="block-color-pink_background">Find the device</h2><p id="a02ce72c-8eb5-4b9a-843b-c55964106dc3" class="">From what has been saw previously, this device seems to run under android. Let’s try some shenanigans using ADB to mess around with it !</p><p id="a01cb39c-1a88-4978-bafb-3d1e6150af8a" class="">I plugged it over the USB cable and nothing happened we I plugged the camera, I decided to plug back the screen to the logic board to see if any informations could be provided, it happens that I had to select the USB mode to get access to the camera over USB. And this is what it displayed in VMWare Workstation :</p><div id="22b8a846-c981-4fb2-8071-a93d43efae7f" class="column-list"><div id="f97b521a-f9c4-440f-8f1c-80f20f40b14f" style="width:37.5%" class="column"><figure id="23b2d82b-8df4-4120-9e24-69ea4aefa1d8" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2021.png"><img style="width:467px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2021.png"/></a></figure></div><div id="45b866a0-43ff-420a-9bd0-ca0279509773" style="width:62.5%" class="column"><p id="e6f8e396-573c-4d53-abc7-37a0b930df2a" class="">This make it more credible for an android powered device than ever before</p></div></div><p id="09b4edc7-f6cf-4d30-bc02-c2f85b2dfff9" class="">I then started by listing the devices that are available with</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5cc81e0f-9f4d-4587-acac-579c27089082" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">adb devices</code></pre><figure id="b1740b29-a293-4286-833e-9784ec7eeec7" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2022.png"><img style="width:1248px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2022.png"/></a></figure><h2 id="3205563b-f39f-4c52-a1dd-9a9af3291b41" class="block-color-pink_background">Dump the firmware</h2><p id="079560a1-f59a-4556-b4ee-2d3ec258e164" class="">I can download the most interesting files with the following commande from ADB</p><div id="2c8f87bb-da13-45d3-9025-5a78ed10a3cc" class="column-list"><div id="e14df290-283b-4641-a21d-d4a5174f0fec" style="width:50%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7f8c3e58-b44e-4fb3-9cff-3749a8cf61df" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">adb pull /dev/block/mtdblock0 uboot.img         # uboot
+adb pull /dev/block/mtdblock1 boot.img          # kernel
+adb pull /dev/block/mtdblock2 system.img        # squahfs
+adb pull /dev/block/mtdblock3 config.img        # /data
+adb pull /dev/block/mtdblock4 boot-logo.jpg     # boot logo
+adb pull /dev/block/mtdblock5 shutdown-logo.jpg # shutdown logo
+adb pull /dev/block/mtdblock6 env.img           # uboot params</code></pre><figure id="427f4a3f-4a90-4f5b-ac23-f87efe9b7bd7" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2023.png"><img style="width:706px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2023.png"/></a></figure></div><div id="908b7602-00fe-425e-87fd-cb9f4063ed18" style="width:50%" class="column"><figure id="fa518f48-efd2-4e37-a733-38f172eb5d3f" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/4.png"><img style="width:288px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/4.png"/></a></figure></div></div><p id="379c9623-46d4-40ac-8cd7-12a418929740" class="">The content of the firmware can be found at the following link :</p><figure id="0dcc114e-7229-4567-ac5f-c4bdb589b0f0"><a href="http://cyberwolf2077-vps.ddns.net:2077/FirmWare/firmware_JEEMAKVision4K.rar" class="block-color-default bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/FirmWare/firmware_JEEMAKVision4K.rar</div></div></a></figure><h2 id="974e5515-8a55-45c8-a24d-5c1c6e3637a6" class="block-color-pink_background">Exploit the device</h2><p id="8bb876ae-9524-4e96-a8bb-e1508fc6543d" class="">I can now join the shell of the device using </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c8edf51c-583a-4dc6-aa5f-360d8135cd4a" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">adb shell</code></pre><figure id="fb1162c3-fc28-4eda-9f7e-8e2c1d2f2d10" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2024.png"><img style="width:1248px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2024.png"/></a></figure><p id="35590c53-e211-4614-9a88-b3b39df9e639" class="">It gives a root shell, from here it could be possible to do anything on the device</p><div id="a0779334-9d12-4c06-aa30-3d28058298e8" class="column-list"><div id="15fd66bb-461b-4806-a052-688dcde5b819" style="width:62.5%" class="column"><figure id="06939ca8-9a9c-43fe-bd5e-122b769f65a7" class="image" style="text-align:center"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2025.png"><img style="width:672px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/Untitled%2025.png"/></a></figure></div><div id="edb7e455-a79e-4005-ba34-6df14bc965c6" style="width:37.49999999999999%" class="column"><figure id="e0083b11-1e80-4b21-8074-d0bb733ae792" class="image"><a href="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/36.png"><img style="width:432px" src="JEEMAK%20Vision%204K%20-%20teardown%20and%20pwn%20bbae42c6e49b4257baf3db49574f2862/36.png"/></a></figure></div></div><p id="380f882a-f918-4ffb-9129-ffc086694b2c" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

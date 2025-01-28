@@ -1,0 +1,696 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>AP3400 MOSFET - Discovery</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="06268548-8b7e-4cb7-9982-3908841231f2" class="page mono"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1569615313731-7407da4f4594?ixlib=rb-4.0.3&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb" style="object-position:center 63.11%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/computer-chip_purple.svg"/></div><h1 class="page-title">AP3400 MOSFET - Discovery</h1><p class="page-description"></p></header><div class="page-body"><nav id="2f1c3b88-58a6-46fc-aa3a-12e1e89289e0" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a8bcfad6-49f9-4108-9daf-f743eccb5fe7">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8a3e6d41-21a8-41f3-83f6-1ac40c7c16ab">The process</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e33ac4fd-6107-4e99-95aa-1497c249f03a">Step 1 : Solder the MOSFET to a board</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0350bb53-9f80-497e-86d1-c3196c11ac78">Step 2 : Wire the chip</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5f2d3184-9b08-4923-a038-6ceac8ad0fcc">Step 3 : Let’s test</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#07949a38-5aa2-4db4-b0fb-de1ae18d389c">Sources </a></div></nav><h1 id="a8bcfad6-49f9-4108-9daf-f743eccb5fe7" class="block-color-purple_background">Introduction</h1><div id="bcb7116f-8e56-4f4d-adf5-fbe7c60b0631" class="column-list"><div id="a5aa282c-f506-4b87-b218-e403efb00704" style="width:18.75%" class="column"><figure id="337de64b-1779-4fee-bf7f-ed119efee125" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/18.png"><img style="width:512px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/18.png"/></a></figure></div><div id="49d2d09c-bccf-4698-8d28-577e821098d0" style="width:81.25%" class="column"><p id="30fbb528-0923-46f2-8c86-06cca86ee07a" class="">One of the things I want to be able to achieve is fault injection. To do so I need to be able to perform power cuts at precise moments. The best way I found in documentation achieve this goal is by using MOSFETs that are electrical components that act like switches.</p><p id="5dd5edb1-edef-4730-9a49-0938149415ff" class="">So I got my hand on several of these tiny components and made some tests to understand how it is working.</p></div></div><h1 id="8a3e6d41-21a8-41f3-83f6-1ac40c7c16ab" class="block-color-purple_background">The process</h1><h2 id="e33ac4fd-6107-4e99-95aa-1497c249f03a" class="block-color-pink_background">Step 1 : Solder the MOSFET to a board</h2><p id="a8c9d1f0-dcaa-4146-a44f-d15028225811" class="">MOSFETs are really tiny components when dealing with low Amps and Volts as you can see in the specs and on the following photos </p><div id="7318bc9c-ae29-40b9-a0f7-b7dbe511a828" class="column-list"><div id="eddac9d3-5aa7-4682-a401-d50bbe18aa2c" style="width:50%" class="column"><figure id="2266d6a6-3bcf-4790-a0f0-07d9ca107e1b" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled.png"><img style="width:630px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled.png"/></a><figcaption>AP3400 Datasheet</figcaption></figure></div><div id="e6defa5c-d3ee-4447-aabe-af2ab1f06b8e" style="width:50%" class="column"><figure id="dbd7a095-a92c-4a26-b5a3-a98aec8e21dd" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%201.png"><img style="width:565px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%201.png"/></a><figcaption>AP3400 under surface microscope</figcaption></figure></div></div><p id="7db0eefd-79dc-477a-afe2-95a13b90d5db" class="">I decided to solder it to a small board so it would be easier to then connect it on testing installation. Originally tried using some soldering paste, it went quite bad as once liquified the solder would get in the small holes of the board. </p><p id="9af5620e-6b8e-4959-95fe-ae1f3c9b8ef2" class="">
+</p><p id="d1f03813-f647-4332-90c3-c2f7c75e9297" class="">It then decided to apply some flux and used regular solder to get the chip into place on the board</p><div id="0abd8b28-701c-40bf-a3b4-4274596c8248" class="column-list"><div id="9578267b-875e-439e-8aed-61119e5b2a95" style="width:50%" class="column"><figure id="2cb1106c-07cc-47ad-907b-549047449b5e" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%202.png"><img style="width:500px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%202.png"/></a><figcaption>AP3400 once soldered still into flux</figcaption></figure></div><div id="a05beb50-94fa-49a4-be63-f78e89f83e4a" style="width:50%" class="column"><figure id="f6588dd5-cf40-4bdb-9a28-8809e6cbe227" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%203.png"><img style="width:488px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%203.png"/></a><figcaption>AP3400 soldered and cleaned from flux</figcaption></figure></div></div><p id="518b7ded-3efb-4ff0-859e-1957a0184aec" class="">Now that the chip is soldered to the board, it’s time to test it’s connectivity to make sure the solder was properly made (which I doubted at this time)</p><figure id="d244565a-0b22-4a08-99e3-8faf77fac28e" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%204.png"><img style="width:1445px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%204.png"/></a><figcaption>Testing the pins for proper soldering</figcaption></figure><h2 id="0350bb53-9f80-497e-86d1-c3196c11ac78" class="block-color-pink_background">Step 2 : Wire the chip</h2><div id="57abd97d-65d7-43bf-8caa-5c611d6e2bd1" class="column-list"><div id="eb1388dc-acc0-4f78-8d11-ef7bc0fdf580" style="width:62.5%" class="column"><p id="97a36f22-7f27-4d6b-8b2b-d848401aeffc" class="">It got to work first try, perfect. now that we have the chip on a board I decided to add some wires to each pins for further operations </p><figure id="847bba06-b51a-4773-b67c-94d517058e1c" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%205.png"><img style="width:673px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%205.png"/></a><figcaption>MOSFET now wired for testing</figcaption></figure></div><div id="740a3cde-c6f4-4891-be0b-e1eed6c6800f" style="width:37.49999999999999%" class="column"><figure id="b096ae4d-f90a-4977-91b6-ddda867ecb2d" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/2.png"><img style="width:384px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/2.png"/></a></figure></div></div><h2 id="5f2d3184-9b08-4923-a038-6ceac8ad0fcc" class="block-color-pink_background">Step 3 : Let’s test</h2><p id="1051f122-ced2-4775-9567-07e721c85af3" class="">Now that I have a chip that I can easily use for testing, I decided to go with a basic LED blinking setup as follow :</p><div id="a9d43e35-ce41-4751-b888-de735c502714" class="column-list"><div id="5799177d-2609-4bc2-8545-74c17fc73e08" style="width:41.666666666666664%" class="column"><figure id="be1059ff-8f7a-4f46-98ae-e7fb36593b58" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%206.png"><img style="width:816px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%206.png"/></a><figcaption>Test schematic</figcaption></figure></div><div id="02b60a1f-1cff-4823-9945-f6fb21db1014" style="width:37.500000000000014%" class="column"><p id="1d31acf6-c759-4ccc-a114-d4185118ba55" class="">The Arduino UNO would be loaded with the following script that makes the LED turn HIGH or LOW every 1 second</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9e7a75f7-af1e-42f5-bb81-4a28a31ddf46" class="code"><code class="language-Arduino" style="white-space:pre-wrap;word-break:break-all">void setup(){
+  pinMode(5, OUTPUT);
+}
+
+void loop(){
+  digitalWrite(5, HIGH);   
+  delay(1000);                       
+  digitalWrite(5, LOW);   
+  delay(1000);                       
+}</code></pre><p id="24ad660e-c442-41cc-ad27-5e8e9c91128e" class="">
+</p></div><div id="bfc72a41-8990-4b43-9935-19e1e554e68e" style="width:20.833333333333346%" class="column"><figure id="94201a23-1fc0-49c7-a7ac-4a90e11d6cfc" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/3-1.png"><img style="width:512px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/3-1.png"/></a></figure><p id="9b4cb7ba-0323-460f-ae23-03573f62abf7" class="">
+</p></div></div><p id="45bc605f-3eb0-44aa-9a0a-55c0ff35e482" class="">Here is a pic of the real setup (quite messy, not super stable)</p><div id="abf2fa20-710c-4d12-a9c3-f8b833215483" class="column-list"><div id="66b4c13e-d810-4cfc-a6b7-4c3c0498a0ad" style="width:50%" class="column"><figure id="6a5d4e92-b1ea-44da-bcb6-0440028f3a93" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%207.png"><img style="width:674px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%207.png"/></a><figcaption>Actual test setup</figcaption></figure></div><div id="4dfcf7c9-1b28-4164-a8ff-d47d41185648" style="width:50%" class="column"><figure id="1ec464ca-4785-49bb-a709-b3bbe33ba8f3" class="image" style="text-align:center"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/20.png"><img style="width:240px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/20.png"/></a></figure><p id="dc1e51e9-8512-4c60-b209-7108834ff89a" class="">It can be seen on the photo that there is an oscilloscope probe on the circuit. I installed it for debug as the LED initially wasn’t blinking. I wanted to make sur the signal was pushed from the Arduino UNO using my DSO</p><figure id="e38e83e8-77ba-4808-9c4d-00ef461d46fd" class="image"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%208.png"><img style="width:643px" src="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Untitled%208.png"/></a><figcaption>DSO screen showing the 1Sec period signal going HIGH and LOW</figcaption></figure><p id="cbc5fc34-01d4-4629-bd3b-f755f018d368" class="">After a bit of tweacking, I found that one of the resistors where not properly held on the breadboard so I changed the position and everything now works fine </p></div></div><figure id="e712c37a-07c0-49ff-8bf4-1fba9c9367df"><div class="source"><a href="AP3400%20MOSFET%20-%20Discovery%20062685488b7e4cb799823908841231f2/Nouvelle_vido.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8c73565-2cbe-48f7-83ba-2b8b18e7f968/Nouvelle_vido.mp4</a></div></figure><h1 id="07949a38-5aa2-4db4-b0fb-de1ae18d389c" class="block-color-purple_background">Sources </h1><figure id="07588ccf-b4f6-47b4-9cba-89aa8a5f965c"><a href="https://datasheet.lcsc.com/lcsc/1912111437_ALLPOWER-ShenZhen-Quan-Li-Semiconductor-AP3400_C353070.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://datasheet.lcsc.com/lcsc/1912111437_ALLPOWER-ShenZhen-Quan-Li-Semiconductor-AP3400_C353070.pdf</div></div></a></figure><figure id="42698c0c-1d60-45fb-9710-00a3a8fd1ce1"><a href="https://www.iot-experiments.com/led-brightness-with-pwm-and-mosfet/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">LED brightness with PWM and MOSFET</div><div class="bookmark-description">PWM A simple example using a MOSFET to change the intensity of some LEDs. For my Tardis tissue box cover, I used a mosfet for the first time. Let&#x27;s see how I used it ! I bought some 2N7000. Their are cheap, and they can handle 200mA, ore than enough for my day-to-day use.</div></div><div class="bookmark-href"><img src="https://www.iot-experiments.com/favicon.ico" class="icon bookmark-icon"/>https://www.iot-experiments.com/led-brightness-with-pwm-and-mosfet/</div></div><img src="https://www.iot-experiments.com/content/images/2018/02/leds-mosfet.png" class="bookmark-image"/></a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

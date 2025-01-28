@@ -1,0 +1,690 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Reversing Mac Donald’s table beacon - Part 1</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d6f201f9-d1da-4c29-9d56-fd78aef20151" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1610459468487-37acdfb1e888?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🍔</span></div><h1 class="page-title">Reversing Mac Donald’s table beacon - Part 1</h1><p class="page-description"></p></header><div class="page-body"><nav id="d9d778dd-e099-4c72-9a56-5d2512475cca" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#42eacf3c-8d19-4f58-9c93-a98be27a52f0">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1fd9a4ee-8329-4fad-96ed-80deabeaae85">Let’s take a look at what’s inside</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ea9a68ca-2065-4d84-84bb-2dc438c612dd">Removing the battery holder to use bench PSU</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b4e79da9-b630-424b-95be-b798adf2ce77">Probing the device </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0cc77137-fb81-488a-80bc-8896013b6383">Finding the ground pins</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8bbd4d34-3100-4e35-a8ff-edbebe2df3e9">Probing all the pins </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#973c9c6e-2526-4763-a35c-3a9b0dd8df6c">What is the wireless chip doin ?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c08c9dbc-3498-4da0-9b62-e84e7d2e8e6f">Identifying the chip</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4d6a54f5-0860-4109-9143-48059960d56b">Identifying the pins used</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6f6372ff-0eda-4b6a-82fe-ced34a100ac3">Exploiting the UART port</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c2ae0cf3-b891-4bf7-9c5a-b7bd52300c99">Probing the chip</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#00bdfd1e-856f-4800-979a-6bbb053bd699">Starting the logic analysis</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ecdd9d2b-d7c4-4dd1-b50b-f045b3174a71">Exploiting the MISO / MOSI port</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ecca5679-e6b3-42c0-8ece-0883c30918a6">Listening for the Bluetooth chip</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b6c573d1-babd-47a1-b91c-13cc8fb2eb34">Conclusion</a></div></nav><h1 id="42eacf3c-8d19-4f58-9c93-a98be27a52f0" class="block-color-purple_background">Introduction</h1><p id="20b9a97a-8e3d-4337-99c8-29903225889c" class="">I managed to get my hands on a Mac Donald table beacon :</p><div id="db591f5b-cf3e-44e7-af64-56b35c1c0372" class="column-list"><div id="e19216c4-dfdb-4397-b15d-2979e605f00d" style="width:50%" class="column"><figure id="3a0d636d-704a-410b-a4d1-0727c2b1673f" class="image" style="text-align:center"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled.png"><img style="width:384px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled.png"/></a></figure></div><div id="22a8cdaa-10fd-4900-a136-5b79cb567ff8" style="width:50%" class="column"><figure id="b69b1e54-5c1d-42c5-8c45-4a149d56445d" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9JW25U1S-removebg-preview_-_Copie.png"><img style="width:500px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9JW25U1S-removebg-preview_-_Copie.png"/></a></figure></div></div><h1 id="1fd9a4ee-8329-4fad-96ed-80deabeaae85" class="block-color-purple_background">Let’s take a look at what’s inside</h1><p id="18e8815c-e4d5-4cab-ae50-25d86b4089f9" class="">I decided to open it to see what’s inside, the active part of the beacon is at the top, locked in place with two screws.</p><p id="72a1f62e-8368-4f0b-af22-d5cfef2a527f" class="">To be honest, there isn’t much things in the compartiment that hold the PCB, after removing the two 1.2V batteries here is the board we have :</p><div id="66c87afe-1476-40c6-b544-d0f1cab24434" class="column-list"><div id="01725765-e555-441f-b19f-d860a886b6ff" style="width:50%" class="column"><figure id="ab2c75d5-fddd-4b38-b6e4-b21c01fa89d7" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%201.png"><img style="width:624px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%201.png"/></a><figcaption>The battery holder is quite rusty on this unit</figcaption></figure></div><div id="5dffbee5-f185-4df8-956a-715456a121ac" style="width:50%" class="column"><figure id="9d24268e-e4c4-4c18-8fc4-fdbe680e9385" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%202.png"><img style="width:712.5px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%202.png"/></a><figcaption>There are multiple test points that will have to be tested</figcaption></figure></div></div><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="124aaba8-7211-4f6d-abc5-5f1b33d40d07"><div style="font-size:1.5em"><span class="icon">❓</span></div><div style="width:100%">There is also a strong magnet in the device, my guess is that it’s used to stack the beacons atop of each other and reduce the risk of them falling</div></figure><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="67a8fa99-968d-4d1e-b7f7-a687641d0e3d"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">After posting the writeup on twitter @atc1441 mentioned that the magnet is used to turn the stacked ones off so they do no beac their beacon when unused.<figure id="e21e3a26-1e8b-4426-a8b2-27086e881b50" class="image" style="text-align:center"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%203.png"><img style="width:576px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%203.png"/></a></figure><figure id="0b58e6c5-e55f-4c92-b268-6a2b2a5b8888"><a href="https://twitter.com/atc1441/status/1678707482452008960" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">atc1441 on Twitter</div><div class="bookmark-description">Nice writing style!The magnet inside is used to turn the stacked ones off so they do no beac their beacon when unused. pic.twitter.com/M7D71tJYst— atc1441 (@atc1441) July 11, 2023
+
+</div></div><div class="bookmark-href"><img src="https://abs.twimg.com/favicons/twitter.2.ico" class="icon bookmark-icon"/>https://twitter.com/atc1441/status/1678707482452008960</div></div></a></figure></div></figure><h1 id="ea9a68ca-2065-4d84-84bb-2dc438c612dd" class="block-color-purple_background">Removing the battery holder to use bench PSU</h1><div id="21590e43-3a5d-4bcd-a399-36236bfd715f" class="column-list"><div id="c84fcdd3-987f-4e50-95b8-f7b86057c55d" style="width:50%" class="column"><p id="337f7ae6-4492-4684-8a1f-d0e171365e31" class="">Seeing the state of the battery holder, I removed it to solder some jumper cable in order to power it with my bench power supply later in the tests</p><figure id="53c07b47-b948-44ec-aeb1-03ed69e0701d" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%204.png"><img style="width:816px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%204.png"/></a></figure></div><div id="91e5b08c-3538-4a83-b9ab-6de53255ded6" style="width:50%" class="column"><p id="1521f645-9d7a-4c93-988d-5fe59ec34646" class="">Now that we have a bench power supply linked to the board, we can try to power it up to make sure the board is still working by drawing some power</p><figure id="013f8588-b45e-4523-b642-87a4a1fba97a" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%205.png"><img style="width:384px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%205.png"/></a></figure></div></div><h1 id="b4e79da9-b630-424b-95be-b798adf2ce77" class="block-color-purple_background">Probing the device </h1><p id="20c60980-eb0e-49bf-b87a-6997edc0c0b0" class="">Let’s prob all the test points we can see on the PCB with a logic analyser, with a bit of luck, we could get some interesting informations from one of them</p><h2 id="0cc77137-fb81-488a-80bc-8896013b6383" class="block-color-pink_background">Finding the ground pins</h2><p id="1f09bdf3-7aa6-4c7a-8f1e-2a0b7eed2550" class="">In order to properly use the logic analyser, we need to find the grounds to plug the analyser grounds to the board grounds.</p><p id="80bd403a-c13c-4f6d-9e4b-b0e4737d3e89" class="">Using the multimeter we can find the following pins linked to the ground <code>Marked in red in the photo</code></p><div id="2776219b-603a-431d-b01f-fa0df33ed33d" class="column-list"><div id="9d0a8240-aecc-47f4-97aa-aab4ca4cb20c" style="width:75%" class="column"><figure id="788d0d6e-22e3-447f-ae3d-5841faf12529" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%206.png"><img style="width:1068.75px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%206.png"/></a></figure></div><div id="90c25e28-265d-4547-a56a-4447c4077fc5" style="width:25%" class="column"><figure id="3972a5dc-efec-46bd-a383-a4312ddf477e" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9.png"><img style="width:356.25px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9.png"/></a></figure></div></div><h2 id="8bbd4d34-3100-4e35-a8ff-edbebe2df3e9" class="block-color-pink_background">Probing all the pins </h2><p id="537d1da7-ae0b-4e7c-bd00-6df206b1d25d" class="">I finally decided to prob all the pins of the board to see who is talking to who.<br/>Here is the result :<br/></p><div id="726f6585-a693-43f6-81b1-755ce02b0642" class="column-list"><div id="af2056da-c8b5-4d7d-b872-517aacc2cfa2" style="width:25%" class="column"><figure id="e88206aa-16d0-402a-af54-70d092a99a52" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/21.png"><img style="width:356.25px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/21.png"/></a></figure><p id="51f0cc08-34e8-4886-9311-26726d13fae5" class=""><em>Yes, it takes some time to do these pics </em></p><p id="98aaa164-6fd3-42ea-9ceb-c5d8ed590262" class="">
+</p></div><div id="f022ba20-4f08-4b02-a73f-2cec00239e33" style="width:75%" class="column"><figure id="6eb6f732-c07f-4f9c-a79f-7d0716b34a5b" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%207.png"><img style="width:1068.75px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%207.png"/></a></figure></div></div><p id="d1a65ca1-f5ba-45a7-85fb-3977d400b20f" class="">As we can see there is a lot of pins that goes to the wireless card, let’s take a look in depth on this chip</p><h1 id="973c9c6e-2526-4763-a35c-3a9b0dd8df6c" class="block-color-purple_background">What is the wireless chip doin ?</h1><h2 id="c08c9dbc-3498-4da0-9b62-e84e7d2e8e6f" class="block-color-pink_background">Identifying the chip</h2><div id="f32349db-201e-4434-876f-55fd4f5a6bd5" class="column-list"><div id="928ee4b9-4ff5-4190-90cb-e4966d54defb" style="width:81.25%" class="column"><p id="134e2a3a-7c86-4125-86ff-f957f22425ef" class="">On the chip, there are some codes that help to identify the chip here <code>RN4020</code></p><figure id="1ace1897-bbfb-41d0-a690-0db707ae7a6d"><a href="https://www.microchip.com/en-us/product/RN4020" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">RN4020</div><div class="bookmark-description">Important Note:&amp;nbsp;The Bluetooth SIG has deprecated Bluetooth 4.0. Bluetooth SIG will not qualify any new designs. Existing designs with the RN4020 are unaffected. Check out the Bluetooth SIG site for additional details&amp;nbsp; HERE . For future design ...</div></div><div class="bookmark-href"><img src="https://www.microchip.com/favicon.ico" class="icon bookmark-icon"/>https://www.microchip.com/en-us/product/RN4020</div></div><img src="https://www.microchip.com/content/dam/mchp/mrt-dam/products/poe/150716-WPD-PHOTO-MRF4662_V-RM-Angle-145x145-Web.jpg" class="bookmark-image"/></a></figure><p id="66ebd2be-6ce2-4a05-ba61-9aeda4dd8556" class="">This page leads to the datasheet that hold more information that might be helpful later on</p><figure id="88777e2c-3ea2-43f5-b844-bcab76c0aede"><a href="https://ww1.microchip.com/downloads/aemDocuments/documents/WSG/ProductDocuments/DataSheets/50002279E.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://ww1.microchip.com/downloads/aemDocuments/documents/WSG/ProductDocuments/DataSheets/50002279E.pdf</div></div></a></figure></div><div id="97171f4b-8861-447e-b55d-367208d56be2" style="width:18.749999999999996%" class="column"><figure id="00d8012c-a940-4a40-8a24-09fd52613c8f" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/7-1.png"><img style="width:267.1875px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/7-1.png"/></a></figure></div></div><h2 id="4d6a54f5-0860-4109-9143-48059960d56b" class="block-color-pink_background">Identifying the pins used</h2><div id="a8b8a390-0209-4fd7-8e4f-34c0870c0a0d" class="column-list"><div id="1a50f0e1-3849-4e3d-b136-f20948037182" style="width:20.833333333333332%" class="column"><figure id="e966127e-284c-46e8-8159-bb37509872e6" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%208.png"><img style="width:336px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%208.png"/></a></figure><p id="f8db8697-b572-4023-a624-fc6eedf7d133" class="">
+</p></div><div id="30d9b840-3d82-4ab2-bade-4f249340059d" style="width:37.5%" class="column"><figure id="9c7b2850-f0e2-4aab-aa31-c457b25b4f0c" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%209.png"><img style="width:517.125px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%209.png"/></a></figure></div><div id="c74a8a31-b1f9-4525-9de3-7f8474feb634" style="width:41.666666666666686%" class="column"><figure id="4b622ef1-07ff-4ce1-a699-ef29ed5cd554" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2010.png"><img style="width:624px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2010.png"/></a></figure></div></div><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="1f518fb3-9dab-4bd5-a1a3-c4c761a35988"><div style="font-size:1.5em"><span class="icon">🧠</span></div><div style="width:100%">From what I saw above, I think that there are two different devices that can interact with the PCB<p id="64b51f9c-d3f6-4b95-a7ff-508af48af987" class="">The Blue one, that can read the information sent from the RN4020 and can also talk to it and the Red one, that can only listen to the information sent by the RN4020</p><div id="60ff069b-dc3d-4e99-9cf4-faa5d9b3ef87" class="column-list"><div id="c9b4743a-a6ea-4856-a14f-18ebfb7df682" style="width:25%" class="column"><figure id="6830e304-5ff6-4c64-8972-860020f8d74d" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/23-1.png"><img style="width:341.25px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/23-1.png"/></a></figure></div><div id="0f480483-0bcd-4758-8db9-b17ec64a9839" style="width:75%" class="column"><figure id="57c7b8ad-ed38-436e-9458-57335833ccb8" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2011.png"><img style="width:1392px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2011.png"/></a></figure></div></div></div></figure><h1 id="6f6372ff-0eda-4b6a-82fe-ced34a100ac3" class="block-color-purple_background">Exploiting the UART port</h1><h2 id="c2ae0cf3-b891-4bf7-9c5a-b7bd52300c99" class="block-color-pink_background">Probing the chip</h2><p id="7adf58ec-ff59-42c4-b58e-dc21cd7c635f" class="">Now that we know we have some UART pins on the chip one of the things we could try to do is probing them to see what is going on. </p><p id="3971b5d1-5d16-47a6-95fb-76ed2ab1e7bb" class="">I decided to make the two “groups” probed independently to be able to test both. Here is a photo of the UART pins probed :</p><div id="c65ca64c-51aa-4738-9d18-1647881d8958" class="column-list"><div id="7d68eec5-7053-47f0-a56b-6a0696a2a86a" style="width:56.25%" class="column"><figure id="aa309f45-1592-48e4-b2b7-8c21c6eb20a7" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2012.png"><img style="width:720px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2012.png"/></a></figure></div><div id="821824ad-a9c4-498f-8469-40316f81b9bf" style="width:43.75%" class="column"><div id="80d0cf44-5ec1-4cfa-b611-59f3af2a1755" class="column-list"><div id="ba8a15e6-a0e0-48b1-ba11-d031400f0677" style="width:50%" class="column"><table id="d3106246-7548-4a57-8b5e-d0d93ea02d08" class="simple-table"><thead class="simple-table-header"><tr id="cec3fd52-b112-48b4-ac27-0a24db9e2c1f"><th id="OY:y" class="simple-table-header-color simple-table-header" style="width:162.375px">Pin</th><th id="ByRZ" class="simple-table-header-color simple-table-header" style="width:162.375px">Probe</th></tr></thead><tbody><tr id="0b47954a-634c-4420-a7e1-b6809ffced04"><td id="OY:y" class="" style="width:162.375px">GND</td><td id="ByRZ" class="" style="width:162.375px">GND 1</td></tr><tr id="382e6bff-6a22-4a11-8b02-7f26c5465702"><td id="OY:y" class="" style="width:162.375px">RX</td><td id="ByRZ" class="" style="width:162.375px">Channel0</td></tr><tr id="7bb131dc-6821-4ef6-a913-ea7078e59ec7"><td id="OY:y" class="" style="width:162.375px">TX</td><td id="ByRZ" class="" style="width:162.375px">Channel 1</td></tr></tbody></table></div><div id="2ef391e9-a6e7-4794-9d3d-b55da5cd50bc" style="width:50%" class="column"><table id="5642a6b3-ae3a-45de-950d-5c39a63aab74" class="simple-table"><thead class="simple-table-header"><tr id="21663da2-fa0c-4b6c-8071-592b877854af"><th id="vhCW" class="simple-table-header-color simple-table-header" style="width:162.375px">Pin</th><th id="&lt;lzM" class="simple-table-header-color simple-table-header" style="width:162.375px">Probe</th></tr></thead><tbody><tr id="f45ffcef-7434-4fca-b318-39b4ea8cbb33"><td id="vhCW" class="" style="width:162.375px">GND</td><td id="&lt;lzM" class="" style="width:162.375px">GND 2</td></tr><tr id="cb0e1a59-8058-44fb-a107-24ac03e0f877"><td id="vhCW" class="" style="width:162.375px">TX</td><td id="&lt;lzM" class="" style="width:162.375px">Channel 4</td></tr></tbody></table></div></div><figure id="dc4ed232-8890-44ad-9469-179116b91a16" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9%201.png"><img style="width:336px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/9%201.png"/></a></figure></div></div><h2 id="00bdfd1e-856f-4800-979a-6bbb053bd699" class="block-color-pink_background">Starting the logic analysis</h2><p id="d6ce5eb8-31c5-42fa-b06e-8a3a305e3d02" class="">Took a look at the RX / TX pins of the logic board, but once the card is powered up, nothing seems to appear as shown in the following screenshot. the signal at start is just me messing with the bench power supply connectors</p><figure id="5f380c52-c5fb-4a5f-97b3-544b06c10c69" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2013.png"><img style="width:1471px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2013.png"/></a></figure><h1 id="ecdd9d2b-d7c4-4dd1-b50b-f045b3174a71" class="block-color-purple_background">Exploiting the MISO / MOSI port</h1><p id="89cee38b-157c-4fae-aec8-210b6fdf3adc" class="">The other pins that could be tested would the the MISO / MOSI pins. To try them, it will require a bit more soldering job and probing</p><div id="76593a91-f479-47d4-9596-f3bced564b09" class="column-list"><div id="91bc8bad-2aad-4f9b-a933-5976b82c567e" style="width:50%" class="column"><figure id="676f5670-c955-40ca-a94f-81968ea56404" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2014.png"><img style="width:712.5px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2014.png"/></a></figure></div><div id="571ae9ae-fdf5-4a32-b9ef-6d4c9e678d16" style="width:50%" class="column"><figure id="da1360eb-3a4c-4702-bddf-724085088b85" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2015.png"><img style="width:624px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2015.png"/></a></figure></div></div><p id="d6ad6e0c-8445-4910-b523-6b64e3294aae" class="">Time to hook on the logic analyser and boot up logic 2.4.7 to see if those pins are more chatty </p><div id="540070eb-3120-4628-992a-dbc6d99a8848" class="column-list"><div id="dc4b191a-166d-474b-b426-19e18a6a30c6" style="width:62.5%" class="column"><figure id="da187e2c-a33b-42b3-9bc4-52a7f86e5a2f" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2016.png"><img style="width:3135px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2016.png"/></a></figure><p id="c7ae67aa-7080-422b-ae7a-d6a360768b5d" class="">
+</p></div><div id="37728ab6-5669-43db-a038-e2a822fe34ee" style="width:37.5%" class="column"><figure id="8b561ecf-2dc6-4d5b-89a8-8af4fe66bdc0" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/10.png"><img style="width:512px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/10.png"/></a></figure></div></div><div id="08984e6a-0fba-4f15-8f24-adc9f38c55c2" class="column-list"><div id="611ec256-b5ec-4aea-a333-92331e4a3653" style="width:75%" class="column"><figure id="0f90ed7d-b05e-4251-80c4-72554e0d9b97" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2017.png"><img style="width:1068.75px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2017.png"/></a></figure></div><div id="b280c921-5173-4d01-9bc7-ffd2acc9af6f" style="width:24.999999999999993%" class="column"><figure id="f07e8b46-e780-49f4-994d-dcae5384b186" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/14.png"><img style="width:336px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/14.png"/></a></figure></div></div><p id="66a86899-6a7d-497b-8d90-bf691269c215" class="">It looks like there are some informations going through these pins, but even with a closer inspection and the tools that logic 2 offers I haven’t been able to determine the content of the communication.<br/>My logic analyser seems to produce a lot of noise on this device for some reason<br/></p><h1 id="ecca5679-e6b3-42c0-8ece-0883c30918a6" class="block-color-purple_background">Listening for the Bluetooth chip</h1><p id="600b2b3e-5d4b-49de-89f0-3b2683b4e4a6" class="">Nonetheless there is a Bluetooth chip on the logic board and this chip must be talking, I decided to take a closer look at (maybe a bit late but whatsoever)  with the smartphone app called LightBlue</p><figure id="8b75ecd8-9f64-4ed4-8cd6-9ef18e1214a2"><a href="https://play.google.com/store/apps/details?id=com.punchthrough.lightblueexplorer&amp;hl=fr&amp;pli=1" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">LightBlue® — Bluetooth LE – Applications sur Google Play</div><div class="bookmark-description">Bluetooth outil à faible énergie (BLE) créé par et pour les développeurs et les amateurs</div></div><div class="bookmark-href"><img src="https://www.notion.so//www.gstatic.com/android/market_images/web/favicon_v3.ico" class="icon bookmark-icon"/>https://play.google.com/store/apps/details?id=com.punchthrough.lightblueexplorer&amp;hl=fr&amp;pli=1</div></div><img src="https://play-lh.googleusercontent.com/1H2V2UCQjAdYBjPpOh6xJsYidM-LA8I2gjAxi5HHL2qN9oeIeIuPlyVO_GlugVnr_g=w600-h300-pc0xffffff-pd" class="bookmark-image"/></a></figure><div id="987ddcff-191a-4171-be18-756afa404c9a" class="column-list"><div id="1f1665ae-bf4e-4aef-a94b-f3ec235d5fcf" style="width:50%" class="column"><p id="88b0d60a-7e63-488e-80cd-fc5415313a9a" class="">Here are the information I can get from it </p><figure id="e26cc0f4-f7de-48f4-92ea-9545df5c24ba" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2018.png"><img style="width:712.5px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2018.png"/></a></figure></div><div id="c8e2d7b2-e670-44ba-a6ab-47a8cf991ef6" style="width:50%" class="column"><p id="30ecd92b-6b5f-43cb-bfb9-cb10ae6b3b4e" class="">sadly no more infos are available since it is not possible to connect to the Bluetooth device</p><figure id="fdc6cf75-af3d-4363-b555-11a79aae3b6b" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2019.png"><img style="width:432px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/Untitled%2019.png"/></a></figure><figure id="8354b782-8e46-4ca9-8d35-8aea417fd50d" class="image"><a href="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/21-1.png"><img style="width:512px" src="Reversing%20Mac%20Donald%E2%80%99s%20table%20beacon%20-%20Part%201%20d6f201f9d1da4c299d56fd78aef20151/21-1.png"/></a></figure></div></div><h1 id="b6c573d1-babd-47a1-b91c-13cc8fb2eb34" class="block-color-purple_background">Conclusion</h1><p id="26fb0112-a153-4aaa-bf5a-f8f05e2ff499" class="">I then talked to some friends from Switzerland that worked there, it appears that there are several dozen of antennas in the restaurant and they do some sort of triangulation to know where the beacons based on their MAC address broadcast. These antennas talk to a defined computer, a database would do the link between the MAC addresses and the number on the beacon used by the user. From there this computer would display the table on which it is to the employee working there.</p><p id="babb1e70-8500-4d5e-9557-c1dc9ca4e73e" class="">I wanted to give it a try and simulate a beacon using my Flipper zero to get the beacon at two tables simultaneously. However, it looks like the MacDonald near my place does not use these types of beacon…</p><p id="f3b90a79-c658-485f-93f1-e9f2606a6803" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

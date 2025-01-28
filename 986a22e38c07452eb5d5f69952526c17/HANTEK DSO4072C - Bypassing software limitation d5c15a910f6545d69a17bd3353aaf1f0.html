@@ -1,0 +1,697 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>HANTEK DSO4072C - Bypassing software limitation</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d5c15a91-0f65-45d6-9a17-bd3353aaf1f0" class="page mono"><header><img class="page-cover-image" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/FutbMjNXsAQryQX.jfif" style="object-position:center 3.2100000000000017%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎛️</span></div><h1 class="page-title">HANTEK DSO4072C - Bypassing software limitation</h1><p class="page-description"></p></header><div class="page-body"><nav id="e5c8b5c4-ea32-4dfc-9d49-1c2baf863348" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#252f0fa2-4c5a-456a-880c-95c877601610">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0390494a-105e-4ca9-a3f3-baaccf8be0b1">Hacking the scope</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4e061578-6a0d-41ae-9803-57aebf1d62a0">Step 1 : Open the oscilloscope</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#299262a1-f434-4a2d-aa4e-c3ecf704ca3b">Step 2 : Finding the Serial pins </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4f8e95f7-ce1d-4925-815d-62ea81f6fe8d">Step 3 : connect the USB/UART</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#55b9a609-4ac6-484a-8e9b-3d84172388e0">Step 4 : Edit the config file </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#01c1678d-c531-4098-9071-a8860aa5c90a">Step 5 : Apply the edit</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a84f449e-c519-466e-b5da-2acb11fb85a8">Step 6 : Checking the modification</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a7a67634-307a-46a9-8cb1-169febea804e">Sources </a></div></nav><h1 id="252f0fa2-4c5a-456a-880c-95c877601610" class="block-color-purple_background">Introduction</h1><div id="4ef675bd-b82a-40b2-ad88-6886f5263ff9" class="column-list"><div id="dedcb482-8711-42ae-98ed-31add8adc3ee" style="width:75%" class="column"><p id="ab2b6919-dd13-4268-8547-86d67e5c0763" class="">Doing electronics is fun, but expensive. Therefor when I have had to buy an oscilloscope, I went for a entry price unit and got myself a HANTEK DSO4072C</p><figure id="f6ab104b-00af-4f81-81fa-f289d1af210d"><a href="https://www.hantek.fr/oscilloscopes-de-table/28-hantek-dso4072c-oscilloscope-2-canaux-70mhz-et-generateur-awg.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Hantek DSO4072C Oscilloscope 2 canaux 70MHZ et générateur AWG</div><div class="bookmark-description">Oscilloscope avec bande passante de 70 MHz.Taux d&#x27;échantillonnage de 1GSa / s.Générateur de signaux arbitraires de 25 MHz, résolution 12 bits, DDS 200 MHz.2 canaux d&#x27;oscilloscope.1 canal générateur de signaux / fonctions arbitraires.Commandes séparées pour l&#x27;oscilloscope et le générateur permettant une utilisation simultanée confortable.Écran couleur 64K et 7 pouces, avec une résolution de 800x480.Poignée et jambes pliables pour un transport facile.</div></div><div class="bookmark-href"><img src="https://www.hantek.fr/img/favicon-2.ico?1537276107" class="icon bookmark-icon"/>https://www.hantek.fr/oscilloscopes-de-table/28-hantek-dso4072c-oscilloscope-2-canaux-70mhz-et-generateur-awg.html</div></div></a></figure><p id="7835f91b-b570-45b3-9b5a-092ed7698e7b" class="">The HANTEK DSO4072C digital oscilloscope is a good value, but more importantly, it is hackable !<br/><br/>HANTEK is producing the same board for every versions of the DSO4XXX oscilloscopes. Therefor the only limitation of the bandwidth is pur software. After searching online, I found several tutorials on how to hack the software of theses devices<br/></p></div><div id="fd95b394-2d3d-42fb-96a3-c5b3c7d6897a" style="width:25.000000000000007%" class="column"><figure id="30e84786-de75-4d6b-946d-a61f8abad932" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/12-1.png"><img style="width:288px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/12-1.png"/></a></figure></div></div><h1 id="0390494a-105e-4ca9-a3f3-baaccf8be0b1" class="block-color-purple_background">Hacking the scope</h1><h2 id="4e061578-6a0d-41ae-9803-57aebf1d62a0" class="block-color-pink_background">Step 1 : Open the oscilloscope</h2><p id="e2f2d18b-3027-4f20-8778-99072a24f37b" class="">There are several screws on the oscilloscope that has to be removed </p><div id="d428f312-2af2-4464-b7b1-cc4d10261eaa" class="column-list"><div id="bd5d43eb-a031-4b29-a948-0c656ef7992b" style="width:75%" class="column"><figure id="b1061191-2519-4075-bb55-40fb2829ca57" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled.png"><img style="width:1008px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled.png"/></a></figure><figure id="3ad40788-7c45-4728-8a79-7f616768bc01" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%201.png"><img style="width:1008px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%201.png"/></a></figure></div><div id="116f529d-c060-47aa-873f-cba393e57205" style="width:25%" class="column"><p id="f16cb18a-1ee3-4bc7-90ed-dfc087c30b27" class="">
+</p><p id="12455964-87b3-48cf-adc2-0f2097f487e8" class="">
+</p><p id="1aa32626-55d1-4afa-b098-3a6315e0149b" class="">
+</p><p id="51298fa2-9f71-4a5c-a1b3-48b1eeb56c0e" class="">
+</p><p id="e69eec24-08ca-44f8-a72a-46eef66ccf05" class="">
+</p><figure id="f4e583a6-2cea-45c9-af87-965034011995" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/34.png"><img style="width:364px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/34.png"/></a></figure></div></div><p id="73b641ff-7eaf-4b6b-b0ce-b0a493597a37" class="">There is another layer of protection, here are the screws locations </p><figure id="aee51423-613a-489a-8bd0-9c15cc8bfcbc" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%202.png"><img style="width:1008px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%202.png"/></a></figure><h2 id="299262a1-f434-4a2d-aa4e-c3ecf704ca3b" class="block-color-pink_background">Step 2 : Finding the Serial pins </h2><p id="8c913e4e-7c3e-4aba-95cf-2509cb238731" class="">In order to communicate with the device, we need to find the Serial pins on which we will be able to connect our USB/UART adapter</p><div id="63951f90-1d9a-4b8c-a71c-c33f523c447e" class="column-list"><div id="ceab7cae-a82d-49d6-8854-04bfc67b0824" style="width:25%" class="column"><figure id="acf6c80a-bd39-4293-8075-139f8982bbfe" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/16.png"><img style="width:364px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/16.png"/></a></figure></div><div id="6487166a-f87d-4d95-953f-ad491416b3b3" style="width:75%" class="column"><figure id="b888eb3d-043a-4813-a5e5-848e3e2d9c58" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%203.png"><img style="width:1008px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%203.png"/></a></figure></div></div><p id="65c27dd5-b1f1-4397-8f9a-3d0040a8aaf3" class="">Here is the label of each pins </p><div id="7f05e7fe-46ee-4821-9f1b-ffa864018478" class="column-list"><div id="37dcbe2f-05f0-4962-92b8-27a3a84dace2" style="width:75%" class="column"><figure id="26a71f7e-ec17-4eb5-8139-5904f8b364f3" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%204.png"><img style="width:1008px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%204.png"/></a></figure></div><div id="1dc2f9be-ea15-4756-8c02-21c2b4fce355" style="width:25%" class="column"><figure id="dd4670b6-75f2-4a1a-a58c-597bd24e6187" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/10.png"><img style="width:364px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/10.png"/></a></figure></div></div><h2 id="4f8e95f7-ce1d-4925-815d-62ea81f6fe8d" class="block-color-pink_background">Step 3 : connect the USB/UART</h2><div id="562a071d-5299-48ec-af18-de98c79a20fd" class="column-list"><div id="57dd128f-16fb-4b8f-8707-75369dcab28d" style="width:37.5%" class="column"><figure id="5b418c0b-453d-4241-a677-9bbdb607c22a" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/3.png"><img style="width:364px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/3.png"/></a></figure><p id="183d5273-ca25-49ff-af4d-a55640b2a1c1" class="">
+</p></div><div id="a153a7d1-1f3f-4a25-9d7d-1f9a9db2f938" style="width:62.5%" class="column"><p id="9b730d16-830c-4368-af37-e95da7019da6" class="">Open MobaXterm and open a serial session with the above configuration </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1b4282c5-3641-45ff-b010-a5560d0895cf" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Speed (Bps) : 115200
+Data bytes  : 8
+Stop bits   : 1
+Parity      : none</code></pre><p id="c4d2012f-fa1b-439e-875f-662b0fb0b715" class="">Then power up the scope, here is the result in the serial terminal</p><figure id="eefb7abd-52fe-43e0-86bf-a14d1759f2aa" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%205.png"><img style="width:576px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%205.png"/></a></figure><p id="30121285-b441-435a-b767-07eff93fe1a9" class="">Press enter and there should be the following prompte shown </p><figure id="a165a22f-d3e5-4555-bc09-5a2c2f122e4a" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%206.png"><img style="width:363.9464416503906px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%206.png"/></a></figure></div></div><h2 id="55b9a609-4ac6-484a-8e9b-3d84172388e0" class="block-color-pink_background">Step 4 : Edit the config file </h2><p id="fb367641-1f25-4227-b765-c0b135d305a8" class="">In the newly obtained shell, type the following commandes to first backup the file that will be modified</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2d3063f6-0e86-4124-b5cc-e076f310648f" class="code"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all"># Create a local backup of the config file
+cp i2c.log i2c.log.bkp</code></pre><p id="162d72d7-1e0b-4c93-afad-51e905842581" class="">To hack the bandwidth all you need to do is to edit one file in DSO root directory</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7adb9f0a-b4c0-4e1b-adf3-b0c5d87a05c3" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">vi i2c.log
+# Edit the line [bw]
+[bw] 70 to [bw] 200</code></pre><h2 id="01c1678d-c531-4098-9071-a8860aa5c90a" class="block-color-pink_background">Step 5 : Apply the edit</h2><p id="ee96378d-1550-4d5a-83ac-9141b7bffb46" class="">then use commande to reboot the device</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b55170dc-0a82-41c9-b304-4aea2c09242f" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">reboot</code></pre><p id="8db038d1-9811-461c-9a97-a48849770fa4" class="">the new bandwidth will be available.</p><h2 id="a84f449e-c519-466e-b5da-2acb11fb85a8" class="block-color-pink_background">Step 6 : Checking the modification</h2><p id="119bd7e4-67fd-4829-809a-055993d11bb5" class="">Opening the menu Utility -&gt; System Info you should see the model changed to DSO4202C.</p><div id="7345caf6-9189-495a-82ce-63907abbd24f" class="column-list"><div id="8faebf35-9fde-41b5-9e9f-a85050b28118" style="width:68.75%" class="column"><figure id="499dbfaa-9ab7-451c-bfec-c40c9e287ef6" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%207.png"><img style="width:816px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/Untitled%207.png"/></a></figure></div><div id="9a524e58-8fff-49ea-b4c3-9f721386647b" style="width:31.25%" class="column"><figure id="8188f1a4-5a88-467a-9484-87603f23f9ea" class="image"><a href="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/6.png"><img style="width:288px" src="HANTEK%20DSO4072C%20-%20Bypassing%20software%20limitation%20d5c15a910f6545d69a17bd3353aaf1f0/6.png"/></a></figure></div></div><h1 id="a7a67634-307a-46a9-8cb1-169febea804e" class="block-color-purple_background">Sources </h1><figure id="f176dc64-200f-4558-9873-3354ec7f600d"><a href="https://github.com/WiZZteXX/DSO4xx4c/blob/i2c-tools/Hacking%20the%20HANTEK%20DSO4xx4BC.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/WiZZteXX/DSO4xx4c/blob/i2c-tools/Hacking%20the%20HANTEK%20DSO4xx4BC.pdf</div></div></a></figure><figure id="17511bc1-3f4d-4a0f-ae5e-6545579d64ae"><a href="https://www.eevblog.com/forum/testgear/hantek-tekway-dso-hack-get-200mhz-bw-for-free/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Hantek - Tekway - DSO hack - get 200MHz bw for free - Page 1</div><div class="bookmark-description">Hantek - Tekway - DSO hack - get 200MHz bw for free - Page 1</div></div><div class="bookmark-href"><img src="https://www.eevblog.com/favicon.ico" class="icon bookmark-icon"/>https://www.eevblog.com/forum/testgear/hantek-tekway-dso-hack-get-200mhz-bw-for-free/</div></div></a></figure><figure id="80257682-34c3-4bbe-8d62-c1fb8f2f678f"><a href="https://www.eevblog.com/forum/testgear/upgrading-the-hantek-dso4072c-osciloscope-bandwidth-from-70mhz-to-200mhz/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Upgrading the Hantek DSO4072C and DS4104C oscilloscopes bandwidth up to 250MHz - Page 1</div><div class="bookmark-description">Upgrading the Hantek DSO4072C and DS4104C oscilloscopes bandwidth up to 250MHz - Page 1</div></div><div class="bookmark-href"><img src="https://www.eevblog.com/favicon.ico" class="icon bookmark-icon"/>https://www.eevblog.com/forum/testgear/upgrading-the-hantek-dso4072c-osciloscope-bandwidth-from-70mhz-to-200mhz/</div></div></a></figure><p id="24bd51f7-38f6-43f1-8ead-3dcda39fb371" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

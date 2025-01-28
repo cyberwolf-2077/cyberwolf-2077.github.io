@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Documentation</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4029b759-3157-46e2-9f69-7b98795f1367" class="page mono"><header><div class="page-header-icon undefined"><span class="icon">📋</span></div><h1 class="page-title">Documentation</h1><p class="page-description"></p></header><div class="page-body"><nav id="7f94a1e1-1e80-458d-a64f-f1e4e6c9a928" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c6a78e21-ab38-4f74-bc7e-08e47d55bcad">Chips</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e6872dd6-1668-4932-8052-cc23a077cbb2">Micro controler</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7d94722b-3234-4ada-aac1-f48d3fe1853c">Storage</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#429ad75e-c60a-426a-b66b-e4bce9ed2f5a">MOSFET</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ab9b2e2f-54aa-456a-b543-70c1d436f118">Other</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#782768f0-2cd9-4734-83f9-6d6086ecfcb7">Tools</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8734564c-5528-4971-a498-2de29707bd9d">Misc</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#13ad9b4f-37cd-4623-90c5-b193beafad55">Baud rates refsheet</a></div></nav><h1 id="c6a78e21-ab38-4f74-bc7e-08e47d55bcad" class="">Chips</h1><h2 id="e6872dd6-1668-4932-8052-cc23a077cbb2" class="">Micro controler</h2><figure id="28138053-2230-4b98-a02b-fe74c9d43fe5"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/ATMEGA328P-PU_datasheet.pdf">ATMEGA328P-PU_datasheet.pdf</a></div></figure><figure id="84e4cd1c-61e0-4909-92bc-36c01256fb0c"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/STMicroelectronics-NE555N-datasheet.pdf">STMicroelectronics-NE555N-datasheet.pdf</a></div></figure><h2 id="7d94722b-3234-4ada-aac1-f48d3fe1853c" class="">Storage</h2><figure id="d0aff5b3-7eed-4062-a39d-412af54a459e"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/AT25256_SPI_EEPROM_datasheet.pdf">AT25256_SPI_EEPROM_datasheet.pdf</a></div></figure><h2 id="429ad75e-c60a-426a-b66b-e4bce9ed2f5a" class="">MOSFET</h2><figure id="f8fdde52-af63-40a5-95e5-c4310634cff5"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/AP3400_C353070_ALLPOWER-ShenZhen-Quan-Li-Semiconductor.pdf">AP3400_C353070_ALLPOWER-ShenZhen-Quan-Li-Semiconductor.pdf</a></div></figure><h2 id="ab9b2e2f-54aa-456a-b543-70c1d436f118" class="">Other</h2><figure id="4f2f480a-1513-49b2-9ebb-9ee8f43ff0aa"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/CH340.pdf">CH340.pdf</a></div></figure><p id="cac85c9a-3dc4-4856-876b-b2de53e8477f" class="">
+</p><h1 id="782768f0-2cd9-4734-83f9-6d6086ecfcb7" class="">Tools</h1><figure id="458b51bb-8304-46fe-b3a8-9ab310356e06"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf">FT232RL-USB-TO-TTL-Converter-Datasheet.pdf</a></div></figure><figure id="9a5d093e-f31e-403d-98f8-02e53f2141ac"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/XLoader.zip">XLoader.zip</a></div></figure><p id="6f34dd73-9829-4963-9e90-632bb7f3e930" class="">GTKWave : </p><figure id="429caef6-ec58-4a48-ab44-10950037c2fb"><a href="https://mega.nz/file/xt1gQDYA#2iUQuIxLXLDl6snELQlT1PpOikcfPZRzoctp6HUNjdE" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">21.35 MB file on MEGA</div></div><div class="bookmark-href"><img src="https://mega.nz/favicon.ico?v=3" class="icon bookmark-icon"/>https://mega.nz/file/xt1gQDYA#2iUQuIxLXLDl6snELQlT1PpOikcfPZRzoctp6HUNjdE</div></div><img src="https://mega.nz/rich-file.png" class="bookmark-image"/></a></figure><h1 id="8734564c-5528-4971-a498-2de29707bd9d" class="">Misc</h1><figure id="f11859d4-4420-4130-9f05-55fd3afbe516"><div class="source"><a href="Documentation%204029b759315746e29f697b98795f1367/Pinouts_V0.2.pdf">Pinouts_V0.2.pdf</a></div></figure><figure id="bd6a6b3b-d388-48c0-b700-9d380918aa1f"><a href="https://www.gotronic.fr/blog/guides/flash-du-bootloader-dune-carte-compatible-arduino/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flash du bootloader d&#x27;une carte compatible Arduino® - Le Blog Gotronic</div></div><div class="bookmark-href"><img src="https://www.gotronic.fr/blog/wp-content/uploads/2017/02/favicon.png" class="icon bookmark-icon"/>https://www.gotronic.fr/blog/guides/flash-du-bootloader-dune-carte-compatible-arduino/</div></div><img src="https://www.gotronic.fr/blog/wp-content/uploads/2020/11/ATmega-1.jpg" class="bookmark-image"/></a></figure><h2 id="13ad9b4f-37cd-4623-90c5-b193beafad55" class="">Baud rates refsheet</h2><div id="856c59dc-7514-45e5-8dc3-c18c23b8f358" class="column-list"><div id="91e5e3e2-3dea-478c-8bfa-12992cc3bc73" style="width:50%" class="column"><table id="cf3e7693-92ff-4efc-88ef-5f81d53b9d62" class="simple-table"><tbody><tr id="88870778-94ec-48c7-a6ab-2479fcf6d754"><td id="fKzC" class="">Bauds</td><td id="mvq{" class="">Bits/s</td><td id="as&gt;L" class="">Bit duration</td><td id="l]ET" class="">Speed</td><td id="mLhC" class="" style="width:161.59375px">Actual speed</td><td id="Ky\[" class="">Actual byte duration</td></tr><tr id="b531790b-a4c5-4d90-b5cb-e548f22f5104"><td id="fKzC" class="">50 bauds</td><td id="mvq{" class="">50 bits/s</td><td id="as&gt;L" class="">20.000 ms</td><td id="l]ET" class="">6.25 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">5 bytes/s</td><td id="Ky\[" class="">200.000 ms</td></tr><tr id="98f81efb-8b2c-470f-a3b8-f35c4c00c14b"><td id="fKzC" class="">75 bauds</td><td id="mvq{" class="">75 bits/s</td><td id="as&gt;L" class="">13.333 ms</td><td id="l]ET" class="">9.375 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">7.5 bytes/s</td><td id="Ky\[" class="">133.333 ms</td></tr><tr id="280d3a68-363c-465e-86fe-94edf1d6d422"><td id="fKzC" class="">110 bauds</td><td id="mvq{" class="">110 bits/s</td><td id="as&gt;L" class="">9.091 ms</td><td id="l]ET" class="">13.75 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">11 bytes/s</td><td id="Ky\[" class="">90.909 ms</td></tr><tr id="c95d89b3-a00a-4c41-97ed-0d7109e9e2f9"><td id="fKzC" class="">134 bauds</td><td id="mvq{" class="">134 bits/s</td><td id="as&gt;L" class="">7.463 ms</td><td id="l]ET" class="">16.75 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">13.4 bytes/s</td><td id="Ky\[" class="">74.627 ms</td></tr><tr id="953a149f-c41f-41eb-86f4-dabd9f7dac9d"><td id="fKzC" class="">150 bauds</td><td id="mvq{" class="">150 bits/s</td><td id="as&gt;L" class="">6.667 ms</td><td id="l]ET" class="">18.75 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">15 bytes/s</td><td id="Ky\[" class="">66.667 ms</td></tr><tr id="1d97aa4a-44a1-4751-a4a9-ab92676d23b6"><td id="fKzC" class="">200 bauds</td><td id="mvq{" class="">200 bits/s</td><td id="as&gt;L" class="">5.000 ms</td><td id="l]ET" class="">25 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">20 bytes/s</td><td id="Ky\[" class="">50.000 ms</td></tr><tr id="53384d65-7ad9-43f6-8a19-f93a82743868"><td id="fKzC" class="">300 bauds</td><td id="mvq{" class="">300 bits/s</td><td id="as&gt;L" class="">3.333 ms</td><td id="l]ET" class="">37.5 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">30 bytes/s</td><td id="Ky\[" class="">33.333 ms</td></tr><tr id="a1ca2ebc-18d5-4916-a034-eb9ad7d1f035"><td id="fKzC" class="">600 bauds</td><td id="mvq{" class="">600 bits/s</td><td id="as&gt;L" class="">1.667 ms</td><td id="l]ET" class="">75 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">60 bytes/s</td><td id="Ky\[" class="">16.667 ms</td></tr><tr id="48fedd48-0297-4e45-91e7-35dd9a7faec9"><td id="fKzC" class="">1200 bauds</td><td id="mvq{" class="">1200 bits/s</td><td id="as&gt;L" class="">833.333 µs</td><td id="l]ET" class="">150 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">120 bytes/s</td><td id="Ky\[" class="">8.333 ms</td></tr><tr id="5ec9e657-dc2c-4a32-b111-e62e43190324"><td id="fKzC" class="">1800 bauds</td><td id="mvq{" class="">1800 bits/s</td><td id="as&gt;L" class="">555.556 µs</td><td id="l]ET" class="">225 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">180 bytes/s</td><td id="Ky\[" class="">5.556 ms</td></tr><tr id="be5fca2d-9509-4e35-8442-851c0685cdfa"><td id="fKzC" class="">2400 bauds</td><td id="mvq{" class="">2400 bits/s</td><td id="as&gt;L" class="">416.667 µs</td><td id="l]ET" class="">300 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">240 bytes/s</td><td id="Ky\[" class="">4.167 ms</td></tr><tr id="61c7abb9-b513-4c2d-95dc-27625218c47b"><td id="fKzC" class="">4800 bauds</td><td id="mvq{" class="">4800 bits/s</td><td id="as&gt;L" class="">208.333 µs</td><td id="l]ET" class="">600 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">480 bytes/s</td><td id="Ky\[" class="">2.083 ms</td></tr><tr id="8694ce9d-c903-4332-82ff-9ff0e50178d1"><td id="fKzC" class="">9600 bauds</td><td id="mvq{" class="">9600 bits/s</td><td id="as&gt;L" class="">104.167 µs</td><td id="l]ET" class="">1200 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">960 bytes/s</td><td id="Ky\[" class="">1.042 ms</td></tr><tr id="2815bd95-dc3f-4fc9-9543-d8c7ea77d484"><td id="fKzC" class="">19200 bauds</td><td id="mvq{" class="">19200 bits/s</td><td id="as&gt;L" class="">52.083 µs</td><td id="l]ET" class="">2400 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">1920 bytes/s</td><td id="Ky\[" class="">520.833 µs</td></tr><tr id="1000ef1c-7ecb-42b7-bd4c-55e53f74d534"><td id="fKzC" class="">28800 bauds</td><td id="mvq{" class="">28800 bits/s</td><td id="as&gt;L" class="">34.722 µs</td><td id="l]ET" class="">3600 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">2880 bytes/s</td><td id="Ky\[" class="">347.222 µs</td></tr><tr id="33a3fe26-f1d7-494d-be6c-71a21d5e5013"><td id="fKzC" class="">38400 bauds</td><td id="mvq{" class="">38400 bits/s</td><td id="as&gt;L" class="">26.042 µs</td><td id="l]ET" class="">4800 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">3840 bytes/s</td><td id="Ky\[" class="">260.417 µs</td></tr><tr id="61e56e07-02d9-4ca7-a109-369c0b3bbc6b"><td id="fKzC" class="">57600 bauds</td><td id="mvq{" class="">57600 bits/s</td><td id="as&gt;L" class="">17.361 µs</td><td id="l]ET" class="">7200 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">5760 bytes/s</td><td id="Ky\[" class="">173.611 µs</td></tr><tr id="f391bf33-e746-45ad-bf09-b2acb8d360f6"><td id="fKzC" class="">76800 bauds</td><td id="mvq{" class="">76800 bits/s</td><td id="as&gt;L" class="">13.021 µs</td><td id="l]ET" class="">9600 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">7680 bytes/s</td><td id="Ky\[" class="">130.208 µs</td></tr><tr id="f65d2124-35e6-4998-8092-4ffe608cf632"><td id="fKzC" class="">115200 bauds</td><td id="mvq{" class="">115200 bits/s</td><td id="as&gt;L" class="">8.681 µs</td><td id="l]ET" class="">14400 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">11520 bytes/s</td><td id="Ky\[" class="">86.806 µs</td></tr><tr id="4e5b13b3-1a4f-4ab7-bdf6-40779d21d0d5"><td id="fKzC" class="">230400 bauds</td><td id="mvq{" class="">230400 bits/s</td><td id="as&gt;L" class="">4.340 µs</td><td id="l]ET" class="">28800 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">23040 bytes/s</td><td id="Ky\[" class="">43.403 µs</td></tr><tr id="7a07a703-14c2-4245-ad61-3a430342da60"><td id="fKzC" class="">460800 bauds</td><td id="mvq{" class="">460800 bits/s</td><td id="as&gt;L" class="">2.170 µs</td><td id="l]ET" class="">57600 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">46080 bytes/s</td><td id="Ky\[" class="">21.701 µs</td></tr><tr id="61ba7705-b5ae-4c26-a551-db97dfa962f0"><td id="fKzC" class="">576000 bauds</td><td id="mvq{" class="">576000 bits/s</td><td id="as&gt;L" class="">1.736 µs</td><td id="l]ET" class="">72000 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">57600 bytes/s</td><td id="Ky\[" class="">17.361 µs</td></tr><tr id="fab3ba21-f66e-4552-8626-038541d543a3"><td id="fKzC" class="">921600 bauds</td><td id="mvq{" class="">921600 bits/s</td><td id="as&gt;L" class="">1.085 µs</td><td id="l]ET" class="">155200 bytes/s</td><td id="mLhC" class="" style="width:161.59375px">92160 bytes/s</td><td id="Ky\[" class="">10.851 µs</td></tr></tbody></table></div><div id="1886f733-6127-4163-b48f-3dce29b2f748" style="width:50%" class="column"><figure id="8133fe5d-fed0-49f4-ad7d-31f2b06d7da9" class="image"><a href="Documentation%204029b759315746e29f697b98795f1367/0.png"><img style="width:364px" src="Documentation%204029b759315746e29f697b98795f1367/0.png"/></a></figure><p id="146ddb4a-7104-80e2-a2c4-fe932f7e3855" class="">
+</p></div></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

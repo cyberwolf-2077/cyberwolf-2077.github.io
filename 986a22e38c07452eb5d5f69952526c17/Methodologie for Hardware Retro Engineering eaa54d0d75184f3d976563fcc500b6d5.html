@@ -1,0 +1,693 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Methodologie for Hardware Retro Engineering</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="eaa54d0d-7518-4f3d-9765-63fcc500b6d5" class="page mono"><header><div class="page-header-icon undefined"><span class="icon">📝</span></div><h1 class="page-title">Methodologie for Hardware Retro Engineering</h1><p class="page-description"></p></header><div class="page-body"><nav id="2c666f1b-ec86-4721-9553-83577f8c5f52" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c34d50b6-de07-48e8-a8ec-0002db9dda09">Static Analysis</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8b97e7b2-197c-4627-966b-292753f1f609">OSINT</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#da1dec46-49c2-4041-921e-250ed921d13f">Macroscopic analysis</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2e130d9b-160a-473f-ae1e-31cd93d83120"><strong>Surface-mount technology</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9fcfb148-c070-4142-86ea-d1c38ccbf51d">PCB Lines analysis</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4af90c21-2f18-4e5a-aa18-1b04aafd2bbe">Dynamic Analysis</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5a335c8b-e425-4811-b7b5-fc0568e0c7bd">Communication interfaces</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#476f3f3f-1d79-4dbc-b6ed-13cfc6d20751">USART (<strong>Universal synchronous and asynchronous receiver-transmitter)</strong></a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#30fe3462-a212-48a0-b8f7-0f96ed9dce39">SPI (Serial Peripheral Interface)</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#19807e25-bcda-4207-93e8-3a78b78de2ee">I²C (I<strong>nter-Integrated Circuit)</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6f95e0a9-b005-4a27-85cb-f93caf0e07c5">Communication decoding</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9fc5a592-795e-4044-b9b5-8ff803c6d24f">Memory extraction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7737485b-dec2-4232-bac0-3cbbf2f6fbc8">Firmware Reverse Engineering </a></div></nav><h1 id="c34d50b6-de07-48e8-a8ec-0002db9dda09" class="block-color-purple_background">Static Analysis</h1><h2 id="8b97e7b2-197c-4627-966b-292753f1f609" class="block-color-pink_background">OSINT</h2><p id="2236f117-2d1e-41b4-9dd8-9f503ea73a4a" class="">First step is to look for open source documentation regarding the device</p><ul id="8be5bdba-b6cb-40e7-9013-9aa3136a7a65" class="bulleted-list"><li style="list-style-type:disc">Manufacturer website</li></ul><ul id="a2decdd3-6675-47a2-92f3-bb493e900af3" class="bulleted-list"><li style="list-style-type:disc">teardowns (check on IFixIT website)</li></ul><figure id="87f2a283-b66a-4f7f-972e-dc19ecc62676"><a href="https://fr.ifixit.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Réparons le monde, un gadget à la fois. | Actualités iFixit</div><div class="bookmark-description">iFixit est une communauté de personnes réparties dans le monde et qui s&#x27;entraident pour réparer les objets qui les entourent. Réparons le monde, un appareil à la fois. Trouvez la solution à vos problèmes dans le Forum de Réponses et rédigez vos propres tutoriels pour les partager avec le monde entier.</div></div><div class="bookmark-href"><img src="https://assets.cdn.ifixit.com/static/icons/ifixit/favicon-16x16.png" class="icon bookmark-icon"/>https://fr.ifixit.com/</div></div><img src="https://guide-images.cdn.ifixit.com/igi/YlogWMLVAtHbPF5J.full" class="bookmark-image"/></a></figure><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="95f166ef-5693-433c-a116-32d2a534db3c"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Sometimes there is no documentation on the specific device but some other from the same family are available and might be worth checking</div></figure><ul id="9cc379d9-d2be-4930-9726-a5e3b81615cd" class="bulleted-list"><li style="list-style-type:disc">If device is FCC (<em>Federal Communications Commission</em>, USA) certified, there is an alphanumerical code physically present on the device.<br/>This code can be used on FCC Website for documentation or Dominic Spill website<br/></li></ul><figure id="6d0e2f46-976c-4036-ad6c-2fdd738101cd"><a href="https://www.fcc.gov/oet/ea/fccid" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">FCC ID Search</div><div class="bookmark-description">Grantee Code: (First three or five characters of FCCID) Product Code: (Remaining characters of FCCID) Advanced Search To perform an advanced search go to: https://apps.fcc.gov/oetcf/eas/reports/GenericSearch.cfm. The advanced search permits search on a wide range of fields associated with an FCC ID to help find the information on a grant of certification.</div></div><div class="bookmark-href"><img src="https://www.fcc.gov/sites/all/themes/fcc/favicon.ico" class="icon bookmark-icon"/>https://www.fcc.gov/oet/ea/fccid</div></div><img src="https://www.fcc.gov/sites/default/files/social-media-sharing-fcc-logo.jpg" class="bookmark-image"/></a></figure><figure id="02f27fee-4f2a-4726-85a2-0f209143aff2"><a href="http://fcc.io/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">FCC ID Search and Redirection</div><div class="bookmark-description">A simple search and URL shortener for FCC ID queries. I can never find the search form on the FCC site, so fcc.io should be easy enough to remember. Fcc.io provides a way to share FCC ID searchs with other people via links, email, IRC or IM.</div></div><div class="bookmark-href">http://fcc.io/</div></div></a></figure><p id="45f1ce21-8d08-4c03-a82b-de867aabf06e" class="">
+</p><p id="68d0ba4d-79df-4f05-933d-3b3a071c7fdf" class="">The idea is to get pictures of the insight of the device to ease futur teardown and user guide / technical datasheet.</p><p id="99b7c2c9-4726-4b86-a8a8-f94f33f50ff1" class="">
+</p><h2 id="da1dec46-49c2-4041-921e-250ed921d13f" class="block-color-pink_background">Macroscopic analysis</h2><div id="408df5f4-a0c8-49c3-b8b1-9eeba750e7ea" class="column-list"><div id="18c0c5e0-87a7-442e-8a2e-a27b17577d1c" style="width:62.5%" class="column"><p id="8e4207b6-89bb-44ba-8cfb-b582657c9c99" class="">Once the device is teared down, we frequently face PCB (<em>Printed Circuit Board</em>)  and peripherals.<br/>The idea is to identify those such as :<br/></p><ul id="6df1dba7-ef6b-4043-9a2b-281eedf096d9" class="bulleted-list"><li style="list-style-type:disc">PSU</li></ul><ul id="0f0e0d7e-e603-43fb-9af4-3ac1399b97bf" class="bulleted-list"><li style="list-style-type:disc">Sensors</li></ul><ul id="fd034411-1ea0-47b7-ae95-bbb06b5b65e8" class="bulleted-list"><li style="list-style-type:disc">Standard </li></ul><ul id="5f2f2455-84eb-48a4-a4e3-d3305ed3067e" class="bulleted-list"><li style="list-style-type:disc">Interfaces </li></ul><ul id="df00e7b4-a12a-4fa9-993a-8a1dacfa1142" class="bulleted-list"><li style="list-style-type:disc">Screens</li></ul><ul id="da17ee03-449b-4d58-b98d-41d87beca6b4" class="bulleted-list"><li style="list-style-type:disc">Buttons </li></ul><ul id="99488443-cdd3-4a1d-aa37-8ccebbcbafe5" class="bulleted-list"><li style="list-style-type:disc">Microphones S</li></ul><ul id="5a173d13-6911-4520-b095-ebfd353f9354" class="bulleted-list"><li style="list-style-type:disc">peakers</li></ul><ul id="31a32a6d-d259-4fb3-8c58-eaac9f963b8f" class="bulleted-list"><li style="list-style-type:disc">...</li></ul></div><div id="b28c5a08-1672-4b49-b677-ee6c19849fa4" style="width:37.50000000000001%" class="column"><figure id="285b0552-e635-46d2-827f-28c40e3e736e" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled.png"><img style="width:536.25px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled.png"/></a></figure></div></div><p id="937e1978-b602-4e74-8247-57b3509d1dc1" class="">
+</p><h2 id="2e130d9b-160a-473f-ae1e-31cd93d83120" class="block-color-pink_background"><strong>Surface-mount technology</strong></h2><p id="b31556a8-4e73-4047-8589-89b01e013a10" class="">It’s good to know what’s behind : </p><div id="1561ad27-721b-4ded-9b58-4febb8f526a5" class="column-list"><div id="66cd6208-bfb9-40b8-8831-477da380e4e3" style="width:18.75%" class="column"><ul id="f3e6392f-a74b-49af-a7fe-b3d56946f632" class="bulleted-list"><li style="list-style-type:disc">TO220</li></ul><ul id="ff9a84e2-656b-4646-b01b-c93ac373e6c4" class="bulleted-list"><li style="list-style-type:disc">SOT23</li></ul><ul id="93242072-0e72-4074-ac2e-0fc7429eacec" class="bulleted-list"><li style="list-style-type:disc">QFP</li></ul><ul id="bf62823e-615f-4670-be0f-c747e56c1201" class="bulleted-list"><li style="list-style-type:disc">TSOP</li></ul><ul id="425eced7-1a8e-4e95-a38d-718e253ff8a9" class="bulleted-list"><li style="list-style-type:disc">BGA</li></ul><ul id="9d33050c-dd39-4b20-afbd-41a914825b72" class="bulleted-list"><li style="list-style-type:disc">... </li></ul></div><div id="54c1d8d2-08ab-4232-877a-eb0eeeabca82" style="width:81.25%" class="column"><figure id="15fc2a78-691f-4c8b-8fe8-907c7a5b728d"><a href="https://learn.sparkfun.com/tutorials/integrated-circuits/all" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Integrated Circuits</div><div class="bookmark-description">Contributors: jimblom Integrated circuits (ICs) are a keystone of modern electronics. They are the heart and brains of most circuits. They are the ubiquitous little black &quot;chips&quot; you find on just about every circuit board.</div></div><div class="bookmark-href"><img src="https://learn.sparkfun.com/favicon.ico" class="icon bookmark-icon"/>https://learn.sparkfun.com/tutorials/integrated-circuits/all</div></div><img src="https://cdn.sparkfun.com/r/600-600/assets/7/a/6/9/c/51c0d009ce395feb33000000.jpg" class="bookmark-image"/></a></figure><figure id="5864e274-edca-4f6c-87e5-6adfad261843"><a href="https://en.wikipedia.org/wiki/List_of_integrated_circuit_packaging_types" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">List of integrated circuit packaging types - Wikipedia</div><div class="bookmark-description">Integrated circuits are put into protective packages to allow easy handling and assembly onto printed circuit boards and to protect the devices from damage. A very large number of different types of package exist. Some package types have standardized dimensions and tolerances, and are registered with trade industry associations such as JEDEC and Pro Electron.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/favicon/wikipedia.ico" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/List_of_integrated_circuit_packaging_types</div></div><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Signetics_NE555N.JPG" class="bookmark-image"/></a></figure></div></div><p id="4547f6c5-c215-43e2-a54e-a2d8511829e0" class="">For the elements directly soldered on the board (SMD) here are some useful websites</p><figure id="bfa69eeb-aa89-4a8b-9fad-816334872dfd"><a href="https://alltransistors.com/smd-search.php?search=" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">SMD Code Search</div><div class="bookmark-description">Enter a full or partial SMD code with a minimum of 1 letters or numbers Minimum 1 letters or numbers! How to identify SMD devices from the codes on top of the component? You can now try Android App: Download (FREE)</div></div><div class="bookmark-href"><img src="https://alltransistors.com/favicon.ico" class="icon bookmark-icon"/>https://alltransistors.com/smd-search.php?search=</div></div><img src="https://alltransistors.com/images/up.gif" class="bookmark-image"/></a></figure><figure id="f3cfa656-980e-49af-bdf2-55b6bda83326"><a href="http://www.smdmark.com/en-US" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Marking Codes - IC芯片丝印,IC芯片代码,IC芯片印字,IC芯片顶标,SMD code,marking code,top mark</div><div class="bookmark-description">关键字（Keyword）： 芯片丝印,芯片代码,芯片印字,芯片顶标,ic丝印,ic代码,ic印字,ic顶标,smd code,smd mark,marking code,top mark 丝印查询,代码查询,印字查询,顶标查询,丝印反查,代码反查,印字反查,顶标反查,marking查询,marking反查 ...</div></div><div class="bookmark-href">http://www.smdmark.com/en-US</div></div><img src="http://www.smdmark.com/Contents/Images/pcb.jpg" class="bookmark-image"/></a></figure><p id="9ae30e0c-9fbb-4c40-a5cd-1d5045921d1a" class="">Otherwise datasheets can be found by searching chips references online.</p><p id="5ff42cbd-f66b-412b-90d6-ad02c0b09d9d" class="">If there is only a foundry logo, it can be searcher up in the bellow database and then search up on their websites.</p><figure id="36bf4296-b189-4199-9c7d-df45c1d8ec68"><a href="https://how-to.fandom.com/wiki/How_to_identify_integrated_circuit_(chip)_manufacturers_by_their_logos" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">How to identify integrated circuit (chip) manufacturers by their logos</div><div class="bookmark-description">Deciphering integrated circuit (computer chips) functions can be very difficult. There are a number of ways to identify a chip. One of the more important identifiers is the manufacturer. To save space manufacturers use logo, which can quick ways to identify chips.</div></div><div class="bookmark-href"><img src="https://how-to.fandom.com/skins-ucp/v2/common/favicon.ico" class="icon bookmark-icon"/>https://how-to.fandom.com/wiki/How_to_identify_integrated_circuit_(chip)_manufacturers_by_their_logos</div></div><img src="https://static.wikia.nocookie.net/ucp-internal-test-starter-commons/images/a/aa/FandomFireLogo.png/revision/latest/scale-to-width-down/1200?cb=20210713142711" class="bookmark-image"/></a></figure><p id="43fe27d6-1e5e-4c19-830e-d026e0649aa6" class="">If there are no documentations one of the solutions might be to check what’s the chip doing by looking at their in &amp; out pins using oscilocops and look with other chips that would do similar things on manufacturers catalogues.<br/>Another solution would be to unsolder the chip and place it on another PCB or a breadboard for in deep analysis using one of the following solutions :<br/></p><ul id="6f1d84c5-f5f5-416e-9a05-920c418875e6" class="bulleted-list"><li style="list-style-type:disc">DIP (<em>Dual In-line Package</em>).</li></ul><ul id="478634b9-dccf-484b-bde8-576aed8d9202" class="bulleted-list"><li style="list-style-type:disc">ZIF (<em>Zero Insertion Force</em>).</li></ul><ul id="87838e8a-58a1-487e-9875-39c5f47796cd" class="bulleted-list"><li style="list-style-type:disc">Or try to auto detect the chip using an universal programmer like TNM5000.</li></ul><p id="1acc7a61-1a43-4143-a72a-fd0c4ad3ea8a" class="">Doing so might require dedicated PCB or direct soldering on the chips. Here are some refs :</p><figure id="f2b59a47-a0db-4734-958e-c6b43ceb894e"><a href="https://blog.quarkslab.com/flash-dumping-part-i.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flash Dumping - Part I</div><div class="bookmark-description">First part of a blog post series about our approach to dump a flash chip. In this article we describe how to desolder the flash, design and build the corresponding breakout board. This blog post series will detail simple yet effective attacks against embedded devices non-volatile memories.</div></div><div class="bookmark-href"><img src="https://blog.quarkslab.com/theme/img/favicon.ico" class="icon bookmark-icon"/>https://blog.quarkslab.com/flash-dumping-part-i.html</div></div><img src="https://blog.quarkslab.com/resources/2017-08-06-flash-dumping-1/flash_desoldering.jpg" class="bookmark-image"/></a></figure><figure id="07cb76ef-ac80-4668-b52d-78baf3b57aff"><a href="https://blog.quarkslab.com/flash-dumping-part-ii.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flash Dumping - Part II</div><div class="bookmark-description">Second part of a blog post series about our approach to dump a flash chip. In this article we describe how to restore functionality of a device with a flexible setup. In the first part, we saw how to transfer a BGA flash chip to a home-made breakout board to ease its memory dumping.</div></div><div class="bookmark-href"><img src="https://blog.quarkslab.com/theme/img/favicon.ico" class="icon bookmark-icon"/>https://blog.quarkslab.com/flash-dumping-part-ii.html</div></div><img src="https://blog.quarkslab.com/resources/2018-03-07-flash-dumping-2/adapter_5x5_10_finished.jpg" class="bookmark-image"/></a></figure><h2 id="9fcfb148-c070-4142-86ea-d1c38ccbf51d" class="block-color-pink_background">PCB Lines analysis</h2><p id="a4f761b4-92f7-4a40-beaa-cce28d612937" class="">This is useful to determine the lines of test points, or dedicated and isolated test points. These points might lead to USART (<strong>universal synchronous and asynchronous receiver-transmitter), </strong>a JTAG port<strong> (oint Test Action Group) </strong>or any other proprietary test ports.<br/><br/>It might be needed to partialy or fully reverse the PCB to have a better understanding of how each elements are linked together and how they interact with each others. This might be done using a multimeter that will make some noise when both sides of a link are tested simultaniously. (it might be useful to have test needles to be more precises).<br/><br/>If there are multiple lines of copper, or components that aren’t easily accessible, it will require more invasive techniques such as desoldering chips (which might be reversible but complicated to achive) or even desolder the entire board to see each elements if we have a spare unit to sacrifice.<br/><br/><em>The Art of PCB Reverse Engineering from Ng Keng Tiong </em>is a good extension for more informations<br/><br/>For hardware reverse at an industrial level, these documents might be useful :<br/><br/><em>PCB-RE: Tools &amp; Techniques from Ng Keng Tiong</em></p><p id="8db78af9-7f4d-4b7b-9f76-d9e11d4a47bd" class="">
+</p><h1 id="4af90c21-2f18-4e5a-aa18-1b04aafd2bbe" class="block-color-purple_background">Dynamic Analysis</h1><p id="4d7a7927-edda-4970-959f-caef8dda8c39" class="">Once the Static Analysis is done, we have a better view of the components that populate the board, the links in between them, as well as test points.<br/><br/>These informations are useful to be used as attack surface<br/></p><h2 id="5a335c8b-e425-4811-b7b5-fc0568e0c7bd" class="block-color-pink_background">Communication interfaces</h2><p id="275f4f4c-a56d-4afb-8aad-5f9a052fe79e" class="">The communication between components is generally made using standardised interfaces. These informations are really useful to understand what is going on on the board</p><p id="bc9bf4af-ddf6-4298-8116-7e160d0e3796" class="">To identify Which type of communication is used, we’ll use a logical analyser. This tool once connected on the test points will record the tensions level on the links several millions of times per seconds in order to make a chronogramme of the logical states </p><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="d0d4f911-de7d-42c3-a722-03e9a200ea3a"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">It is important to check the tension level of the targeted link (1.8V / 3.3V / 5V) and use level shifters to adapt the level if needed to avoid frying a component.</div></figure><h3 id="476f3f3f-1d79-4dbc-b6ed-13cfc6d20751" class="block-color-red_background">USART (<strong>Universal synchronous and asynchronous receiver-transmitter)</strong></h3><p id="67d01f8f-96de-47f1-9bba-a89115c2099a" class="">USART is used to assure simultaneous communication between two chips<br/>Here are some elements that need to be known to use USART :<br/></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f55f52a5-506c-409f-b515-fbde36788ed3" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">&lt;baudrate&gt; &lt;bits per symbole&gt;&lt;parity&gt;&lt;stop bit&gt;
+The most used configuration is the following :
+115200 8N</code></pre><div id="597d1b5b-570d-4591-bdf4-b45df836da3f" class="column-list"><div id="7e2eebcb-1856-408b-9908-cca69d765937" style="width:81.25%" class="column"><p id="d5662625-6e58-4912-a475-dbdc48dbc394" class="">USART is an RX pin for Reception and TX pin for Transmission. These pins have to be swapped in between the two chips</p><div id="0765cfe2-d303-4110-918f-b498b99e7d3d" class="column-list"><div id="653378de-7d31-4cb0-81ea-f7aad962b60a" style="width:43.75%" class="column"><figure id="685373c5-b3f1-4f28-96d6-5631c874ec15" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%201.png"><img style="width:363.9940490722656px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%201.png"/></a><figcaption>exemple of reception using logical analyser</figcaption></figure></div><div id="eccbfebd-03ee-4daf-a3a1-b162c7472079" style="width:56.25%" class="column"><figure id="66394eee-b154-4e4a-b727-c136965852f9" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%202.png"><img style="width:363.9940490722656px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%202.png"/></a><figcaption>Once protocol is decoded</figcaption></figure></div></div></div><div id="b35292e5-02e3-4da4-8120-58ee5b3e73b6" style="width:18.749999999999993%" class="column"><figure id="0697202e-2cdf-408c-85db-b5c58817c361" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%203.png"><img style="width:307.375px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%203.png"/></a><figcaption>schematics of RX-TX connexion</figcaption></figure></div></div><figure id="ae2aedcc-afd1-46f8-a553-3ead34280434"><a href="https://sigrok.org/wiki/Main_Page" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">sigrok</div><div class="bookmark-description">Jump to navigation Jump to search The sigrok project aims at creating a portable, cross-platform, Free/Libre/Open-Source signal analysis software suite that supports various device types (e.g. logic analyzers, oscilloscopes, and many more). It is licensed under the terms of the GNU GPL, version 3 or later. Design goals and features include: Broad hardware support.</div></div><div class="bookmark-href"><img src="https://sigrok.org/favicon.ico" class="icon bookmark-icon"/>https://sigrok.org/wiki/Main_Page</div></div></a></figure><h3 id="30fe3462-a212-48a0-b8f7-0f96ed9dce39" class="block-color-red_background">SPI (Serial Peripheral Interface)</h3><p id="264d8fda-6fdf-4446-9899-49cd224cbabe" class="">SPI allow communication between a chip and other components like sensors or actuators.</p><div id="f5fb30e4-3881-4712-8f39-9c8b61780810" class="column-list"><div id="034cdeed-9c7a-4978-8f61-5a61b1d0a448" style="width:62.5%" class="column"><p id="a0103fd0-3317-4c58-b4d4-e88fa2176b5c" class="">To do so, it requieres 3 lines MOSI, MISO, CLK as well as a selction line CS per device as shown on the side schematic<br/>These configuration might be used for small flash memory storage<br/></p><figure id="41cb69dc-78f7-4d5c-9704-c84dc9e588d6" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%204.png"><img style="width:864px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%204.png"/></a></figure><p id="69e68245-632d-49c0-8ae4-b6a758dc604c" class="">The CLK line is on (dot3). It tells the Slave there is data available for them (line 1)<br/>At the same time the slave reply the byte to the Master (line 3)<br/>The CS line tells that Slave that the operation start (dot1) and stop (dot2) (line 0)<br/></p><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="c59403b5-cb36-42fa-b2c0-4b025eb68e7a"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">It is possible to reconstruct the content of a Flash memory ship by intercepting &amp; decoding the communications while listening to the Master / Slave exchange at system boot for exemple</div></figure></div><div id="61de13c9-dfa2-47aa-88c9-96955069cbc8" style="width:37.49999999999999%" class="column"><figure id="8d3467e3-61cc-45e4-9bb0-2e5cdee724bd" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%205.png"><img style="width:309.375px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%205.png"/></a></figure><ul id="07b249d1-0db9-4baa-9adb-c61572a3b10d" class="bulleted-list"><li style="list-style-type:disc">SCLK: Serial Clock (output from master)</li></ul><ul id="2799032a-eda1-4007-802e-21f778e1046a" class="bulleted-list"><li style="list-style-type:disc">MOSI: Master Out Slave In (data output from master)</li></ul><ul id="e8a4ae91-07d3-4a59-9044-e384a2fef1e1" class="bulleted-list"><li style="list-style-type:disc">MISO: Master In Slave Out (data output from slave)</li></ul><ul id="f7e998ba-781d-4d89-95ca-eefb93e3c0d5" class="bulleted-list"><li style="list-style-type:disc">CS: Chip/Slave Select (often active low output from master to indicate that data is being sent)</li></ul><p id="110ddb4a-7104-80cb-a908-da1316ad46f4" class="">
+</p></div></div><h3 id="19807e25-bcda-4207-93e8-3a78b78de2ee" class="block-color-red_background">I²C (I<strong>nter-Integrated Circuit)</strong></h3><div id="dadba215-ae78-4420-8e41-1ec4a1823fa3" class="column-list"><div id="ffe096ed-f27e-4c43-ab1e-42a57cbe27da" style="width:68.75%" class="column"><p id="862cf539-67fb-4c26-a4ab-8d9bce920712" class="">I²C is a bit different from SPI, I²C is linking multiple peripherals to a controler using the same links<br/>This means that only one peripheral can speak at a defined time. each ones have a dedicated address to identify them<br/>It use 2 lines SDA (for data) and SCL (for clock).<br/></p><figure id="77cc7bd5-faea-4590-ae80-c58509fe7a46" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%206.png"><img style="width:567.1875px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%206.png"/></a></figure><p id="96075513-c107-4db7-b092-eb71826bfea4" class="">Dot1 : the MCU start the communication<br/>Dot2 : The MCU send the address with which they want to communicat<br/></p><p id="e01d597e-33c4-40a9-9443-bda000b4edbd" class="">Dot3 : The type of opération (0 = Write, 1 = Read)</p><p id="116196de-72ad-4ea4-a22f-50f4bd7db664" class="">Dot4 : The peripheral acknoledge the request </p><p id="59cfba8d-d58b-4028-8c3b-44db80203d3e" class="">Dot5 : The controler send the data to the peripheral and then the peripheral acknoledge that the data is written</p></div><div id="fc6b3fb2-d2b3-42cd-ab43-c4e3fa6a6c0a" style="width:31.250000000000007%" class="column"><figure id="9c8e1d58-2ec2-4fe3-96fe-bbe8220761fe" class="image"><a href="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%207.png"><img style="width:257.8125px" src="Methodologie%20for%20Hardware%20Retro%20Engineering%20eaa54d0d75184f3d976563fcc500b6d5/Untitled%207.png"/></a></figure></div></div><h2 id="6f95e0a9-b005-4a27-85cb-f93caf0e07c5" class="block-color-pink_background">Communication decoding</h2><p id="88690bcb-d1da-47e5-9233-05aa253c9de9" class="">USART, SPI and I²C allow to exchange informations across multiple devices. however, the data format in it might varie depending the manufacturer or field of application.<br/>Reading the data that goes through the link isn’t that complexe but being able to translate it to actual instruction might need so time reading specific documentation for products.<br/></p><h2 id="9fc5a592-795e-4044-b9b5-8ff803c6d24f" class="block-color-pink_background">Memory extraction</h2><p id="319e837b-fce8-4549-bc55-4a9dbe776c59" class="">The most valuable targets are the ones that store data or source code in non volatile memory. Here is a list of the various elements that containe data or source code :</p><ul id="eb7aad6c-81a3-4bb4-8b87-458957617c4e" class="bulleted-list"><li style="list-style-type:disc">EEPROM</li></ul><ul id="73155eb8-8dab-43b8-a694-cb258359902f" class="bulleted-list"><li style="list-style-type:disc">Flash (some kind of evolved EEPROM)</li></ul><ul id="3989eb94-50f1-4dc6-ad73-c1d9e9546ad5" class="bulleted-list"><li style="list-style-type:disc">MCU (microcontrolers (that have embeded storage or are linked to an EEPROM)</li></ul><p id="0b35d7e2-cf61-44e3-832e-191de16f2f53" class="">For small memories that communicate with the MCU can be dumped using a raspberry pi and flashrom (it might require desoldering the chip or solder on it directly)</p><figure id="904679a9-8275-4257-ae51-6ccf77065b6b"><a href="https://www.flashrom.org/Flashrom" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">flashrom</div><div class="bookmark-description">Jump to navigation Jump to search flashrom is a utility for identifying, reading, writing, verifying and erasing flash chips. It is designed to flash BIOS/EFI/coreboot/firmware/optionROM images on mainboards, network/graphics/storage controller cards, and various other programmer devices. Supports more than 476 flash chips, 291 chipsets, 500 mainboards, 79 PCI devices, 17 USB devices and various parallel/serial port-based programmers.</div></div><div class="bookmark-href">https://www.flashrom.org/Flashrom</div></div></a></figure><p id="04f0b431-d20b-4ce9-b13d-3b55b0121264" class="">Depending on the MCU, and the PCB configuration, it is also possible to use some universal programmers using test points or directly by plugging it over the chip to acces debug interfaces (JTAG, SWD, ISP, PDI, UPDI, etc)<br/><br/>some MCU will be read protected. however it might be possible in some case to bypass this protection using fault injection for exemple<br/>It’s important at this point to read detailed documentation to know what can be achieved and how<br/></p><p id="888397b2-c406-4c41-8d75-81e902e72868" class="">
+</p><h1 id="7737485b-dec2-4232-bac0-3cbbf2f6fbc8" class="block-color-purple_background">Firmware Reverse Engineering </h1><figure id="1b81a786-a30c-4d86-aec5-b6171373b4f3"><a href="https://cutter.re/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Cutter</div><div class="bookmark-description">Integrated Rizin Console * Multi Language * Binary Searching * Types &amp; Structs * Syntax Highlighting * STDIO Redirection * Remote Debugging * Kernel Debug * Graph Overview * And more...</div></div><div class="bookmark-href"><img src="https://cutter.re/assets/images/favicon.png" class="icon bookmark-icon"/>https://cutter.re/</div></div><img src="https://cutter.re/assets/images/blog/posts/cutter-2.0/cutter-2.png" class="bookmark-image"/></a></figure><figure id="eb67a82d-b3e7-43d3-ad70-338e698bdcff"><a href="https://ghidra-sre.org/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Ghidra</div><div class="bookmark-description">Ghidra provides context-sensitive help on menu items, dialogs, buttons and tool windows. To access the help, press F1 or Help on any menu item or dialog. Visit our Wiki Issue Tracker Ghidra is one of many open source software (OSS) projects developed within the National Security Agency.</div></div><div class="bookmark-href">https://ghidra-sre.org/</div></div></a></figure><p id="2c019fe9-7204-4be9-8244-703e9abf1b28" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

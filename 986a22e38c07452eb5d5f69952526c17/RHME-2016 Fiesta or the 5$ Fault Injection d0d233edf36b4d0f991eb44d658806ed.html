@@ -1,0 +1,742 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>RHME-2016 : Fiesta or the 5$ Fault Injection</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d0d233ed-f36b-4d0f-991e-b44d658806ed" class="page mono"><header><img class="page-cover-image" src="https://blog.securitybits.io/img/posts/2019/06/voltage-glitching-on-the-cheap/pexels-photo-132700.jpeg" style="object-position:center 28.04%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/flash_orange.svg"/></div><h1 class="page-title">RHME-2016 : Fiesta or the 5$ Fault Injection</h1><p class="page-description"></p></header><div class="page-body"><nav id="baada43a-247a-4f5d-b0a0-eefb49c8f62d" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#996e711e-e88f-4965-8c81-ea3f1fbcaf8c">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fb5f4ff2-8d6e-4641-b557-d4a75e488200">Components list </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7ddb882a-ea0b-4da2-8095-2d79b4d93ce6">Setup</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b8149f76-232d-472a-931f-a5054d758580">Loading the program to the chip</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#57accfac-37e0-4246-8f3c-033f5fd3d169">Setting up the glitch</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#08a2c95e-4d6c-4507-a572-aefde3cb7d32">Connecting the glitch source </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b2a76ea2-5aa5-48a5-9ac1-3270c9f6d56e">Glitching code </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#323ac667-b4a4-4530-81c9-72d5449c2cc3">Time from some trouble shooting </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fea0ff7a-60c7-4c9d-9de8-f2ed118a992c">Idea 1 : power source issue </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#798d2f60-abfc-4194-ba9a-a1e35d9c1dc8">Idea 2 : Defective wiring </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#17dee4d0-edef-4fd8-9895-8f5c864e1bfb">Idea 3 : Changing the MOSFET</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2e93fd5c-ff1f-4093-9fb3-af55845479b6">Idea 4 : removing the 680Ω resistor </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7fcb4c53-2c64-4daf-b09a-8956194765c3">Reproduce the glitch under better environment </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e8d79ca5-8004-4ff7-83f0-d7318dbe4bcd">Lots of fails and lake of understanding</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#11befff4-26bf-4def-918b-2848f819d6c6">No flag in the output </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#63903f1b-c220-49f9-bece-a6f7092dcab9">Flag in the output</a></div></nav><h1 id="996e711e-e88f-4965-8c81-ea3f1fbcaf8c" class="block-color-purple_background">Introduction</h1><p id="d23c8d9e-08ba-40c9-9159-e36f7e191d2c" class="">I just found out that there was a challenge from RHME 2016 about fault injection </p><figure id="bc68dd69-382b-4574-8187-45695596db71"><a href="https://github.com/Riscure/Rhme-2016/blob/master/challenges/binaries/fiesta/fiesta.hex" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Rhme-2016/fiesta.hex at master · Riscure/Rhme-2016</div><div class="bookmark-description">Rhme2 challenge (2016). Contribute to Riscure/Rhme-2016 development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/Riscure/Rhme-2016/blob/master/challenges/binaries/fiesta/fiesta.hex</div></div><img src="https://opengraph.githubassets.com/d741e98db876635d939b2724120be33a0419b4eab68f70d6cb6bf777a807117e/Riscure/Rhme-2016" class="bookmark-image"/></a></figure><p id="1a7629a4-5beb-4bcb-b015-ae7fd816ba17" class="">I decided to follow the tutorial made by Christoffer Claesson with some modifications it </p><figure id="a3567101-f35b-4cff-ba00-6e267841902f"><a href="https://blog.securitybits.io/2019/06/voltage-glitching-on-the-cheap/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Voltage glitching on the cheap</div><div class="bookmark-description">So a couple a weeks ago I decided that I needed more hardware and electronics experience (also writing code and making lights go blink blink is awesome). The foremost purpose of this post is to actually document what I am doing.</div></div><div class="bookmark-href">https://blog.securitybits.io/2019/06/voltage-glitching-on-the-cheap/</div></div><img src="https://blog.securitybits.io/img/posts/2019/06/voltage-glitching-on-the-cheap/pexels-photo-132700.jpeg" class="bookmark-image"/></a></figure><h2 id="fb5f4ff2-8d6e-4641-b557-d4a75e488200" class="block-color-pink_background">Components list </h2><div id="89be741d-e900-40a3-b056-1773a01453c6" class="column-list"><div id="7e0ebae4-5505-49b6-8c4e-742873872cc3" style="width:33.333333333333336%" class="column"><ul id="68b05212-83ce-444a-8b19-ac0a89ec31f6" class="bulleted-list"><li style="list-style-type:disc">Arduino Uno</li></ul><ul id="d056bcb2-54c8-4f4b-9293-3d115d39c51f" class="bulleted-list"><li style="list-style-type:disc">Arduino Nano</li></ul></div><div id="4c4e7c30-3a7d-420e-b77e-5fc323260140" style="width:33.33333333333333%" class="column"><ul id="f99814c9-a962-4527-a6d2-c618f224866e" class="bulleted-list"><li style="list-style-type:disc">100Ω Resistor</li></ul><ul id="0987cf2b-21ef-47e2-b8a5-e9781d0ec541" class="bulleted-list"><li style="list-style-type:disc">AP3400 MOSFET</li></ul></div><div id="7d6a1dce-0353-472b-8dab-ce7788c7438e" style="width:33.333333333333336%" class="column"><ul id="162b39c4-9417-4798-9115-5fc69afe8b5d" class="bulleted-list"><li style="list-style-type:disc">Breadboard</li></ul><ul id="c9fd6973-57b0-4e0a-9c52-821a9c6cee49" class="bulleted-list"><li style="list-style-type:disc">Various Breadboard Lab Cables</li></ul></div></div><h1 id="7ddb882a-ea0b-4da2-8095-2d79b4d93ce6" class="block-color-purple_background">Setup</h1><p id="11214a62-1711-4db2-98db-e20e73d27dd7" class="">My first attempt was with an Arduino uno that had a soldered chip and that wasn’t working at all. so I taught about using my older atmega328P-PU chips.<br/>The first step was to flash them again with the arduino firmware as they where flashed to use their internal 8MHz clocks.<br/>I found a tutorial at the link bellow that worked like a charm <br/></p><figure id="3eb0fe98-a949-4356-befc-d3e53eeaeb01"><a href="https://www.gotronic.fr/blog/guides/flash-du-bootloader-dune-carte-compatible-arduino/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flash du bootloader d&#x27;une carte compatible Arduino® - Le Blog Gotronic</div></div><div class="bookmark-href"><img src="https://www.gotronic.fr/blog/wp-content/uploads/2017/02/favicon.png" class="icon bookmark-icon"/>https://www.gotronic.fr/blog/guides/flash-du-bootloader-dune-carte-compatible-arduino/</div></div><img src="https://www.gotronic.fr/blog/wp-content/uploads/2020/11/ATmega-1.jpg" class="bookmark-image"/></a></figure><h1 id="b8149f76-232d-472a-931f-a5054d758580" class="block-color-purple_background">Loading the program to the chip</h1><p id="e8d54b13-b519-4c54-8b05-1d952c0d18f0" class="">After a bit of struggle to get a proper board to run, I followed the instructions of  Christoffer Claesson tutorial to get the vulnerable code running on my arduino uno</p><div id="55b0ea88-a817-4489-8bd1-055ed953b338" class="column-list"><div id="5728c5cc-a102-4e75-9cfd-348b704b1bfe" style="width:25%" class="column"><figure id="6294bbd2-60f4-4676-a217-e38cebdbd48c" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/9.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/9.png"/></a></figure></div><div id="61c28949-98b9-47db-a4dd-ad0be64bda9e" style="width:75%" class="column"><p id="80e91f4d-67d0-4e7b-bde1-5d9849da1029" class="">loading the target source code onto our victim (Uno) using avrdude.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fc73998-0d2e-4dfd-9c2c-1130c7d9b285" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">wget https://raw.githubusercontent.com/Riscure/Rhme-2016/master/challenges/binaries/fiesta/fiesta.hex
+avrdude -c arduino -p atmega328p -p /dev/&lt;UNO Device&gt; -b115200 -u -V -U flash:w:fiesta.hex</code></pre><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="7b5f0817-99c0-4602-b53f-279fc2688fb6"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">It can also work using the XLoader application</div></figure><p id="452cc123-fc9a-4220-baec-87494d6cd11d" class="">Once the chip is powered up, we can see the output of the serial communication as follow </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="53d9ccdf-d8b5-4cf6-ae9c-b148cbee8b90" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">screen /dev/ttyACM1 19200
+18:12:58.044 -&gt; RHME2 FI level 1.
+18:12:58.044 -&gt;
+18:12:58.076 -&gt; Chip status: LockLockLockLockLockLockLockLockLockLockLockLockLockLock[...]</code></pre></div></div><h1 id="57accfac-37e0-4246-8f3c-033f5fd3d169" class="block-color-purple_background">Setting up the glitch</h1><h2 id="08a2c95e-4d6c-4507-a572-aefde3cb7d32" class="block-color-pink_background">Connecting the glitch source </h2><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="7196198b-5c3b-4e3e-b4c8-8c4ebb06e4ce"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">in order to power glitch the Atmega328p, the micro controller has to be put onto a breadboard, and connect the relevant cables for it to send and receive data. That way it is fairly trivial to control the micro controllers ground, without any interfering capacitors. <br/>This can also be achieved on other hardware (like a Nano which does not have a removable micro controller) by looking up the specification and with a steady hand, desolder the ground pin.<br/></div></figure><p id="c8decc4e-a928-4fe7-a64e-99b577a982e5" class="">Here is a simple schematic of how to setup the wiring between the arduino uno and the nano.</p><div id="c8444812-9a84-4756-8ce8-fa0dab92ca8b" class="column-list"><div id="cf77351d-c58f-4f37-9ffa-63847c314e4a" style="width:31.25%" class="column"><figure id="05f4f147-bbaf-4998-ae75-8778ada1e1fb" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/7.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/7.png"/></a></figure></div><div id="ddc9dca3-d5a9-4019-85fb-d9edbb5770bb" style="width:68.75%" class="column"><figure id="acaf4963-145d-45b7-ac10-193f1766080e" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled.png"><img style="width:1146px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled.png"/></a></figure></div></div><p id="6f6639b9-d3d0-453e-8989-a61bbb463df9" class="">I used the MOSFET board I previously made for the pink section of the schematic </p><figure id="fbf17d52-145f-4f3c-a8b0-71187005fad1"><a href="https://www.notion.so/AP3400-MOSFET-062685488b7e4cb799823908841231f2" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">AP3400 MOSFET</div><div class="bookmark-description">One of the things I want to be able to achieve is fault injection. To do so I need to be able to perform power cuts at precise moments. The best way I found in documentation achieve this goal is by using MOSFETs that are electrical components that act like switches.</div></div><div class="bookmark-href">https://www.notion.so/AP3400-MOSFET-062685488b7e4cb799823908841231f2</div></div><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc90f18ae-246c-4297-a221-d6861ecbd533%2F13_(2).png?table=block&amp;id=7ef4ca17-61a3-4531-a02c-7be7264b7e5f&amp;width=2000&amp;userId=&amp;cache=v2" class="bookmark-image"/></a></figure><p id="54ee3764-d197-4688-a930-1a36e6b82915" class="">Now it’s time to connect everything </p><figure id="1967ee8b-7b63-478e-a33c-03fd1ef2a470" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%201.png"><img style="width:1299px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%201.png"/></a></figure><h2 id="b2a76ea2-5aa5-48a5-9ac1-3270c9f6d56e" class="">Glitching code </h2><p id="b35bf068-8ed8-4eec-95f7-2e6587d8950b" class="">This code is copied from Christoffer Claesson tutorial</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5771b724-0d84-4b97-82b1-888660d64309" class="code"><code class="language-Arduino" style="white-space:pre-wrap;word-break:break-all">int incomingByte = 0;
+char b[5];
+
+int powerPin = 2;
+int glitchDelay = 0;
+
+void setup() {
+  Serial.begin(19200);
+  Serial.println(&quot;Arduino is ready&quot;);
+
+  pinMode(powerPin, OUTPUT);
+
+  digitalWrite(powerPin, HIGH);
+  delay(5000);
+
+  Serial.println(&quot;Gliching is ready&quot;);
+}
+
+/*
+The glitch function have a couple things going on. First of all, it sets the powerPin to LOW, in reference to earlier it simply cuts off the Unos Micro controllers ground. Having the D2 Pin to LOW, enter the for loop. 
+
+Now you might as why a for loop, and not the `delay()`function. Simply because even setting a `delay(1)`for a millisecond, is too slow. Therefor i defined a for loop that will do a simple `waste++;`so that it does a couple instructions each loop. After the for loop setting the D2 pin to HIGH again in order supply the micro controller with power again, completing one `glitch()` function call. Now since this is a loop, the code also increases the `glitchDelay` with 10 each loop, in order to extend the length of the glitch automatically
+*/
+void glitch(){
+  int waste = 0;
+
+  digitalWrite(powerPin, LOW);
+  for (int i = 0; i&lt;glitchDelay; i++){ waste++; }                    
+  digitalWrite(powerPin, HIGH);
+
+  glitchDelay +=10;
+  Serial.println();
+  Serial.print(&quot;Glich Delay set to: &quot;);
+  Serial.print(glitchDelay);
+  Serial.println();
+}
+/*
+The for loop is intended to read 200 bytes on serial Rx, in order to if the glitch is successful, read the flag. then create a delay of 1 second for the power to normalize before calling the function glitch(), this is important as if the target chip is not in a normal state the glitch can have some interesting (read corrupting) results.
+*/
+void loop() {
+
+  for (int i = 0; i&lt;200;i++){
+      if (Serial.available() &gt; 0) {
+        // read the incoming byte:
+        incomingByte = Serial.read();
+        Serial.print(char(incomingByte));
+      }
+    }
+
+    delay(1000);
+    glitch();
+}</code></pre><p id="c7d3506c-74ab-4ea4-beff-9cfa7ead2f0e" class="">This code is pushed on the Arduino nano board and now we hope for the best </p><div id="6f17abf2-4459-435a-8556-5a4bb786ee55" class="column-list"><div id="3b9f1b62-2997-4c12-b2dd-58173a3aa8a1" style="width:50%" class="column"><figure id="2a25f46f-144a-4427-8a73-2d1c752c17b4" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%202.png"><img style="width:490px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%202.png"/></a></figure></div><div id="5aa3564f-5292-4c0d-8ed1-e329cb8757c2" style="width:50%" class="column"><figure id="ecc69537-6d6b-48ba-b325-eea5adde5825" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/32.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/32.png"/></a></figure><p id="2e9abc6f-5999-4089-ae96-82d51f17544e" class="">sadly, it looks like the glitch didn’t worked as expected … On Christoffer Claesson tutorial the glitch occurs when the delay reach 70 but nothing happened here ..</p><p id="73658040-5b43-4bf9-a86b-f7cf6a5bf483" class="">I tried several times to restart the boards and try again but nothing seems to be working this way.</p><p id="f57a8bdc-f9a2-4ed6-b709-94a99b1bb1c4" class="">
+</p></div></div><h1 id="323ac667-b4a4-4530-81c9-72d5449c2cc3" class="block-color-purple_background">Time from some trouble shooting </h1><h2 id="fea0ff7a-60c7-4c9d-9de8-f2ed118a992c" class="block-color-pink_background">Idea 1 : power source issue </h2><div id="651d3278-fdf1-4576-b8b8-e095b4b4cbdf" class="column-list"><div id="81d2f6dd-aeee-4e00-9817-a1f617387135" style="width:25%" class="column"><figure id="d81306fe-6b84-4a77-b1ee-b8ce00d8fb0b" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/16.png"><img style="width:336px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/16.png"/></a></figure></div><div id="935657ae-8812-4f67-9ba5-25047370639d" style="width:75%" class="column"><p id="dc83a697-01bb-430c-9f89-2723a68ebf52" class="">One of the idea I came with was to try to power up the arduino uno by pluging it’s Vin pin to the Vcc of the arduino nano</p><p id="68b7c5fd-4c5b-4b42-9d7c-fba92830eb18" class="">but the problem seems to be the same as the board reboot at every glitch </p><figure id="0c489551-e609-4e4f-8abf-6d3e0201de2a" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%203.png"><img style="width:496px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%203.png"/></a></figure></div></div><h2 id="798d2f60-abfc-4194-ba9a-a1e35d9c1dc8" class="block-color-pink_background">Idea 2 : Defective wiring </h2><p id="afc26beb-56f7-4969-ae0c-5cb45bafd7cb" class="">When looking a bit closer at the photo of the cabling in Christoffer Claesson tutorial, I was bothered by the MOSFET they use and decided to make sure my connexion would make sense and would be the equivalent with the one I am using </p><div id="dd7d9e5e-d6e4-41b9-865b-e329b7b42a0a" class="column-list"><div id="d1ecf9ab-a36d-44b4-a060-75e9a8c7b3c6" style="width:29.166666666666664%" class="column"><figure id="45543727-849f-4364-a689-14066fc437c4" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%204.png"><img style="width:360px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%204.png"/></a><figcaption>Pin layout of my AP3400 MOSFET </figcaption></figure></div><div id="e51efc80-ad74-4338-bfcf-3c5b27bf93f1" style="width:29.166666666666664%" class="column"><figure id="94d825e8-c322-47e3-8934-dbd3b88a090c" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%205.png"><img style="width:746px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%205.png"/></a><figcaption>2N7000 Pin layout</figcaption></figure></div><div id="2a5e2e14-5861-4918-8ede-a5424bc56d62" style="width:41.66666666666667%" class="column"><figure id="be8251a4-023c-4809-a5f3-34eb582679c6" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%206.png"><img style="width:1459px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%206.png"/></a></figure></div></div><div id="1b20f11b-8a54-406d-b289-7c568254695a" class="column-list"><div id="4f0160fe-78e4-4976-a486-f4343e447890" style="width:50%" class="column"><p id="b6edf765-e361-4c2e-b54f-e26451890d55" class="">On my setup here is how it was cabled  :</p><p id="67f73bf5-72da-4790-8b73-21c7efcf1742" class="block-color-teal_background">PIN1 (S) &gt; Linked to Arduino nano GND</p><p id="22603352-550a-41a0-9952-c739e71358c3" class="block-color-orange_background">Pin2 (G) &gt; over 680Ω resistor to D2 on Arduino nano</p><p id="336be3a3-2bce-4be6-a8e3-29066fcdac07" class="block-color-blue_background">Pin3 (D) &gt; Linked to Arduino uno ATMEGA328P-PU GND (pin8)</p></div><div id="6402669c-6206-40d1-aa83-386c2853cb28" style="width:50%" class="column"><p id="ef1bc355-8aea-49ad-aa7f-1ecbfa752065" class="">On Christoffer Claesson setup :</p><p id="ad3f012e-9312-4b60-8ef9-4238b8b7dc33" class="block-color-blue_background">Pin1 (S) &gt; Linked to Arduino uno ATMEGA328P-PU GND (pin8)</p><p id="f9c92735-8b01-49c1-ab83-2f2469f11207" class="block-color-orange_background">Pin2 (G) &gt; over 680Ω resistor to D2 on Arduino nano</p><p id="2ec6674e-33ff-4bea-8343-81ddedb77376" class="block-color-teal_background">Pin3 (D) &gt; Linked to Arduino nano GND</p></div></div><p id="e4d9186c-1e18-4b11-ba6e-bceb4823382e" class="">It looks like the layout I made was improper compared to the one from the tutorial I was following. So I decided to rewire my MOSFET accordingly </p><div id="e92351c8-d5b8-45c6-a94f-edbead02f78a" class="column-list"><div id="06bb2309-994a-4c38-b9cf-7f1c97a8c7a0" style="width:37.5%" class="column"><figure id="e95411e6-200e-4586-957f-d0d0f90755ab" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/25-1.png"><img style="width:384px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/25-1.png"/></a></figure></div><div id="42456890-7c40-4c2a-bb71-fd58abc5d758" style="width:62.5%" class="column"><figure id="93808dd6-7267-468a-a190-ebf89732596d" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%207.png"><img style="width:720px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%207.png"/></a></figure><p id="b0cb0259-f8f1-4f53-a350-bc3c391cfcfb" class="">No more board reset, but still no signs of a working glitch …</p></div></div><h2 id="17dee4d0-edef-4fd8-9895-8f5c864e1bfb" class="block-color-pink_background">Idea 3 : Changing the MOSFET</h2><p id="29f0d77d-2375-43d7-9449-b9533e865fb1" class="">The other idea I got was to swap my AP3400 MOSFET with a 2N2222 as I don’t have any 2n7000 in stock but to try to replicate the tutoral board as close as possible </p><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="478bfa14-ffa3-4ea0-8359-e292e550ae1c"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">I afterward noticed there where a difference between 2N2222 and 2N7000</div></figure><div id="5ca19bff-8a7b-4936-8a49-123f57f2a3fb" class="column-list"><div id="03583b22-b884-4a3a-89bd-79fb5b90fb5d" style="width:50%" class="column"><figure id="ee8f8dfc-935c-49ee-9a8b-16097de66b40" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%208.png"><img style="width:668px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%208.png"/></a></figure></div><div id="6cec4eb7-22ee-4d3d-8b50-4c0b35fe38f6" style="width:50%" class="column"><p id="4870e72b-3350-41f2-a879-d0805ef14561" class="">With this setup, we are facing once again the reboot of the board each times we try to glitch it  and this issue is the same whether I use the pin layout I had or the one from Christoffer Claesson tutorial</p><figure id="ed6fca6f-895b-4df2-849c-d739808894aa" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/8.png"><img style="width:288px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/8.png"/></a></figure></div></div><h2 id="2e93fd5c-ff1f-4093-9fb3-af55845479b6" class="block-color-pink_background">Idea 4 : removing the 680Ω resistor </h2><p id="22e77f00-b687-4ee6-82d1-b0fec8183c7d" class="">While I am at trying stupid things, I decided to test the same setup as above but without the 680Ω resistor</p><div id="388cdff0-163b-4dae-b2aa-716f240d706f" class="column-list"><div id="858a77dc-ce77-487c-9c03-df0a2ee248b1" style="width:25%" class="column"><figure id="136d2761-5f0a-484a-81b8-c1475b295990" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/20-1.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/20-1.png"/></a></figure></div><div id="b28dd5b1-0a37-49a2-9723-ecffef6afe61" style="width:75%" class="column"><figure id="3c71d872-4ddb-4507-aa0c-395bb700592e" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%209.png"><img style="width:960px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%209.png"/></a><figcaption>No luck with the 2N2222 setup</figcaption></figure></div></div><div id="2c72f3fa-9f80-434a-9948-aac8248573fa" class="column-list"><div id="1c0d2839-def3-4891-8103-31d5b2efbd6f" style="width:62.5%" class="column"><figure id="2c7db536-987d-4937-8a56-98a4ce9f3541" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2010.png"><img style="width:772px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2010.png"/></a></figure></div><div id="664618bc-738e-4770-b8a3-bc0a7af2dfcb" style="width:37.5%" class="column"><figure id="dfbbd1b8-e34d-4f7f-86cd-6b4469bd84c4" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/6.png"><img style="width:384px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/6.png"/></a></figure></div></div><h1 id="7fcb4c53-2c64-4daf-b09a-8956194765c3" class="block-color-purple_background">Reproduce the glitch under better environment </h1><p id="b3d42ce7-6321-4add-86d6-e5b0ab25bad2" class="">It finally worked … I must admit I don’t really understand why … <br/>I got quite annoyed by the  char in the first glitch so I tried to glitch it several times but ran in the same problem multiple times<br/></p><figure id="7da01835-45e5-4f28-af42-0444a1116893" class="image" style="text-align:left"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2011.png"><img style="width:1008px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2011.png"/></a></figure><p id="35307b69-7e96-4853-8968-743c5dad405f" class="">I noticed there are multiple delays that could make the loop to break as shown in the following screenshot where a delay of 130 is making the loop to break </p><figure id="f236a9dd-a606-49a5-b2dc-f325b96d6748" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2012.png"><img style="width:550px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2012.png"/></a></figure><p id="66ad0889-d735-431c-a3fe-728f01643958" class="">I also faced some weird behaviour where nothing was working anymore … that’s for the next part </p><p id="e8111067-c8ab-420d-90ad-a1518ef3be12" class="">Ok now we know that we can produce the glitch which is super cool. but it also quickly showed some signs of default somewhere.<br/>Knowing that I can make the fault injection with my equipment, I’ll now redo the setup and try again in a cleaner way<br/></p><p id="0f3620fb-7eb8-4952-84c3-91d6967ab187" class="">After a bit of testing, it appear that I can get this result every time if I put a resistor on the Gate of the MOSFET (680Ω or 330Ω) so a resistor in necessary to get the results readable.</p><div id="9e8d11ea-e68d-4479-b50c-0dbb0d269cd6" class="column-list"><div id="4c3705ee-5d4e-432b-8138-c0afd1cfe0a4" style="width:50%" class="column"><figure id="214951ab-f367-4c3c-b8a6-3f77aa2426d2" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2013.png"><img style="width:734px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2013.png"/></a></figure><p id="c504cfe7-22a5-4c3a-839d-b34811f407bc" class="">However, using 680Ω or 330Ω resistors on the gate of the MOSFET makes it unable to injection into the ATMEGA328P-PU chip</p><p id="92b2710e-6f08-4551-b2cd-e4e18a4997ce" class="">I have decided to go through lower value resistor to see if it could help with the injection and keeping the Arduino uno output proper and try to get the flag<br/>After several unsuccessful attempts, I got a proper result using 100Ω resistors <br/></p></div><div id="209e9d85-cc0b-4d65-b45b-3675effc3bc5" style="width:50%" class="column"><figure id="be1273e5-325f-4ab3-bdf4-23bfdbec337f" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/0.png"><img style="width:432px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/0.png"/></a></figure></div></div><div id="b357f8a5-5532-4fd6-b3a0-04874051ff9a" class="column-list"><div id="5cba7f90-5b3a-4065-ab6d-7648d8b7c80d" style="width:25%" class="column"><figure id="9552e955-4cb9-4282-9df6-2873fe25d9f9" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/9%201.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/9%201.png"/></a></figure></div><div id="583d52f0-d0fe-417d-b36a-02781b57d85a" style="width:75%" class="column"><figure id="32857937-0093-4c12-9a3b-43cd0a3c9f56" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2014.png"><img style="width:868px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2014.png"/></a></figure></div></div><p id="727b7be1-cf0a-4998-abf2-8bbbb5947791" class="">I decided to try again a second time and ran into a chip fail and restart but it seems like the Fault injection worked later on</p><div id="2c022c91-9581-4020-a9d1-acc27d989dfb" class="column-list"><div id="cb3e88b9-80ac-4939-a721-3a8ee951d86f" style="width:50%" class="column"><figure id="cddb603e-b43d-44b1-810d-5941ccb09d28" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2015.png"><img style="width:688px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2015.png"/></a></figure></div><div id="a6863248-49c7-40ce-8fcd-eb4cc9caa8da" style="width:50%" class="column"><figure id="15c47477-8c2f-4d04-9960-91e77c8453bf" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2016.png"><img style="width:671px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2016.png"/></a></figure></div></div><p id="69b65838-c2de-4395-b25a-d4e1d6224e0d" class="">I decided to ran it again several times to get a proper idea of the capability to replay the attack every times </p><div id="34dab578-3602-4213-8035-3f42975a1120" class="column-list"><div id="d13bf231-c236-40d4-857d-2234a1f1951d" style="width:43.75%" class="column"><figure id="4ec43cd1-856e-4388-925e-9a3ab2bdf199" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2017.png"><img style="width:602px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2017.png"/></a></figure><figure id="562d5b17-24b1-40c4-9308-da8059211f04" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2018.png"><img style="width:590px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2018.png"/></a></figure><figure id="fffa127f-e380-4385-8235-21adbe1d6c9c" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2019.png"><img style="width:591px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2019.png"/></a></figure><figure id="10d3a687-e29f-4d77-8e13-a0dfa63139ac" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2020.png"><img style="width:579px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2020.png"/></a></figure></div><div id="8d6b2ede-1d77-4d5a-aa55-acf9c347a7dd" style="width:56.25%" class="column"><figure id="6107b7c3-d8e9-40d2-8642-fd2189840136" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2021.png"><img style="width:614px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2021.png"/></a></figure><figure id="8ab78b99-9673-44b5-913c-881daece12af" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2022.png"><img style="width:603px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2022.png"/></a></figure><figure id="a13da8d5-3141-40c9-a401-7843a62da766" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2023.png"><img style="width:624px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2023.png"/></a></figure></div></div><p id="5e03acd1-7821-4459-9c90-76fa05b81c14" class="">After a dozen of successful run in a raw I think that the attack is working properly under these parameters </p><p id="1eed0b6b-fd85-4970-b461-f54e7042bf32" class="">Here is the final layout I used </p><div id="6cf069ef-05c3-4655-91c1-e6e2653beb52" class="column-list"><div id="892ce443-a96d-4c64-ba9d-d443563a0629" style="width:31.25%" class="column"><figure id="bec76c87-802a-4a71-adfc-a3921c4899bb" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/3.png"><img style="width:512px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/3.png"/></a></figure></div><div id="9ebac6d0-66a0-48bb-8315-3e3427fa090e" style="width:68.75%" class="column"><figure id="14a56b06-f2d3-4eed-a3d4-8c467fceb5fb" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2024.png"><img style="width:1103px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2024.png"/></a></figure></div></div><h1 id="e8d79ca5-8004-4ff7-83f0-d7318dbe4bcd" class="block-color-purple_background">Lots of fails and lake of understanding</h1><p id="ce239160-1716-46ca-80fa-7e9f03fd8397" class="">Here is a selection of outputs that have failed, or showed the flag but with missing elements afterward </p><h2 id="11befff4-26bf-4def-918b-2848f819d6c6" class="block-color-pink_background">No flag in the output </h2><div id="8bf43f04-dd23-4a39-bf8e-9fa11267b8b5" class="column-list"><div id="4e42e2f6-d7ca-4444-9333-6eca9e0f421e" style="width:50%" class="column"><figure id="d445a70b-1640-4328-b0a8-4147b38c9b45" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2025.png"><img style="width:660px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2025.png"/></a></figure><figure id="23e64b71-dc52-46e4-950f-d64885156605" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2026.png"><img style="width:730px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2026.png"/></a></figure></div><div id="9c016e31-7340-45ee-aa10-614ede090a01" style="width:50%" class="column"><figure id="6928208a-d9c5-44f2-b2c2-330e62d42733" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2027.png"><img style="width:668px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2027.png"/></a></figure><figure id="361b4e99-3fd9-4dcb-a7a1-298b2ced3996" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2028.png"><img style="width:389px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2028.png"/></a></figure><p id="e66c7896-129c-45f7-a6e2-4b33dac5c62a" class="">
+</p></div></div><h2 id="63903f1b-c220-49f9-bece-a6f7092dcab9" class="block-color-pink_background">Flag in the output</h2><figure id="85821623-0214-4312-8461-6a9ec8ce9ab5" class="image"><a href="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2011.png"><img style="width:843px" src="RHME-2016%20Fiesta%20or%20the%205$%20Fault%20Injection%20d0d233edf36b4d0f991eb44d658806ed/Untitled%2011.png"/></a></figure><p id="55b3aac7-10f6-4d29-a46a-4bea819e5ed1" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

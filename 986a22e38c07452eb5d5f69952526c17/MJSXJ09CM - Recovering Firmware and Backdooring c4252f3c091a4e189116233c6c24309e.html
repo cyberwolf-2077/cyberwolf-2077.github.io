@@ -1,0 +1,1658 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>MJSXJ09CM - Recovering Firmware and Backdooring </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c4252f3c-091a-4e18-9116-233c6c24309e" class="page mono"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1592933517548-f65267a96178?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎥</span></div><h1 class="page-title"><strong><strong>MJSXJ09CM - Recovering Firmware and Backdooring </strong></strong></h1><p class="page-description"></p></header><div class="page-body"><nav id="d617231d-ad48-44e6-84e2-0a99f22deb0f" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ed429275-b2fa-4325-9a74-316586ab9bde">First glance at the device</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4ab8ef1a-3856-4a2b-807a-f3f760a4cb9f">Let’s talk with the board</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cf1e17ae-a129-42fc-bb19-c80df02ea670">Probing layout</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#614439de-add3-4aa7-bc34-fbd44d7127af">Connect with USB over UART</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4f85485b-f306-4c1a-a0a6-db9384970fa3">Time for some debug</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#cfdb8bd3-71db-44c2-bb17-9eb89d93379e">Reset the device with Mi Home application</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#01b23b90-c2dd-4529-8fe5-4d436c83c74a">Reset the device and see what the UART tells us</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#eea553a4-ba16-44ca-82e7-411c920e45e4">Finding the ultimate Bypass to the broken device via UBOOT to get to the firmware anyways</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#44961e2e-df20-464e-b279-f6a372b48791">Obtaining the Firmware through U-Boot</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#763669c7-a238-4726-81e4-4dc3981f67e2">Get the data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c6bae47a-bbd1-4c7e-9142-665fa240b204">Process the data</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4bd6dc35-baeb-4c81-baf0-9b5ec648a165">Examine the Firmware with binwalk</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#90c35752-18e8-4df1-af58-901837f37fba">Time for backdooring the device</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#da5a1407-9763-4726-bee9-ddb9912b9bb7">Extracting the partitions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ac83400b-9380-4b86-bef1-b3cdcc8a0f79">Decompress Squashfs files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7b7d5358-fb98-4264-8d27-8d8875a65dae">Time to build the door</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7f3e6ef4-9f7c-4d6e-ae0b-f46412ad379d">Let’s resquash all of our dirty modifications</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#10df3a38-ca2f-4e76-b95f-11cabe2d2fc5">Final repack</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#61701089-9d34-48c8-b632-beedc198bb3b">Pushing the new firmware to the device</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#02855eaf-7c66-44aa-b2b6-485d770b6d13">Using the SDCard AutoUpdate</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a644b9f9-5573-4e3a-8b9a-54de09e76013">Direct access flash</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#325811d7-8c75-4365-8e13-30b75bb95ebe">Testing the backdoor</a></div></nav><h1 id="ed429275-b2fa-4325-9a74-316586ab9bde" class="block-color-purple_background">First glance at the device</h1><p id="3ad52287-d50f-4169-9da9-943a2f52cf39" class="">I decided to disassemble the device and take a closer look at the hardware.</p><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="826ed38e-4838-475a-8806-8faf1894c9ab"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">The pictures have been taken after the project, therefore the probing lines are visible on the images and most of the non essential elements have been removed to simplify the reverse / test process.</div></figure><div id="ba366e4d-b513-4156-a638-4c85214f857e" class="column-list"><div id="fae20491-32cc-4fa6-8026-836536ccb4e3" style="width:50%" class="column"><figure id="88817a6d-58c9-44c2-b066-c272693108cb" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled.png"><img style="width:819.65625px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled.png"/></a></figure></div><div id="b42a183d-49f9-4097-bf65-7776579af923" style="width:50%" class="column"><figure id="f4d37ff4-0b37-494f-8648-5c742b3ccb23" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%201.png"><img style="width:624px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%201.png"/></a></figure><p id="34f33cf7-7b9d-40ef-884c-601a58e12c55" class="">
+</p></div></div><h1 id="4ab8ef1a-3856-4a2b-807a-f3f760a4cb9f" class="block-color-purple_background">Let’s talk with the board</h1><p id="483c4de6-3422-4ab5-a742-f405bbd65dcb" class="">Taking pictures of the device as been useful in identifying a serial port on the board. Although there is no label around the pins, I identified the UART pins with the help of a multimeter. I wired the board to simplify the probing of the device.</p><h2 id="cf1e17ae-a129-42fc-bb19-c80df02ea670" class="block-color-pink_background">Probing layout</h2><p id="fab434de-0fc2-42d7-bcea-3e81e15a3f25" class="">Here is the list of the pins : </p><p id="50b20dfd-e0ae-4ca0-b79d-3c66abbefba1" class="">- red[RX]<br/>- green[TX]<br/>- black[GND]<br/></p><h2 id="614439de-add3-4aa7-bc34-fbd44d7127af" class="block-color-pink_background">Connect with USB over UART</h2><div id="678b8d1f-a3b8-4c5d-a639-40f62e069986" class="column-list"><div id="a446113a-a3ca-41c4-a5c5-26303ee8b26a" style="width:75%" class="column"><p id="32be63cb-dd78-484c-8a85-3bbb3fd757a8" class="">Now that we have the UART connection to the board, we can try to connect the device to a computer using a </p><figure id="4e791257-1efe-49b0-9d7e-9e1d6516d0f9" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%202.png"><img style="width:1229.4583740234375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%202.png"/></a></figure><p id="6a94274b-5665-4140-b09e-2ef10b743471" class="">I was expecting to end up on a shell output showing me the logs of the boot process and eventually some information regarding the configuration or the OS that was in the device.<br/>However, once we connect to the UART, something unexpected happened. <br/></p><figure id="011510bd-0dd8-4528-862e-f10d42275941" class="image" style="text-align:center"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%203.png"><img style="width:453px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%203.png"/></a></figure><p id="9d109f39-706d-4656-a2da-8bb49e7b3f65" class="">
+</p></div><div id="391db89f-2332-414c-86b9-74412b7e6fef" style="width:25.000000000000007%" class="column"><figure id="1b8c825b-363e-48be-a149-c8761b91d784" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/18.png"><img style="width:336px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/18.png"/></a></figure></div></div><h2 id="4f85485b-f306-4c1a-a0a6-db9384970fa3" class="block-color-pink_background">Time for some debug</h2><h3 id="cfdb8bd3-71db-44c2-bb17-9eb89d93379e" class="block-color-red_background">Reset the device with Mi Home application</h3><div id="dea7b3f9-0d83-4c91-803f-bd23f64af4bf" class="column-list"><div id="b8b902aa-52c5-462e-8591-80a15af21c4c" style="width:18.75%" class="column"><figure id="c241a497-ffee-4f52-b1fa-fcc3640034df" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/16.png"><img style="width:307.375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/16.png"/></a></figure></div><div id="ab367bfe-8e5a-456f-82b2-fe15434a1669" style="width:81.25%" class="column"><p id="167dbfa2-bc29-46e9-ae45-70910a765582" class="">The device came from a lab and had been already tested multiple times, this mean that it might have some configuration fault and so on.<br/>Since I miss most of the device, I don’t know if I can completely performe the installation… But let’s give it a try anyways.<br/></p><p id="d12fc87d-ff92-4455-bd48-1e5a3710eead" class="">I created a WiFi network for this device, opened the Xiaomi “mi home” application and tried to perform on adding the device to my fake den </p><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="658e1968-b460-44a7-99d8-bda2b9664b4c"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">It appears that this device and I guess several other are impacted by the use emotes in the Wi-Fi AP name</div></figure><p id="9e3b3ff5-6f4b-4a50-bd49-76ee3be9a7b2" class=""><em>(yeah, we try broken and unknown IoT stuff but I’ve build a fake den for them, mine wont get infected by all this)</em></p><p id="1d0203be-ae7f-48a3-8900-f7dcb689eb09" class="">
+</p></div></div><p id="9ce6f683-f570-4303-9a01-07ed1c6dcfb2" class="">Well, the camera is on the network, and the reset seems to have kinda worked, the issue now is that the camera should be displaying me some 4 digit pin code to enter on the application to finish the setup. I can’t get this code since I don’t have any components linked to a display or anything.</p><h3 id="01b23b90-c2dd-4529-8fe5-4d436c83c74a" class="block-color-red_background">Reset the device and see what the UART tells us</h3><p id="c9c962eb-9eb2-4b41-b852-264b9eac3d97" class="">The second idea I had was to read the output of the UART when proceeding to a factory reset, maybe we could get some more informations like a default auth code, a wifi network to access the device or anything that could unstuck the situation</p><ul id="2a394d4d-e130-4432-99ab-65e99fecb34a" class="toggle"><li><details open=""><summary>Here is the complete output of the UART link :</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c1fa6dbd-4c23-4a2f-833e-dfa544c419b3" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Stopping netcheck...Start detecting tf_update.img mount sdcard agagin
+mount: mounting /dev/mmcblk0p1 on /mnt/sdcard failed: Device or resource busy
+mount: mounting /dev/mmcblk0 on /mnt/sdcard failed: Device or resource busy
+do nothing
+Stopping crond...init
+do nothing
+No connection! Set fake rssi= -80!!!
+Stopping wifi...killall: wpa_supplicant: no process killed
+Deauthenticate all stations!
+80211&gt; CFG80211_OpsStopAp ==&gt;
+killall: dhcpd: no process killed
+================&gt; DOWN : RTMP_SEM_EVENT_WAIT(STA)
+[_MI_AI_IMPL_FreeTmpBuffer:3614] free tmp buffer.
+unlink cmd rsp urb
+&lt;&lt;&lt;MI_SYS_IMPL_UnBindChnPort[4103] InputPort(12 0 2 0), OutputPort(7 0 0 2) , ret = a0092003
+&lt;=============== DOWN : RTMP_SEM_EVENT_UP(STA)
+Stopping networkUnkown frame_type = b0, req = 0
+: OK
+imi stop hw wat ok
+[MI WRN ]: MI_VPE_IMPL_DisablePort[7810]: the port has not been enabled
+
+[MI WRN ]: MI_VENC_IMPL_StopRecvPic[9232]: CH 0 is not created.
+&lt;&lt;&lt;MI_SYS_IMPL_UnBindChnPort[4103] InputPort(12 0 2 0), OutputPort(7 0 0 2) , ret = a0092003
+
+&lt;&lt;&lt;MI_RGN_IMPL_DetachFromChn[1680] pstChnPort and handle not matched.
+&lt;&lt;&lt;MI_RGN_IMPL_DetachFromChn[1680] pstChnPort and handle not matched.
+
+&lt;&lt;&lt;MI_SYS_IMPL_UnBindChnPort[4103] InputPort(12 0 1 0), OutputPort(7 0 0 2) , ret = a0092003
+[MI WRN ]: MI_VPE_IMPL_DisablePort[7810]: the port has not been enabled
+
+[HALSCL]_HalSclDestoryRealTimeModeOrLastChannel Destroy process fence d9
+
+===== MhalCameraClose begin, ch = 0, VifMask: 0x3 =====
+===== MhalCameraClose, 10773 end. =====
+[MI WRN ]: _MI_VPE_ModuleonGetInterBindOutputPortPassId[4744]: MODEID 7, not for vpe 7
+[MI WRN ]: _MI_VPE_ModuleonGetInterBindOutputPortPassId[4745]: chn 0, not create
+
+[MI WRN ]: _MI_SYS_IMPL_GetOutputPortInfo[2827]: not found [eModId 4,u32DevId 0, chnID=0, outputPortId=0]
+client [611] disconnected, module:ao
+client [611] disconnected, module:ai
+client [611] disconnected, module:shadow
+MI_SHADOW_IMPL_DeInit 1829
+client [611] disconnected, module:divp
+[DIP] Virtual IRQ: 36
+[CMDQ]Release CMDQ(2) service
+client [611] disconnected, module:venc
+[CMDQ]Release CMDQ(3) service
+client [611] disconnected, module:rgn
+cat: read error:watchdog: watchdog0: watchdog did not stop!
+ Invalid argument
+perpctl fatal: perpd not running on control socket /etc/perp/.control/perpd.sock: connection refused (ECONNREFUSED)
+Region Buffer Clear ready!!!!
+client [611] disconnected, module:vpe
+[CMDQ]Release CMDQ(0) service
+CmdqProcDeInit 722
+ReleaseAllBuffer count =0
+[CMDQ]Release CMDQ(1) service
+client [611] disconnected, module:vif
+client [611] disconnected, module:sensor
+client [611] disconnected, module:sys
+rmmod: can&#x27;t unload module &#x27;drv_ms_cus_sc3235_MIPI&#x27;: No such file or directory
+srcfg driver 1.0 exit success
+rmmod: can&#x27;t unload module &#x27;exfat&#x27;: No such file or directory
+usbcore: deregistering interface driver usb-storage
+Sstar-ehci-1 soc:Sstar-ehci-1: remove, state 1
+usb usb1: USB disconnect, device number 1
+usb 1-1: USB disconnect, device number 2
+STA : rtusb_disconnect: unregister usbnet usb-mstar-1
+================&gt; DOWN : RTMP_SEM_EVENT_WAIT(STA)
+&lt;=============== DOWN : RTMP_SEM_EVENT_UP(STA)
+RtmpOSNetDevDetach(): RtmpOSNetDeviceDetach(), dev-&gt;name=wlan0!
+vfree net device ops &lt;- c3754000
+80211&gt; unregister/free wireless device
+ STA : RTUSB disconnect successfully
+root hub reinitial [usbdis]
+Sstar-ehci-1 soc:Sstar-ehci-1: USB bus 1 deregistered
+---&gt; @@@@@@ STA : rtusb exit
+usbcore: deregistering interface driver rt2870
+&lt;--- STA : rtusb exit
+remove prealloc ok
+usbcore: deregistering device driver usb
+usbcore: deregistering interface driver usbfs
+usbcore: deregistering interface driver hub
+mmc0: card 0001 removed
+[Padmux]reset PAD54(reg 0x101e00:8; mask0xc) t0 GPIO (org: SD_MODE)
+mstar notify driver remove successfully
+RPC: Unregistered named UNIX socket transport module.
+RPC: Unregistered udp transport module.
+RPC: Unregistered tcp transport module.
+RPC: Unregistered tcp NFSv4.1 backchannel transport module.
+Stopping logging: OK
+S00init stop do nothing
+umount: /dev/mmcblk0p1 busy - remounted read-only
+umount: devtmpfs busy - remounted read-only
+The system is going down NOW!
+Sent SIGTERM to all processes
+Sent SIGKILL to all processes
+Requesting system reboot
+reboot: Restarting system
+1
+IPL g05c44be
+D-05
+SPI 54M
+64MB
+BIST0_0001-OK
+[SPI_NOR]
+MXP found at 0x00020000
+offset:00010000
+Checksum OK
+
+IPL_CUST g05c44be
+runUBOOT()
+[SPI_NOR]
+MXP found at 0x00020000
+offset:00030000
+ -Decompress BDMA XZ
+ -Decompress BDMA XZ
+XZ decomp_size=0x0004a8e8
+ pvLoadAddr:23d00000
+ pvRunAddr:23e00000
+ -Verify CRC32 passed!
+  decomp_size=0x00000000
+Disable MMU and D-cache before jump to UBOOT▒
+
+U-Boot 2015.01 (May 17 2021 - 15:28:25), Build: jenkins-ipc029a02_new_key-283
+
+Version: I6g2b9a2f0
+I2C:   ready
+DRAM:
+gpio debug MHal_GPIO_Pad_Set:603
+gpio[14] is 0
+gpio debug MHal_GPIO_Pad_Set:603
+gpio[14] is 1
+WARNING: Caches not enabled
+MMC:   MStar SD/MMC: 0
+nor_flash_mxp allocated success!!
+Flash is detected (0x090F, 0x1C, 0x70, 0x18)
+SF: Detected nor0 with total size 16 MiB
+MXP found at mxp_offset[3]=0x00020000, size=0x1000
+env_offset=0x4F000 env_size=0x1000
+Flash is detected (0x090F, 0x1C, 0x70, 0x18)
+SF: Detected nor0 with total size 16 MiB
+In:    serial
+Out:   serial
+Err:   serial
+Net:   Net Initialization Skipped
+No ethernet found.
+read file start
+reading tf_update.img
+** Unable to read file tf_update.img **
+read len = -1, actlen = 0
+read file tf_update.img error.
+Flash is detected (0x090F, 0x1C, 0x70, 0x18)
+SF: Detected nor0 with total size 16 MiB
+SF: 2097152 bytes @ 0x50000 Read: OK
+##  Booting kernel from Legacy Image at 22000000 ...
+   Image Name:   MVX4##I6B0g2b9a2f0KL_LX409##[BR:
+   Image Type:   ARM Linux Kernel Image (lzma compressed)
+   Data Size:    1510792 Bytes = 1.4 MiB
+   Load Address: 20008000
+   Entry Point:  20008000
+   Verifying Checksum ... OK
+   Uncompressing Kernel Image ...
+[XZ] !!!reserved 0x21000000 length=0x 1000000 for xz!!
+   XZ: uncompressed size=0x312000, ret=7
+OK
+atags:0x20000000
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Linux version 4.9.84 (ubuntu@eac7de836e2a) (gcc version 4.9.4 (Buildroot 2017.08-gc7bbae9-dirty) ) #1 PREEMPT Mon May 17 15:29:55 CST 2021
+CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=50c53c7d
+CPU: div instructions available: patching division code
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+early_atags_to_fdt() success
+OF: fdt:Machine model: INFINITY6B0 SSC009A-S01A QFN88
+[ERR] LX_MEM, LX_MEM2, LX_MEM3 not 1MB aligned
+LXmem is 0x3fe0000 PHYS_OFFSET is 0x20000000
+Add mem start 0x20000000 size 0x3fe0000!!!!
+
+LX_MEM  = 0x20000000, 0x3fe0000
+LX_MEM2 = 0x0, 0x0
+LX_MEM3 = 0x0, 0x0
+EMAC_LEN= 0x0
+DRAM_LEN= 0x0
+deal_with_reserve_mma_heap memblock_reserve success mma_config[0].reserved_start=
+0x22be0000
+
+cma: Reserved 2 MiB at 0x22800000
+Memory policy: Data cache writeback
+CPU: All CPU(s) started in SVC mode.
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 11144
+Kernel command line: console=ttyS0,115200 root=/dev/mtdblock2 rootfstype=squashfs ro init=/linuxrc LX_MEM=0x3fe0000 mma_heap=mma_heap_name0,miu=0,sz=0x1400000 mma_memblock_remove=1
+PID hash table entries: 256 (order: -2, 1024 bytes)
+Dentry cache hash table entries: 8192 (order: 3, 32768 bytes)
+Inode-cache hash table entries: 4096 (order: 2, 16384 bytes)
+Memory: 38984K/44928K available (1779K kernel code, 200K rwdata, 948K rodata, 96K init, 133K bss, 3896K reserved, 2048K cma-reserved)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xc3000000 - 0xff800000   ( 968 MB)
+    lowmem  : 0xc0000000 - 0xc2be0000   (  43 MB)
+    modules : 0xbf800000 - 0xc0000000   (   8 MB)
+      .text : 0xc0008000 - 0xc01c5158   (1781 kB)
+      .init : 0xc02ce000 - 0xc02e6000   (  96 kB)
+      .data : 0xc02e6000 - 0xc0318058   ( 201 kB)
+       .bss : 0xc031a000 - 0xc033b4b4   ( 134 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+Preemptible hierarchical RCU implementation.
+        Build-time adjustment of leaf fanout to 32.
+NR_IRQS:16 nr_irqs:16 16
+ms_init_main_intc: np-&gt;name=ms_main_intc, parent=gic
+ms_init_pm_intc: np-&gt;name=ms_pm_intc, parent=ms_main_intc
+ss_init_gpi_intc: np-&gt;name=ms_gpi_intc, parent=ms_main_intc
+Find CLK_cpupll_clk, hook ms_cpuclk_ops
+arm_arch_timer: Architected cp15 timer(s) running at 6.00MHz (virt).
+clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x1623fa770, max_idle_ns: 440795202238 ns
+sched_clock: 56 bits at 6MHz, resolution 166ns, wraps every 4398046511055ns
+Switching to timer-based delay loop, resolution 166ns
+console [ttyS0] enabled
+Calibrating delay loop (skipped), value calculated using timer frequency.. 12.00 BogoMIPS (lpj=60000)
+pid_max: default: 4096 minimum: 301
+Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+CPU: Testing write buffer coherency: ok
+Setting up static identity map for 0x200081c0 - 0x200081f0
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+futex hash table entries: 16 (order: -4, 448 bytes)
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+
+
+Version : MVX4##I6B0g2b9a2f0KL_LX409##[BR:HEAD]#XVM
+
+GPIO: probe end[ss_gpi_intc_domain_alloc] hw:42 -&gt; v:49
+[MS_PM_INTC] hw:20 -&gt; v:52
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 8 bytes.
+clocksource: Switched to clocksource arch_sys_counter
+NET: Registered protocol family 2
+TCP established hash table entries: 1024 (order: 0, 4096 bytes)
+TCP bind hash table entries: 1024 (order: 2, 20480 bytes)
+TCP: Hash tables configured (established 1024 bind 1024)
+UDP hash table entries: 128 (order: 0, 6144 bytes)
+UDP-Lite hash table entries: 128 (order: 0, 6144 bytes)
+NET: Registered protocol family 1
+hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
+workingset: timestamp_bits=30 max_order=14 bucket_order=0
+squashfs: version 4.0 (2009/01/31) Phillip Lougher
+jffs2: version 2.2. © 2001-2006 Red Hat, Inc.
+io scheduler noop registered
+io scheduler deadline registered (default)
+libphy: Fixed MDIO Bus: probed
+i2c /dev entries driver
+1f221000.uart0: ttyS0 at MMIO 0x0 (irq = 37, base_baud = 10800000) is a unknown
+1f221200.uart1: ttyS1 at MMIO 0x0 (irq = 38, base_baud = 10800000) is a unknown
+1f220400.uart2: ttyS2 at MMIO 0x0 (irq = 40, base_baud = 10800000) is a unknown
+[gpioi2c] sda-gpio=8, scl-gpio=9
+MSYS: DMEM request: [BDMA_FSP_WBUFF]:0x00010040
+MSYS: DMEM request: [BDMA_FSP_WBUFF]:0x00010040 success, CPU phy:@0x22850000, virt:@0xC2850000
+[Ser flash] phys=0x22850000, virt=0xc2850000, bus=0x02850000 len:0x10040
+[FSP] Unknown flash type (0xFF, 0xFF, 0xFF) and use default flash type 0x0000
+[FSP] 1-1-1 FAST_READ MODE
+mtd .name = NOR_FLASH, .size = 0x01000000 (16MiB)
+ .erasesize = 0x00010000 .numeraseregions = 0
+MXP_PARTS!!
+MXP found at mxp_offset[3]=0x00020000, size=0x1000
+Creating 6 MTD partitions on &quot;NOR_FLASH&quot;:
+0x000000000000-0x000000050000 : &quot;BOOT&quot;
+0x000000050000-0x000000250000 : &quot;KERNEL&quot;
+0x000000250000-0x0000009b0000 : &quot;ROOTFS&quot;
+0x0000009b0000-0x000000fe0000 : &quot;DATA&quot;
+0x000000fe0000-0x000000ff0000 : &quot;CONFIG&quot;
+0x000000ff0000-0x000001000000 : &quot;FACTORY&quot;
+MSYS: DMEM request: [AESDMA_ENG]:0x00001000
+MSYS: DMEM request: [AESDMA_ENG]:0x00001000 success, CPU phy:@0x22844000, virt:@0xC2844000
+MSYS: DMEM request: [AESDMA_ENG1]:0x00001000
+MSYS: DMEM request: [AESDMA_ENG1]:0x00001000 success, CPU phy:@0x22845000, virt:@0xC2845000
+[ms_cpufreq_init] Current clk=799999872
+[NOTICE]pwm-isr(53) success. If not i6e or i6b0, pls confirm it on .dtsi
+NET: Registered protocol family 17
+ThumbEE CPU extension supported.
+hctosys: unable to open rtc device (rtc0)
+OF: fdt:not creating &#x27;/sys/firmware/fdt&#x27;: CRC check failed
+VFS: Mounted root (squashfs filesystem) readonly on device 31:2.
+devtmpfs: mounted
+This architecture does not have kernel memory protection.
+random: linuxrc: uninitialized urandom read (4 bytes read)
++ source /etc/hooks/pre-init
++ exec chroot . /bin/busybox linuxrc
+random: chroot: uninitialized urandom read (4 bytes read)
+random: busybox: uninitialized urandom read (4 bytes read)
+random: mount: uninitialized urandom read (4 bytes read)
+random: mkdir: uninitialized urandom read (4 bytes read)
+random: mkdir: uninitialized urandom read (4 bytes read)
+random: mount: uninitialized urandom read (4 bytes read)
+random: hostname: uninitialized urandom read (4 bytes read)
+random: rcS: uninitialized urandom read (4 bytes read)
+random: mkdir: uninitialized urandom read (4 bytes read)
+[MS_PM_INTC] hw:75 -&gt; v:61
+[ss_gpi_intc_domain_alloc] hw:67 -&gt; v:62
+[ss_gpi_intc_domain_alloc] hw:68 -&gt; v:63
+sh: write error: Device or resource busy
+/etc/init.d/S00init: line 59: can&#x27;t create /sys/class/gpio/gpio81/direction: Permission denied
+net.ipv4.ip_local_reserved_ports = 54322,54321,54320
+Starting logging: OK
+60:7E:A4:AD:14:21
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+&gt;&gt; [sdmmc] ms_sdmmc_probe
+[Padmux]reset PAD60(reg 0xe00:28; mask0x4000) t0 GPIO (org: PM_SD_CDZ_MODE)
+[Padmux]reset PAD54(reg 0x101e00:8; mask0xc) t0 GPIO (org: SD_MODE)
+&gt;&gt; [sdmmc_0] Probe Platform Devices
+mmc0: new high speed SD card at address 0001
+mmcblk0: mmc0:0001 00000 1.89 GiB
+ mmcblk0: p1
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+ehci_hcd: USB 2.0 &#x27;Enhanced&#x27; Host Controller (EHCI) Driver
+Mstar_ehc_init version:20180309
+Sstar-ehci-1 H.W init
+Get power-enable-pad from DTS GPIO(65535)
+Failed to request USB0-power-enable GPIO(255)
+Titania3_series_start_ehc start
+[USB] config miu select [70] [e8] [ef] [ef]
+[USB] enable miu lower bound address subtraction
+[USB] init squelch level 0x2
+[USB] no platform_data, device tree coming
+[USB][EHC] dma coherent_mask 0xffffffffffffffff mask 0xffffffffffffffff
+BC disable
+[USB] soc:Sstar-ehci-1 irq --&gt; 43
+Sstar-ehci-1 soc:Sstar-ehci-1: EHCI Host Controller
+Sstar-ehci-1 soc:Sstar-ehci-1: new USB bus registered, assigned bus number 1
+Sstar-ehci-1 soc:Sstar-ehci-1: irq 43, io mem 0xfd284800
+usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+usb usb1: Product: EHCI Host Controller
+usb usb1: Manufacturer: Linux 4.9.84 ehci_hcd
+usb usb1: SerialNumber: mstar
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+SCSI subsystem initialized
+usbcore: registered new interface driver usb-storage
+mstar notify driver install successfully
+==20180309==&gt; hub_port_init 1 #0
+Plug in USB Port1
+usb 1-1: new high-speed USB device number 2 using Sstar-ehci-1
+mhal: loading out-of-tree module taints kernel.
+mhal: module license &#x27;PROPRIETARY&#x27; taints kernel.
+Disabling lock debugging due to kernel taint
+mhal driver init
+[CSI] probe
+Request CSI IRQ[0]#32
+CSI interrupt registered
+vif driver probe
+Create device file. vif_ints,0
+venc_probe:873 venc driver is probed.
+jpe driver probed
+[DRV_SCL_MODULE] [_DrvSclVpeModuleInit @ 142]
+[Isp_Driver_Init]
+[s32CurClkIdx] = 5
+[ISP] Request IRQ: 31, 57
+[IspMid_Driver_Init]
+ispsclttl:0
+DivpProcInit 526
+module [sys] init
+MI_SYSCFG_SetupMmapLoader default_config_path:/config/config_tool, argv1:/config/load_mmap,argv2:/config/mmap.ini
+Function = init_glob_miu_kranges, Line = 692, Insert KProtect for LX @ MIU: 0
+Function = init_glob_miu_kranges, Line = 701, [INIT] for LX0 kprotect: from 0x20000000 to 0x23FE0000, using block 0
+config...... cmdpath:/config/config_tool, argv0:load_config
+config...... cmdpath:/config/config_tool, argv1:/misc/config.ini
+config...... cmdpath:/config/config_tool, argv2:/misc/PQConfig.ini
+config...... cmdpath:/config/config_tool, argv3:(null)
+function:parese_Cmdline,pCmd_Section:0x3fe0000
+mm
+a_
+he
+ap
+_n
+am
+e0
+    miu=0,sz=1400000  reserved_start=22be0000
+r_front-&gt;miuBlockIndex:0,r_front-&gt;start_cpu_bus_pa:0x20000000,r_front-&gt;start_cpu_bus_pa+r_front-&gt;length:0x22be0000
+mi_sys_mma_allocator_create success, heap_base_addr=22be0000 length=1400000
+Kernel CONFIG_HZ = 100
+Sigmastar Module mi_sys version: project_commit. sdk_commit. build_time.20201103150041
+module [ai] init
+module [ao] init
+module [rgn] init
+module [divp] init
+module [vpe] init
+module [sensor] init
+module [vif] init
+module [venc] init Nov  4 2020 11:32:29
+module [shadow] init
+usb 1-1: New USB device found, idVendor=148f, idProduct=7601
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+srcfg driver 1.0 register success!
+
+ Sensor configuration, PdnPad=1, RstPad=1, MCLK=0, PWD_PIN=1, RST_PIN=1
+
+sensor chip id is : 0x1acc
+sc3335_MIPI
+Connect SC3335_init_driver linear to sensor pad 0
+==&gt;[0]:PreBuff:0xc21c8000, DmaAddr:0x221c8000
+==&gt;[1]:PreBuff:0xc1dd8000, DmaAddr:0x21dd8000
+==&gt;[2]:PreBuff:0xc1860000, DmaAddr:0x21860000
+==&gt;[3]:PreBuff:0xc1864000, DmaAddr:0x21864000
+==&gt;[4]:PreBuff:0xc1dd0000, DmaAddr:0x21dd0000
+==&gt;[5]:PreBuff:0xc1dd4000, DmaAddr:0x21dd4000
+==&gt;[6]:PreBuff:0xc1850000, DmaAddr:0x21850000
+==&gt;[7]:PreBuff:0xc1854000, DmaAddr:0x21854000
+==&gt;[8]:PreBuff:0xc1858000, DmaAddr:0x21858000
+==&gt;[9]:PreBuff:0xc185c000, DmaAddr:0x2185c000
+==&gt;[10]:PreBuff:0xc1de0000, DmaAddr:0x21de0000
+==&gt;[11]:PreBuff:0xc1de4000, DmaAddr:0x21de4000
+==&gt;[12]:PreBuff:0xc1de8000, DmaAddr:0x21de8000
+==&gt;[13]:PreBuff:0xc1dec000, DmaAddr:0x21dec000
+==&gt;[14]:PreBuff:0xc1df0000, DmaAddr:0x21df0000
+==&gt;[15]:PreBuff:0xc1df4000, DmaAddr:0x21df4000
+==&gt;[16]:PreBuff:0xc1df8000, DmaAddr:0x21df8000
+==&gt;[17]:PreBuff:0xc1dfc000, DmaAddr:0x21dfc000
+==&gt;[18]:PreBuff:0xc1480000, DmaAddr:0x21480000
+==&gt;[19]:PreBuff:0xc1484000, DmaAddr:0x21484000
+==&gt;[20]:PreBuff:0xc1488000, DmaAddr:0x21488000
+==&gt;[21]:PreBuff:0xc148c000, DmaAddr:0x2148c000
+==&gt;[22]:PreBuff:0xc1490000, DmaAddr:0x21490000
+==&gt;[23]:PreBuff:0xc1494000, DmaAddr:0x21494000
+==&gt;[24]:PreBuff:0xc1498000, DmaAddr:0x21498000
+==&gt;[25]:PreBuff:0xc149c000, DmaAddr:0x2149c000
+==&gt;[26]:PreBuff:0xc14a0000, DmaAddr:0x214a0000
+==&gt;[27]:PreBuff:0xc14a4000, DmaAddr:0x214a4000
+==&gt;[28]:PreBuff:0xc14a8000, DmaAddr:0x214a8000
+==&gt;[29]:PreBuff:0xc14ac000, DmaAddr:0x214ac000
+==&gt;[30]:PreBuff:0xc14b0000, DmaAddr:0x214b0000
+==&gt;[31]:PreBuff:0xc14b4000, DmaAddr:0x214b4000
+==&gt;[32]:PreBuff:0xc14b8000, DmaAddr:0x214b8000
+==&gt;[33]:PreBuff:0xc14bc000, DmaAddr:0x214bc000
+==&gt;[34]:PreBuff:0xc14c0000, DmaAddr:0x214c0000
+==&gt;[35]:PreBuff:0xc14c4000, DmaAddr:0x214c4000
+==&gt;[36]:PreBuff:0xc14c8000, DmaAddr:0x214c8000
+==&gt;[37]:PreBuff:0xc14cc000, DmaAddr:0x214cc000
+==&gt;[38]:PreBuff:0xc14d0000, DmaAddr:0x214d0000
+==&gt;[39]:PreBuff:0xc14d4000, DmaAddr:0x214d4000
+==&gt;[40]:PreBuff:0xc14d8000, DmaAddr:0x214d8000
+==&gt;[41]:PreBuff:0xc14dc000, DmaAddr:0x214dc000
+==&gt;[42]:PreBuff:0xc14e0000, DmaAddr:0x214e0000
+==&gt;[43]:PreBuff:0xc14e4000, DmaAddr:0x214e4000
+==&gt;[44]:PreBuff:0xc14e8000, DmaAddr:0x214e8000
+==&gt;[45]:PreBuff:0xc14ec000, DmaAddr:0x214ec000
+==&gt;[46]:PreBuff:0xc14f0000, DmaAddr:0x214f0000
+==&gt;[47]:PreBuff:0xc14f4000, DmaAddr:0x214f4000
+==&gt;[48]:PreBuff:0xc14f8000, DmaAddr:0x214f8000
+==&gt;[49]:PreBuff:0xc14fc000, DmaAddr:0x214fc000
+==&gt;[50]:PreBuff:0xc1500000, DmaAddr:0x21500000
+==&gt;[51]:PreBuff:0xc1504000, DmaAddr:0x21504000
+==&gt;[52]:PreBuff:0xc1508000, DmaAddr:0x21508000
+==&gt;[53]:PreBuff:0xc150c000, DmaAddr:0x2150c000
+==&gt;[54]:PreBuff:0xc1510000, DmaAddr:0x21510000
+==&gt;[55]:PreBuff:0xc1514000, DmaAddr:0x21514000
+==&gt;[56]:PreBuff:0xc1518000, DmaAddr:0x21518000
+==&gt;[57]:PreBuff:0xc151c000, DmaAddr:0x2151c000
+==&gt;[58]:PreBuff:0xc1520000, DmaAddr:0x21520000
+==&gt;[59]:PreBuff:0xc1524000, DmaAddr:0x21524000
+==&gt;[60]:PreBuff:0xc1528000, DmaAddr:0x21528000
+==&gt;[61]:PreBuff:0xc152c000, DmaAddr:0x2152c000
+==&gt;[62]:PreBuff:0xc1530000, DmaAddr:0x21530000
+==&gt;[63]:PreBuff:0xc1534000, DmaAddr:0x21534000
+==&gt;[64]:PreBuff:0xc1538000, DmaAddr:0x21538000
+==&gt;[65]:PreBuff:0xc153c000, DmaAddr:0x2153c000
+==&gt;[66]:PreBuff:0xc1540000, DmaAddr:0x21540000
+==&gt;[67]:PreBuff:0xc1544000, DmaAddr:0x21544000
+==&gt;[68]:PreBuff:0xc1548000, DmaAddr:0x21548000
+==&gt;[69]:PreBuff:0xc154c000, DmaAddr:0x2154c000
+==&gt;[70]:PreBuff:0xc1c2b000, DmaAddr:0x21c2b000
+==&gt;[71]:PreBuff:0xc1c2c000, DmaAddr:0x21c2c000
+==&gt;[72]:PreBuff:0xc1550000, DmaAddr:0x21550000
+==&gt;[73]:PreBuff:0xc1558000, DmaAddr:0x21558000
+==&gt;[74]:PreBuff:0xc1560000, DmaAddr:0x21560000
+==&gt;[75]:PreBuff:0xc1568000, DmaAddr:0x21568000
+==&gt;[76]:PreBuff:0xc1570000, DmaAddr:0x21570000
+==&gt;[77]:PreBuff:0xc1578000, DmaAddr:0x21578000
+==&gt;[78]:PreBuff:0xc1580000, DmaAddr:0x21580000
+==&gt;[79]:PreBuff:0xc1588000, DmaAddr:0x21588000
+==&gt;[80]:PreBuff:0xc1da4400, DmaAddr:0x21da4400
+install prealloc ok
+rtusb init rt2870 ---&gt;
+
+
+=== pAd = c3670000, size = 929784 ===
+
+allocate tx ringidx 0
+RTMPQMemAddr[0]
+allocate tx ringidx 1
+RTMPQMemAddr[1]
+allocate tx ringidx 2
+RTMPQMemAddr[2]
+allocate tx ringidx 3
+RTMPQMemAddr[3]
+allocate tx ringidx 4
+RTMPQMemAddr[4]
+allocate tx ringidx 5
+RTMPQMemAddr[5]
+allocate tx ringidx 6
+RTMPQMemAddr[6]
+allocate tx ringidx 7
+RTMPQMemAddr[7]
+allocate tx ringidx 8
+RTMPQMemAddr[8]
+allocate tx ringidx 9
+RTMPQMemAddr[9]
+allocate tx ringidx 10
+RTMPQMemAddr[10]
+allocate tx ringidx 11
+RTMPQMemAddr[11]
+allocate tx ringidx 12
+RTMPQMemAddr[12]
+allocate tx ringidx 13
+RTMPQMemAddr[13]
+allocate tx ringidx 0
+RTMPQMemAddr[14]
+allocate tx ringidx 1
+RTMPQMemAddr[15]
+allocate tx ringidx 2
+RTMPQMemAddr[16]
+allocate tx ringidx 3
+RTMPQMemAddr[17]
+allocate tx ringidx 4
+RTMPQMemAddr[18]
+allocate tx ringidx 5
+RTMPQMemAddr[19]
+allocate tx ringidx 6
+RTMPQMemAddr[20]
+allocate tx ringidx 7
+RTMPQMemAddr[21]
+allocate tx ringidx 8
+RTMPQMemAddr[22]
+allocate tx ringidx 9
+RTMPQMemAddr[23]
+allocate tx ringidx 10
+RTMPQMemAddr[24]
+allocate tx ringidx 11
+RTMPQMemAddr[25]
+allocate tx ringidx 12
+RTMPQMemAddr[26]
+allocate tx ringidx 13
+RTMPQMemAddr[27]
+allocate tx ringidx 0
+RTMPQMemAddr[28]
+allocate tx ringidx 1
+RTMPQMemAddr[29]
+allocate tx ringidx 2
+RTMPQMemAddr[30]
+allocate tx ringidx 3
+RTMPQMemAddr[31]
+allocate tx ringidx 4
+RTMPQMemAddr[32]
+allocate tx ringidx 5
+RTMPQMemAddr[33]
+allocate tx ringidx 6
+RTMPQMemAddr[34]
+allocate tx ringidx 7
+RTMPQMemAddr[35]
+allocate tx ringidx 8
+RTMPQMemAddr[36]
+allocate tx ringidx 9
+RTMPQMemAddr[37]
+allocate tx ringidx 10
+RTMPQMemAddr[38]
+allocate tx ringidx 11
+RTMPQMemAddr[39]
+allocate tx ringidx 12
+RTMPQMemAddr[40]
+allocate tx ringidx 13
+RTMPQMemAddr[41]
+allocate tx ringidx 0
+RTMPQMemAddr[42]
+allocate tx ringidx 1
+RTMPQMemAddr[43]
+allocate tx ringidx 2
+RTMPQMemAddr[44]
+allocate tx ringidx 3
+RTMPQMemAddr[45]
+allocate tx ringidx 4
+RTMPQMemAddr[46]
+allocate tx ringidx 5
+RTMPQMemAddr[47]
+allocate tx ringidx 6
+RTMPQMemAddr[48]
+allocate tx ringidx 7
+RTMPQMemAddr[49]
+allocate tx ringidx 8
+RTMPQMemAddr[50]
+allocate tx ringidx 9
+RTMPQMemAddr[51]
+allocate tx ringidx 10
+RTMPQMemAddr[52]
+allocate tx ringidx 11
+RTMPQMemAddr[53]
+allocate tx ringidx 12
+RTMPQMemAddr[54]
+allocate tx ringidx 13
+RTMPQMemAddr[55]
+RTMPQMemAddr[70]
+RTMPQMemAddr[71]
+RTMPQMemAddr[72]
+RTMPQMemAddr[73]
+RTMPQMemAddr[74]
+RTMPQMemAddr[75]
+RTMPQMemAddr[76]
+RTMPQMemAddr[77]
+RTMPQMemAddr[78]
+RTMPQMemAddr[79]
+RTMPQMemAddr[80]
+&lt;-- RTMPAllocTxRxRingMemory, Status=0
+&lt;-- RTMPAllocAdapterBlock, Status=0
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x8
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x4
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x5
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x6
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x7
+RTMP_COM_IoctlHandle():pAd-&gt;BulkOutEpAddr=0x9
+STA Driver version-JEDI.MP1.mt7601u.v1.12.2.3
+==&gt;WaitForAsicReady MAC_CSR0=0x76010500
+==&gt;WaitForAsicReady MAC_CSR0=0x76010500
+NVM is EFUSE
+Endpoint(8) is for In-band Command
+Endpoint(4) is for WMM0 AC0
+Endpoint(5) is for WMM0 AC1
+Endpoint(6) is for WMM0 AC2
+Endpoint(7) is for WMM0 AC3
+Endpoint(9) is for WMM1 AC0
+Endpoint(84) is for Data-In
+Endpoint(85) is for Command Rsp
+80211&gt; RFICType = 3
+NumOfChan ===&gt; 58
+80211&gt; Number of channel = 0x44
+80211&gt; Number of rate = 12
+80211&gt; CurTxPower = 0 dBm
+80211&gt; TxStream = 0
+crda&gt; requlation requestion by core: 00
+80211&gt; CFG80211_Register
+usbcore: registered new interface driver rt2870
+modprobe: module exfat not found in modules.dep
+Starting mdev...
+Try copy log from TF card
+FAT-fs (mmcblk0p1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+Starting watchdog...
+argc=3
+imi watchdog&gt;&gt;&gt;reset=10,timeout=40
+read-only file system detected...done
+Starting network: OK
+Starting wifi ......
+random: fast init done
+FAT-fs (mmcblk0p1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+wlan0
+Entering service runlevel init
+miio_algo: set for deactivation
+rescan triggered for deactivation set on 1 service
+++++
+miio_cloudv2: set for deactivation
+rescan triggered for deactivation set on 1 service
+miio_miss: set for deactivation
+rescan triggered for deactivation set on 1 service
+miio_nas: set for deactivation
+rescan triggered for deactivation set on 1 service
+miio_ota: set for deactivation
+rescan triggered for deactivation set on 1 service
+miio_record: set for deactivation
+rescan triggered for deactivation set on 1 service
+fetch_av: set for activation
+rescan triggered for activation set on 1 service
+MAC is  1421
+Enabling wifi AP mode
+miio_agent: set for activation
+rescan triggered for activation set on 1 service
+miio_client: set for activation
+rescan triggered for activation set on 1 service
+killall: udhcpc: no process killed
+miio_client_helper: set for activation
+rescan triggered for activation set on 1 service
+killall: wpa_supplicant: no process killed
+miio_devicekit: set for activation
+rescan triggered for activation set on 1 service
+miio_pincode: set for activation
+rescan triggered for activation set on 1 service
+killall: hostapd: no process killed
+killall: udhcpd: no process killed
+================&gt; UP : RTMP_SEM_EVENT_WAIT(STA)
+miio_sdcard: set for activation
+rescan triggered for activation set on 1 service
+mortox: set for activation
+rescan triggered for activation set on 1 service
+1. LDO_CTR0(6c) = a64799, PMU_OCLEVEL c
+2. LDO_CTR0(6c) = a6478d, PMU_OCLEVEL 6
+==&gt;WaitForAsicReady MAC_CSR0=0x76010500
+Starting crond...
+FW Version:0.1.00 Build:7640
+Build Time:2
+01
+51
+11
+82
+11
+8_
+__
+_
+ILM Length = 52136(bytes)
+DLM Length = 0(bytes)
+[ss_gpi_intc_domain_alloc] hw:69 -&gt; v:65
+reg=0x1F003610 clk=12000000, period=0x1
+Start detecting tf_update.img mount sdcard agagin
+Loading FW
+.
+reg=0x1F003690 clk=12000000, period=0x1
+.
+.
+.
+
+reg=0x1F003710 clk=12000000, period=0x1
+/mnt/sdcard/tf_update.img not exist
+/mnt/sdcard/tf_all.img not exist
+/mnt/sdcard/tf_all_recovery.img not exist
+Starting netchecFAT-fs (mmcblk0p1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+k...
+reg=0x1F003790 clk=12000000, period=0x1
+[MS_PM_INTC] hw:74 -&gt; v:66
+[MS_PM_INTC] hw:4 -&gt; v:67
+RTMP_TimerListAdd: add timer obj c36fe0b4!
+RTMP_TimerListAdd: add timer obj c36fe0e0!
+RTMP_TimerListAdd: add timer obj c36fe10c!
+RTMP_TimerListAdd: add timer obj c36fe088!
+RTMP_TimerListAdd: add timer obj c36fe004!
+RTMP_TimerListAdd: add timer obj c36fe030!
+RTMP_TimerListAdd: add timer obj c3692e4c!
+reg=0x1F003610 clk=12000000, period=0x1d4bf
+reg=0x1F003690 clk=12000000, period=0x1d4bf
+RTMP_TimerListAdd: add timer obj c3682550!
+RTMP_TimerListAdd: add timer obj c3682580!
+RTMP_TimerListAdd: add timer obj c3692ee0!
+RTMP_TimerListAdd: add timer obj c3692df4!
+RTMP_TimerListAdd: add timer obj c3692eb4!
+RTMP_TimerListAdd: add timer obj c3692e20!
+==&gt;WaitForAsicReady MAC_CSR0=0x76010500
+reg=0x1F003710 clk=12000000, period=0x1d4bf
+reg=0x1F003790 clk=12000000, period=0x1d4bf
+Enabled!round=0== Set Group1: round 256
+client [609] connected, module:sys
+[MI WRN ]: _MI_SYS_IMPL_GetOutputPortInfo[2827]: not found [eModId 7,u32DevId 0, chnID=0, outputPortId=2]
+[MI WRN ]: _MI_SYS_IMPL_GetOutputPortInfo[2827]: not found [eModId 12,u32DevId 0, chnID=0, outputPortId=0]
+
+[MI WRN ]: _MI_SYS_IMPL_GetOutputPortInfo[2827]: not found [eModId 12,u32DevId 0, chnID=1, outputPortId=0]
+[MI WRN ]: _MI_SYS_IMPL_GetOutputPortInfo[2827]: not found [eModId 4,u32DevId 0, chnID=0, outputPortId=0]
+
+client [609] connected, module:sensor
+cfg_mode=9
+cfg_mode=9
+wmode_band_equal(): Band Equal!
+Key1Str is Invalid key length(0) or Type(0)
+Key2Str is Invalid key length(0) or Type(0)
+Key3Str is Invalid key length(0) or Type(0)
+Key4Str is Invalid key length(0) or Type(0)
+###### Force at HT20 (BW_20) mode !!! ########
+1. Phy Mode = 14
+2. Phy Mode = 14
+NVM is Efuse and its size =1d[1e0-1fc]
+Efuse FreeBlock =19
+ERROR!!! MT7601 E2PROM: WRONG VERSION 0xc, should be 9
+client [609] connected, module:vif
+client [609] connected, module:vpe
+chipidx 4
+3. Phy Mode = 14
+AntCfgInit: primary/secondary ant 0/1
+[DRV_SCL_MODULE] [DrvSclModuleClkInit @ 316] Use Default Clk [240000000]
+CmdqProcInit 674
+[CMDQ0] Virtual IRQ: 30
+CmdQ Free ID = 0, IspLocalCmdQHnd = 0xbfa8efe8
+ISP_IRQ_WQ_FRAME_DONE add WQ error!
+CamOsMutexInit already inited, LR:0xBF9E7C99
+CameraIsp_EnableChannel3A, ch:0 data:  (null)
+CameraIsp_EnableCus3A AE=1, AWB=0, AF=0
+CameraIsp_EnableChannel3A, ch:0 data:  (null)
+CameraIsp_EnableCus3A AE=1, AWB=1, AF=0
+client [609] connected, module:rgn
+client [609] connected, module:venc
+Create mi dev0
+Create mi dev0
+[CMDQ1] Virtual IRQ: 30
+[MI WRN ]: _MI_VENC_CreateMiDevice[7545]: mi device:0 has been inited
+Create mi dev1
+Create mhal DEV0.
+[MI ERR ]: MI_SYS_IMPL_GetModuleMMaHeapName[11052]: get eModuleId:2 mma heap name
+---&gt; InitFrequencyCalibration
+InitFrequencyCalibrationMode:Unknow mode = 3
+InitFrequencyCalibration: frequency offset in the EEPROM = 108(0x6c)
+&lt;--- InitFrequencyCalibration
+RTMPSetPhyMode: channel is out of range, use first channel=1
+MCS Set = ff 00 00 00 00
+&lt;==== STA : rt28xx_init, Status=0
+80211&gt; re-init bands...
+80211&gt; RFICType = 1
+NumOfChan ===&gt; 14
+80211&gt; Number of channel = 0x44
+80211&gt; Number of rate = 12
+80211&gt; CurTxPower = 0 dBm
+80211&gt; TxStream = 1
+0x1300 = 00064300
+RTMPDrvOpen(1):Check if PDMA is idle!
+chuangmi-camera-029a02
+CntlOidSsidProc():CNTL - 0 BSS of 0 BSS match the desire
+(6)SSID - 11n-AP
+RTMPDrvOpen(2):Check if PDMA is idle!
+&lt;================ UP : RTMP_SEM_EVENT_UP(STA)
+[MI ERR ]: _MI_VENC_IMPL_MiSysGetModuleMMaHeapName[7518]: get venc heap name=
+
+[ven-m][wrap] venc_dev_preset:1271 GetMMaHeapName s32Ret=0xa009201f, u8MMAHeapName=.
+No connection! Set fake rssi= -80!!!
+[ven-m][wrap] fw_path /data/ut/chagall.binCreate mhal DEV1.
+[ven-w][wrap] venc MMA callback function duplicate registration Force OverWrite!!
+[ven-w][wrap] venc dev created, not support set E_MHAL_VENC_MAX_ENCODE_RESOLUTION, pls set before createdev
+Create mhal DEV2.
+[MI ERR ]: _MI_VENC_VerifyFps[2882]: Input invalid u32SrcFrmRateDen:0. Overwrite it into 1
+[MI ERR ]: _MI_VENC_VerifyFps[2887]: Input invalid u32SrcFrmRateNum:0. Overwrite it into 30
+
+client [609] connected, module:divp
+DIP Device ID [0] has already init.
+[DIP] Virtual IRQ: 36
+
+
+===== [MhalCameraOpen] begin ===== VifMask : 3
+Ch= 0, SNR ID: 0, VifCh = 0, PreOpen = 0
+3DNR = 1, Rotation = 0, AckTie : 0
+Crop: (0, 0, 2304, 1296)
+PixelFmt: 1, BayerID: 2, YuvOrder: 0
+Mode: 0, HdrType: 0
+[CameraReadIqData] isp root is /config/iqfile, nCh = 0
+[MI WRN ]: _MI_VPE_SclAttrConfig[1039]: chn 0 pass 0 MHalVpeSclDmaPortConfig: enPort: 1, enCompress: 0, enFormat: 11, dmatype 2，MatchLine 0
+[MI WRN ]: _MI_VPE_SclAttrConfig[1039]: chn 0 pass 0 MHalVpeSclDmaPortConfig: enPort: 2, enCompress: 0, enFormat: 11, dmatype 0，MatchLine 0
+
+Configuration file: /tmp/hostapd.conf
+Unkown frame_type = b0, req = 1
+rfkill: Cannot open RFKILL contrDeauthenticate all stations!
+ol device
+Deauthenticate all stations!
+client [609] connected, module:shadow
+80211&gt; KeyDel isPairwise 0
+80211&gt; AP Key Del
+[CMDQ2] Virtual IRQ: 30
+client [609] connected, module:ai
+80211&gt; KeyDel isPairwise 0
+80211&gt; AP Key Del
+[AUDIO ERROR]DrvAudApiDtsInit, Failed to gpio_request amp-gpio !
+[MI WRN ]: _MI_VPE_SclAttrConfig[1039]: chn 0 pass 0 MHalVpeSclDmaPortConfig: enPort: 0, enCompress: 0, enFormat: 0, dmatype 3，MatchLine 0
+
+Using interface wlan0 with hwaddr 60:7e:a4:ad:14:21 and ssid &quot;chuangmi-camera-029a02_miap1421&quot;
+80211&gt; KeyDel isPairwise 0
+80211&gt; AP Key Del
+80211&gt; KeyDel isPairwise 0
+80211&gt; AP Key Del
+80211&gt; ChanInfo.IfType == 9!
+80211&gt; ChanInfo.ChanType == 1!
+80211&gt; BBPCurrentBW 0
+MT7601_ChipSwitchChannel: SwitchChannel#6(RF=15, 1T)
+80211&gt; Set the channel in AP Mode
+[_MI_AI_Init:3145] Init Ai Gain.
+[_MI_AI_IMPL_AllocTmpBuffer:3596] tmp buffer addr[c45e4000].
+RTMP_TimerListAdd: add timer obj c36829a0!
+wlan0: interface state UNINITIALIZED-&gt;ENABLED
+wlan0: AP-ENABLED
+[CMDQ3] Virtual IRQ: 30
+No connection! Set fake rssi= -80!!!
+client [609] connected, module:ao
+[_MI_AO_Init:1228] Init Ao Gain.
+No connection! Set fake rssi= -80!!!
+Chn0 auto change fps from (30/1) to (4/1)
+No connection! Set fake rssi= -80!!!
+[</code></pre></details></li></ul><div id="afdff645-581c-42a2-9adb-814d072bf31b" class="column-list"><div id="e6ecafc8-912e-4413-a311-9f549293dabb" style="width:81.25%" class="column"><p id="45bf91e7-0167-401a-9eae-29f52943a52a" class="">Yes, yes that’s a lot of logs to navigate through… and at a first glance there are not much information that could be useful to fix our issue..</p><p id="30225fe8-7231-4514-a609-5c991c20ec0a" class="">That being said, there are a few lines that gave me another idea, we can see sometimes lines referring to UBOOT </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c01ea30e-2d4d-410b-856d-f0775bc89bf0" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Disable MMU and D-cache before jump to UBOOT
+
+U-Boot 2015.01 (May 17 2021 - 15:28:25), Build: jenkins-ipc029a02_new_key-283</code></pre><p id="809df3ea-37ef-4f1d-8688-612b5cd9d282" class="">
+</p></div><div id="e894b613-fed4-41c4-9f62-40bcf6875ca8" style="width:18.75%" class="column"><figure id="dd8c1ebc-3bea-429b-91b0-8bfb971a01ae" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/20.png"><img style="width:307.375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/20.png"/></a></figure></div></div><h1 id="eea553a4-ba16-44ca-82e7-411c920e45e4" class="block-color-purple_background">Finding the ultimate Bypass to the broken device via UBOOT to get to the firmware anyways</h1><div id="2941a063-cfd9-4bf2-8dcc-0c2d74fa5aca" class="column-list"><div id="f1042591-ce19-4cde-a302-54eee88ec686" style="width:12.5%" class="column"><figure id="cecedef7-3781-4675-9e3f-35037a6a5a0a" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/32.png"><img style="width:204.9166717529297px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/32.png"/></a></figure></div><div id="0c713643-f807-4f76-b812-878e9180242b" style="width:87.5%" class="column"><p id="f1afe307-cc97-4655-a39f-b998e9ca166d" class="">Yes, Stupid things, I love testing stupid things, If it work I’ll probably get my paws on a corrupted and unstable firmware, but I wanna try it anyways. So let’s plug back the USB to UART adapter, start up the terminal and open a connection</p><p id="d155040a-a2b9-4a49-b703-aeacec944725" class="">First I booted the device one time to get it in the default mode, from here I could start the USB/UART connection to see what is going on. Then I pressed the reset button from the camera until I got the start of the prompt as shown in the previous debug attempt. From here, I tried to press enter from my pc to force the UBOOT to abort the preprogrammed process and get an access to the firmware</p></div></div><div id="f229e981-1d42-4c54-b197-94517cd774f7" class="column-list"><div id="bc8b0218-5cbc-4fd1-b4ed-502715d69d6c" style="width:37.5%" class="column"><figure id="63a28471-dddc-4ac0-8275-c75210be2da4" class="image" style="text-align:left"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%204.png"><img style="width:546px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%204.png"/></a></figure></div><div id="42bbbd52-e6f7-4878-8d73-c6f64097afd8" style="width:62.5%" class="column"><p id="e1f12f53-b3df-41ff-b285-5c3c6d271f7b" class=""><mark class="highlight-pink_background">The stupidest it is, the best it is</mark></p><p id="acd00309-7459-4257-a606-07ac08f8eb95" class="">Now that we have the paws on the shell, let’s try to get some information that could be interesting about the device we are trying to break </p></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b53b5fc7-4422-4ee9-aa4f-090590eae62a" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">SigmaStar # printenv
+baudrate=115200
+bootargs=console=ttyS0,115200 root=/dev/mtdblock2 rootfstype=squashfs ro init=/linuxrc LX_MEM=0x3fe0000 mma_heap=mma_heap_name0,miu=0,sz=0x1400000 mma_memblock_remove=1
+bootcmd=sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size};bootm 0x22000000
+bootdelay=0
+cpu_part_start=14950000
+ethact=sstar_emac
+ethaddr=00:30:1b:ba:02:db
+fileaddr=23b82cf8
+filesize=109
+gatewayip=172.17.190.1
+ipaddr=172.17.190.5
+netmask=255.255.255.0
+serverip=172.17.190.64
+sf_kernel_size=200000
+sf_kernel_start=50000
+sf_part_size=6b0000
+sf_part_start=950000
+stderr=serial
+stdin=serial
+stdout=serial
+
+Environment size: 643/4092 bytes</code></pre><p id="2206e26c-e994-41b6-ba8f-6cf2555a9752" class="">Here are the boot parameters passed to the kernel.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="335ca5f2-26e0-4e86-a86e-2c4330cbb1df" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">bootargs=console=ttyS0,115200 root=/dev/mtdblock2 rootfstype=squashfs ro init=/linuxrc LX_MEM=0x3fe0000 mma_heap=mma_heap_name0,miu=0,sz=0x1400000 mma_memblock_remove=1</code></pre><div id="aa96faea-8829-4efc-9620-a01a00661159" class="column-list"><div id="a828469c-2622-4b33-aa78-95c88c2ec7f1" style="width:68.75%" class="column"><p id="7294b957-018d-4ba3-ab1b-df1dbd85a385" class="">If we set the init parameter here to <code>/bin/sh</code>, we are telling the Linux kernel to run /bin/sh as init instead of system init. This gives us the root shell during the boot time.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="70b06c58-aba6-4200-a691-b62eaed7b1d9" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">SigmaStar # setenv bootargs console=ttyS0,115200 root=/dev/mtdblock2 rootfstype=squashfs ro init=/bin/sh LX_MEM=0x3fe0000 mma_heap=mma_heap_name0,miu=0,sz=0x1400000 mma_memblock_remove=1</code></pre><p id="cddb90be-fe93-4ffd-b484-8775a4572db2" class="">Then to boot on the shell, this is the command to use <code>sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size};bootm 0x22000000</code></p><figure id="e5726ae1-ef09-4b82-8ca7-c4acd920c208" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%205.png"><img style="width:585px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%205.png"/></a></figure><p id="7cb7a3f2-bf4f-40af-9c54-624ff55f3310" class="">Sadly, this shell did not allow us to make changes to the system as the file system is read-only squashfs. If we had a writable filesystem, maybe we could add a script to run a telnet or ssh service on the system.</p></div><div id="f58088e6-0c58-4376-a636-af8632c50207" style="width:31.250000000000007%" class="column"><figure id="d3a753dd-f825-47f8-9b5f-90f1f4190303" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/13.png"><img style="width:490.6166687011719px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/13.png"/></a></figure></div></div><h1 id="44961e2e-df20-464e-b279-f6a372b48791" class="block-color-purple_background">Obtaining the Firmware through U-Boot</h1><div id="aec9fbe3-1928-465c-a2aa-c07e1b9517ae" class="column-list"><div id="b8a0edc0-5db1-42a5-81da-ac8b9db7040c" style="width:18.75%" class="column"><figure id="f2fa3936-4030-4530-bed3-37ff42355994" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/9.png"><img style="width:307.375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/9.png"/></a></figure></div><div id="8f77b459-eefb-4203-a96b-498d7c98b71f" style="width:81.25%" class="column"><p id="c15c44fd-fff6-4b0e-a283-a44ec19b6b76" class="">There is a technique that use the very primitive memory display method that is offered by UBOOT.</p><p id="f36d42e3-903e-41b1-bab2-23f18f77ca51" class="">It is possible to print the memory contents on the U-boot console using the <code>md</code> command. All that is needed is to know the starting address of the firmware in the memory and the size, than all this space can be printed on the screen.</p><p id="5bfb0fc8-f713-48a6-b3cb-6f35122fa4f2" class="">The simplest way to find out this information is to look at the <code>bootcmd</code> parameter in the output of the printenv command.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34d1cd4c-ce7b-46b4-984e-f62f9de64700" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">SigmaStar # printenv
+...
+bootcmd=sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size};bootm 0x22000000
+...</code></pre></div></div><p id="b894eeb4-8cf0-42af-9528-0d3f28913fa5" class="">The <code>sf read</code> command is used to copy flash content to RAM. 0x22000000 specifies from which address in RAM the content will be copied. This was the first value we needed. </p><div id="b02e63ed-6e42-4e45-b005-3c5b800b752e" class="column-list"><div id="b47d374a-5ee2-4a37-833b-6891eee1c558" style="width:62.5%" class="column"><p id="2d37154c-dd38-4ac6-a637-fc8450137524" class="">The other value we need is the flash size. We could already see this value when the bootloader first started. We have a 16 MB flash, which means 0x1000000 in hex.</p></div><div id="a2247a10-33c9-4408-9d8e-bb5ebf481948" style="width:37.50000000000001%" class="column"><figure id="b914d54e-0525-4cee-b654-aae006ff4744" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%206.png"><img style="width:422px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%206.png"/></a></figure></div></div><div id="2eb4b7a9-87a7-4f86-90bd-e282d76c9164" class="column-list"><div id="2ea95a41-7d33-419f-908a-ba31acdb20ac" style="width:62.5%" class="column"><p id="9deb4709-6d70-4468-bad2-6ec10796be3d" class="">Another way to find out the total mapped data size is to look at the partition information in the boot output.</p></div><div id="1fdd69f5-e376-47de-840e-f594b7280e3f" style="width:37.5%" class="column"><figure id="771f72b3-c037-4a58-be67-1e4c8d95513c" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%207.png"><img style="width:360px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%207.png"/></a></figure></div></div><h2 id="763669c7-a238-4726-81e4-4dc3981f67e2" class="block-color-pink_background">Get the data</h2><p id="454d085c-a550-41c9-9bf1-8eff34351a5a" class="">Here is the command that will print all the content of the flash : <code>md.b 0x22000000 0x1000000</code></p><p id="1c94b1d4-2678-4d4c-82cb-a46c51c271e1" class="">Here is an extract of what we can see in the terminal :</p><div id="e66aced0-b594-4e69-937f-ac12f05c3258" class="column-list"><div id="78d7f679-853a-4ebe-85bf-db85eec918ce" style="width:62.5%" class="column"><figure id="71fe6523-c265-4252-ad4b-b396bd0246c7" class="image" style="text-align:left"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%208.png"><img style="width:912px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%208.png"/></a></figure></div><div id="2fbafe3c-86f0-49c4-8737-4a9b38d5d494" style="width:37.50000000000001%" class="column"><figure id="29acb38d-2f29-4575-bf1d-c4849f73f0a7" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/8.png"><img style="width:240px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/8.png"/></a></figure><p id="3a6eec9c-9579-41ea-b7d8-62d04b987ea7" class="">
+</p></div></div><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="1d93ace8-28a7-4989-b90d-48da01e4971c"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Note that this process is super time consuming, extracting large volumes of information might take several hours</div></figure><h2 id="c6bae47a-bbd1-4c7e-9142-665fa240b204" class="block-color-pink_background">Process the data</h2><p id="7b1f8c18-1ac4-4c55-baf1-5f091e376c54" class="">I saved the output of the terminal in the file, that’s good, but now I<strong> </strong>have a file with the output of the entire console. Currently this file is still not a binary file, it just contains some plain-text and hex characters. It need to be cleaned of the unnecessary content in this file. Only memory output should remain. Something like this :</p><div id="2e778877-a7f6-46d5-a6a0-956fb95e2d1a" class="column-list"><div id="03b74ae6-5f11-4ab9-af17-cb39d389e4be" style="width:62.5%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5eb051d9-5bae-4ed5-95c1-f3dee97d7bcd" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">226404d0: 4d 40 26 68 b2 bf d9 97 4d 40 26 68 b2 bf d9 97    M@&amp;h....M@&amp;h....
+226404e0: 4e 40 26 70 b1 bf d9 8f 4e 40 26 70 b1 bf d9 8f    N@&amp;p....N@&amp;p....
+226404f0: 4f 40 26 78 b0 bf d9 87 4f 40 26 78 b0 bf d9 87    O@&amp;x....O@&amp;x....
+22640500: 50 40 26 80 af bf d9 7f 50 40 26 80 af bf d9 7f    P@&amp;.....P@&amp;.....
+22640510: 51 40 26 88 ae bf d9 77 51 40 26 88 ae bf d9 77    Q@&amp;....wQ@&amp;....w
+22640520: 52 40 26 90 ad bf d9 6f 52 40 26 90 ad bf d9 6f    R@&amp;....oR@&amp;....o
+22640530: 53 40 26 98 ac bf d9 67 53 40 26 98 ac bf d9 67    S@&amp;....gS@&amp;....g
+22640540: 54 40 26 a0 ab bf d9 5f 54 40 26 a0 ab bf d9 5f    T@&amp;...._T@&amp;...._
+22640550: 55 40 26 a8 aa bf d9 57 55 40 26 a8 aa bf d9 57    U@&amp;....WU@&amp;....W
+22640560: 56 40 26 b0 a9 bf d9 4f 56 40 26 b0 a9 bf d9 4f    V@&amp;....OV@&amp;....O
+22640570: 57 40 26 b8 a8 bf d9 47 57 40 26 b8 a8 bf d9 47    W@&amp;....GW@&amp;....G</code></pre></div><div id="bf6d56a6-5ac0-42cf-8add-d5478fd07faa" style="width:37.49999999999999%" class="column"><figure id="a005c440-7756-48dc-bb8b-2f8c67831ee8" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/11.png"><img style="width:288px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/11.png"/></a></figure><p id="d7c5f324-fe7e-42be-9f45-2f96464b236d" class="">
+</p></div></div><p id="f5937269-0c15-467e-813a-3d78909d5ae3" class="">Now this hexdump need to be converted into a binary file. The following python code should do the trick</p><div id="b5cd26d6-05a9-4f62-974a-9fa77a579947" class="column-list"><div id="a34385dd-a005-49aa-bb06-3467e9090d6c" style="width:37.5%" class="column"><figure id="c8f1ca4d-0180-44cd-baff-a05351b989aa" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/4.png"><img style="width:512px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/4.png"/></a></figure></div><div id="4c2f4c4a-3bc9-4cf1-a3dc-29fafad6a3d7" style="width:62.5%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="20c07c58-c621-4cdc-b86b-9c4dbc045713" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import sys, struct
+
+data_bin = bytearray()
+with open(sys.argv[1]) as hexdump:
+        for line in hexdump:
+                data_hex= line[10:57].split(&quot; &quot;)
+                for i in data_hex:
+                        data_bin += struct.pack(&quot;B&quot;, int(i, 16))
+
+binary_file = open(sys.argv[2], &quot;wb&quot;)
+binary_file.write(data_bin)
+binary_file.close()</code></pre><p id="f5c4258d-f6f6-4af3-aa31-f1da7ca05578" class="">It is also available on GitHub, and if this specific one is not working, some other ones should be doing quite the same thing</p><figure id="d5f68ae1-f3ca-4cce-9c2e-04e5cb983a1a"><a href="https://github.com/SungurLabs/Firmware-scripts/blob/main/hex2bin.py" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Firmware-scripts/hex2bin.py at main · SungurLabs/Firmware-scripts</div><div class="bookmark-description">Contribute to SungurLabs/Firmware-scripts development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/fluidicon.png" class="icon bookmark-icon"/>https://github.com/SungurLabs/Firmware-scripts/blob/main/hex2bin.py</div></div><img src="https://opengraph.githubassets.com/e9a2e305fea8457b46fefed61d90a2fa2c6e89340fbfe4c24f8e392713ff7d62/SungurLabs/Firmware-scripts" class="bookmark-image"/></a></figure><p id="dfc8b386-e67d-40bc-becc-36e2eb36e458" class="">Finally, this is a firmware of the device. </p></div></div><h1 id="4bd6dc35-baeb-4c81-baf0-9b5ec648a165" class="block-color-purple_background">Examine the Firmware with binwalk</h1><p id="c46747df-f12f-4583-9529-20873431ad10" class="">Now let’s extract it with the help of binwalk and examine it.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1af2fd1f-3ad3-4b35-8069-7c2346e4daaa" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">binwalk -e firmware.bin</code></pre><figure id="bcf6d319-1044-46bb-ba8d-b3ef6df21f46" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%209.png"><img style="width:1296px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%209.png"/></a></figure><figure id="85878a6f-f1f5-480d-ae17-2e2dfc2b9ccf" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2010.png"><img style="width:1296px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2010.png"/></a></figure><h1 id="90c35752-18e8-4df1-af58-901837f37fba" class="block-color-purple_background">Time for backdooring the device</h1><p id="6f9a5257-9f71-4ed0-bb64-34325e47cea9" class="">Now that we have the firmware, it might be interesting to try to add some elements in it to get access to the device once in “production” mode</p><h2 id="da5a1407-9763-4726-bee9-ddb9912b9bb7" class="block-color-pink_background">Extracting the partitions</h2><p id="8d20ce65-ed57-48d0-8609-b9f0f98a5ddb" class="">The first thing to do is to extract the partitions of the firmware and then access the file system that we want to modify. The following script can help to do so </p><div id="c8fba4c5-021a-459c-99f4-6880c9f74e00" class="column-list"><div id="052ad169-9c21-4a6c-9dac-66d68b62f3d0" style="width:50%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="45aad665-f048-4c35-9660-00f0bce53462" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import sys
+
+partitions = [
+	(&quot;boot&quot;, 0x0, 0x50000),
+	(&quot;uImage_kernel&quot;, 0x50000, 0x200000),
+	(&quot;squashfs&quot;, 0x250000, 0x760000),
+	(&quot;data&quot;, 0x9B0000, 16777216-0x9B0000)
+]
+
+firmware = open(sys.argv[1], &quot;rb&quot;)
+for part, offset, size in partitions:
+	firmware.seek(offset, 0) # Moves the cursor up to the offset.
+	data = firmware.read(size)
+	output = open(part, &quot;wb&quot;)
+	output.write(data)
+	print(&quot;{} - saved!&quot;.format(part))
+	output.close()</code></pre></div><div id="fd5797f2-7740-4015-8937-32b8e196c354" style="width:50%" class="column"><figure id="34c4f845-a66a-4825-9a17-17e0b31329af" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/2.png"><img style="width:432px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/2.png"/></a></figure></div></div><h2 id="ac83400b-9380-4b86-bef1-b3cdcc8a0f79" class="block-color-pink_background">Decompress Squashfs files</h2><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="f24be925-9f44-4a15-b323-4fcae875fc97"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Squashfs are a compressed read-only file system and are commonly found on embedded systems. In this way, users are prevented from making changes to the file system.<br/>However, after uncompressing this file system with the <br/><code>unsquashfs</code> tool, it is possible to make new additions to it. Then create a new squashfs filesystem with these updated files.</div></figure><div id="f076f859-e348-482e-8461-850d6b81a1d5" class="column-list"><div id="53f87f9d-2711-4499-b4c1-5617d1cf1568" style="width:50%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fca47719-85f5-412e-b002-b2c1f883011c" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">$ unsquashfs -d squashfs_out squashfs</code></pre><figure id="d8c46944-a3c6-4c93-85d3-07bb119da6e1" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2011.png"><img style="width:819.6458740234375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2011.png"/></a></figure></div><div id="c5de1fa1-5bcf-46cd-b9ab-f3d109756720" style="width:50%" class="column"><figure id="659f0a58-2bf6-4672-a44e-149135eed157" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2012.png"><img style="width:819.6458740234375px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2012.png"/></a></figure></div></div><h2 id="7b7d5358-fb98-4264-8d27-8d8875a65dae" class="block-color-pink_background">Time to build the door</h2><p id="dfccb165-0f56-4e01-836d-1919c699a40d" class="">One of the best places to add backdoor is init scripts(<code>/etc/init.d/</code>). Because these scripts are run while the device is booting and does not require a condition. The actual init script here is <code>rcS</code>, and it runs files in this directory that starting names begin with a capital <code>S</code>, in numerical order. These are the start scripts. Likewise, the <code>rcK</code> script is run at shutdown.</p><p id="20df1604-dd0e-4df7-8f14-163bc4db5b33" class="">A good candidate to make a backdoor could be telnet. however, the device doesn’t have it’s binary. So we can add a statically compiled version of busy box containing it. Available at the following link</p><figure id="d4c4c737-1210-4507-912a-1cc1beb4e18b"><a href="https://www.busybox.net/downloads/binaries/1.21.1/busybox-armv7l" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">%d %s</div></div><div class="bookmark-href"><img src="https://www.busybox.net/favicon.ico" class="icon bookmark-icon"/>https://www.busybox.net/downloads/binaries/1.21.1/busybox-armv7l</div></div></a></figure><p id="4c49eeae-ae05-488d-835b-2d780cf69ebc" class="">And then run it from the sdcard by editing the rcS script by adding this line </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="59867623-d0c2-4d5a-a4c0-b66dd58e0e46" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">/mnt/sdcard/busybox-armv7l telnetd</code></pre><h2 id="7f3e6ef4-9f7c-4d6e-ae0b-f46412ad379d" class="block-color-pink_background">Let’s resquash all of our dirty modifications</h2><p id="37a45d3b-0900-4f40-bda7-77fd3ae2031f" class="">Adding <code>backdoor</code> is complete. Now it’s time to create a new squashfs filesystem with updated init script. </p><p id="5fe9b4ab-651a-466d-a463-d4c7fecf1fa8" class="">The tool used to do this is called <code>mksquashfs</code>. But first we need to know the <code>compression type</code> and <code>block size</code> of the squashfs to create. To get these informations, it is possible to look at the details of the original squashfs by running <code>unsquashfs</code> with the <code>-s</code> parameter.</p><div id="f9186bdb-fd24-4dc4-8b16-148613b2c695" class="column-list"><div id="6c887f28-8d49-4cb1-82a3-50747b40339f" style="width:62.5%" class="column"><figure id="956f3fdd-d7d2-414d-98b6-c0ddfe7543d4" class="image" style="text-align:right"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2013.png"><img style="width:720px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2013.png"/></a></figure></div><div id="54890e2f-f94a-428e-8e91-a34f529e177c" style="width:37.50000000000001%" class="column"><figure id="728adfee-81e4-4a94-aa35-24dce76f8386" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/23.png"><img style="width:384px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/23.png"/></a></figure></div></div><p id="8ea37ca2-4853-47c4-ba84-49df9a31e96d" class="">Compression is <code>xz</code> and blok size is <code>131072</code>. Let’s create the new file system</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eb63a74c-8ee4-4b50-b4e0-f2df08d344c0" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">mksquashfs squashfs_out/ squashfs_new -comp xz -b 131072
+mv squashfs_new squashfs</code></pre><h2 id="10df3a38-ca2f-4e76-b95f-11cabe2d2fc5" class="block-color-pink_background">Final repack</h2><p id="d854539f-7839-4332-b3cb-e66ab562c954" class="">The last thing we need to do to create the final firmware is to repack the unpacked partitions. to do so, the following script should do the trick</p><div id="2a06a89e-4a6a-4816-8398-7d16e25ead9c" class="column-list"><div id="056f9d37-43e5-490b-a124-8c5b880e49ba" style="width:68.75%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ceb2632-f240-4e78-b382-218b33fb5f1c" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import sys
+
+partitions = [
+	(&quot;boot&quot;, 0x0, 0x50000),
+	(&quot;uImage_kernel&quot;, 0x50000, 0x200000),
+	(&quot;squashfs&quot;, 0x250000, 0x760000),
+	(&quot;data&quot;, 0x9B0000, 16777216-0x9B0000)
+]
+
+firmware = open(sys.argv[1], &quot;wb&quot;)
+for part, offset, size in partitions:
+	p = open(part, &quot;rb&quot;)
+	data = p.read()
+	firmware.write(data)
+	if len(data) &lt; size:
+		size_padd = size - len(data)
+		padd = size_padd * b&#x27;\x00&#x27;
+		firmware.write(padd)
+		# squashfs should be padded for alignment purposes</code></pre></div><div id="76f2c910-9702-4421-84af-756d7858ff3e" style="width:31.25%" class="column"><figure id="51637cba-39ab-45ac-b9d9-6e1e02ff926c" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/6.png"><img style="width:432px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/6.png"/></a></figure></div></div><h1 id="61701089-9d34-48c8-b632-beedc198bb3b" class="block-color-purple_background">Pushing the new firmware to the device</h1><p id="dbe30b9f-a42b-4ded-8b40-379e91e377d4" class="">There are two methods to upload the new firmware that has been modified to the device. </p><h2 id="02855eaf-7c66-44aa-b2b6-485d770b6d13" class="block-color-pink_background">Using the SDCard AutoUpdate</h2><p id="3c156ce5-cd5d-4a3c-bd63-9a726cba5327" class="">One of them is firmware update process via <code>sdcard</code>. </p><p id="ce1246d4-7b99-4a61-ba7d-7050e2a8cf03" class="">The camera checking the existence of <code>/mnt/sdcard/tf_update.img</code>, <code>/mnt/sdcard/tf_all.img</code>, <code>/mnt/sdcard/tf_all_recovery.img</code> files in sdcard every time it boot up. We can start the update procedure of the device by placing the firmware on the sdcard (firmware has to be named <code>tf_update.img</code>).</p><p id="c3b4e59b-7cb6-462c-ba05-ba6218d5c39c" class="">However, this process is tricky because the device does the signature verification of the file.</p><h2 id="a644b9f9-5573-4e3a-8b9a-54de09e76013" class="block-color-pink_background">Direct access flash</h2><div id="418880f7-fdd2-42d3-a01b-ec849f0ef57b" class="column-list"><div id="88a07afa-0939-4086-9ca5-b2e972e1b72d" style="width:68.75%" class="column"><p id="6612a490-8503-4520-9563-0b32920efa84" class=""><strong>The other method is firmware uploading via direct access to flash. For this,let’s use a </strong><code><strong>CH341A flash programmer</strong></code><strong> with </strong><code><strong>SOIC8 clip</strong></code><strong>.</strong></p><p id="f0e2e6aa-e28d-4c20-a99b-38ca652d8c41" class=""><strong>We’ll use the </strong><code><strong>flashrom</strong></code><strong> tool to write the firmware to flash. The </strong><code><strong>-p</strong></code><strong>  parameter is used for the programmer name, and the </strong><code><strong>-c</strong></code><strong> parameter is for the flash chip name.</strong></p><figure id="de925df9-102b-49ea-979a-8a0e8a81d037" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2014.png"><img style="width:1127.010498046875px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2014.png"/></a></figure><p id="d6aebd76-60a6-44ac-99ce-08bc05455b90" class="">After about 10 minutes of operation, The device have now written our backdoored firmware to flash. Now it’s time to power up the device and test if the telnet port is active.</p><p id="ef698710-1a1e-4562-bbde-b6dea5cf7539" class="">
+</p></div><div id="8f849781-351b-4dd6-a326-8a74798f45b4" style="width:31.25%" class="column"><figure id="8eb93cb3-52a7-4073-9b3d-ae03d50bc2f9" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2015.png"><img style="width:432px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2015.png"/></a></figure></div></div><h1 id="325811d7-8c75-4365-8e13-30b75bb95ebe" class="block-color-purple_background">Testing the backdoor</h1><div id="12880940-2ac7-40d7-80f8-b710a9420ed0" class="column-list"><div id="29ee54b4-6628-4ea8-80f3-a5effb31dc50" style="width:81.25%" class="column"><p id="5e30c79d-7905-48fe-8a7e-93298dc8d3d3" class="">after some shenanigan I managed to get the IP of my brocken device. Once scanned with nmap, we can see that there is an open port on 23</p><p id="df737811-3833-4fc1-b28f-19a77d31ddce" class="">
+</p></div><div id="03e45d80-287b-4ced-9c54-347834e53a38" style="width:18.75%" class="column"><figure id="29ecbaab-98bc-4359-a14a-89166ad35169" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2016.png"><img style="width:307.3645935058594px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2016.png"/></a></figure></div></div><p id="ec630df4-024b-46aa-b803-f9ce7f298141" class="">If we try to access it over telnet, here is the result </p><div id="00bed5e9-ff1c-47f8-98a4-cc8b9efe50d7" class="column-list"><div id="3caf4f53-62b5-48d7-a12e-74985795ad25" style="width:56.25%" class="column"><figure id="91de5b7f-8425-4408-8ba3-3b9b744c1f3f" class="image" style="text-align:right"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2017.png"><img style="width:432px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/Untitled%2017.png"/></a></figure></div><div id="c1f2090e-7925-46e6-9b6e-5bdb85d4ee74" style="width:43.74999999999999%" class="column"><figure id="ad44e975-b358-4691-ad4a-62d362f214b8" class="image"><a href="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/36.png"><img style="width:288px" src="MJSXJ09CM%20-%20Recovering%20Firmware%20and%20Backdooring%20c4252f3c091a4e189116233c6c24309e/36.png"/></a></figure></div></div><p id="159faae2-bbf4-4489-8b6b-ebb317b8658a" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

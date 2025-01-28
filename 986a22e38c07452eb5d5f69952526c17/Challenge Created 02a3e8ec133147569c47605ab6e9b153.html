@@ -1,0 +1,688 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Challenge Created</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="02a3e8ec-1331-4756-9c47-605ab6e9b153" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🚩</span></div><h1 class="page-title">Challenge Created</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-red_background callout" style="white-space:pre-wrap;display:flex" id="b2361d33-7121-44c0-9c4b-73e6db458d7f"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%"><p id="0af6e187-6562-4d6b-a093-cbcf4b4cde70" class="">Content will arrive after the CTFs where the challenges are engaged ends up<br/>Only the name of the challenges will be displayed while those are played<br/></p></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="4baaf8de-d0d1-4e25-9545-9a5d14074cd3"><div style="font-size:1.5em"><span class="icon">📈</span></div><div style="width:100%">Challenge level classification : <br/>🟩 : Easy<br/>🟨 : Medium<br/>🟧 : Advanced<br/>🟥 : Hard<br/>🟪 : Harder<br/>⬛ : Expert<br/></div></figure><h1 id="6f0fc94c-5ca9-4a4d-94cf-6b19cf86369c" class="block-color-blue_background">Challenges for year long DLS CTF</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e48c8eb9-5426-4333-b31a-63572a35bbc6"><div style="font-size:1.5em"><span class="icon">🧮</span></div><div style="width:100%">In this CTF the points goes from 10 to 400 points per challenges. here is the grading for the hardware challenges<br/>🟩 : 100<br/>🟨 : 200<br/>🟧 : 300<br/>🟥 : 400<br/></div></figure><h2 id="767e7603-ecc0-4a8d-adf8-c102fb2a29c0" class="block-color-teal_background">Published</h2><figure id="80cffb20-a61a-4063-b313-2904ca3dc72a" class="link-to-page"><a href="Challenge%20Created%2002a3e8ec133147569c47605ab6e9b153/Introduction%2080cffb20a61a4063b3132904ca3dc72a.html"><span class="icon">📝</span>Introduction</a></figure><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">🟩 Nous avons à faire à un serial killer</summary><div class="indented"><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="17f1c629-8164-41f4-9158-b70299c7a402"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">author : Whiterose<ul id="0c416364-f088-4a7f-8132-fe222e555ebe" class="bulleted-list"><li style="list-style-type:disc">Je suis quasiment sûr que nous avons affaire à un serial killer.</li></ul><ul id="88a1a0b4-ca92-41ed-8b64-9a0aec73af4e" class="bulleted-list"><li style="list-style-type:disc">Pardon ?</li></ul><ul id="af28995b-f350-49de-8da8-a6ca39feda06" class="bulleted-list"><li style="list-style-type:disc">Je crois que nous avons affaire à un serial killer.</li></ul><ul id="021e4aaa-1d4e-45fa-ab61-cb6b1a1a9566" class="bulleted-list"><li style="list-style-type:disc">Un quoi ?</li></ul><ul id="879c3f6b-e072-4c9e-a7dc-135780db4703" class="bulleted-list"><li style="list-style-type:disc">Un serial killer.</li></ul><ul id="117a41ce-8523-4fc0-bde9-acc1623cb4ec" class="bulleted-list"><li style="list-style-type:disc">Un ?</li></ul><ul id="b06a1b4f-5ada-43ad-9468-df332f5391a3" class="bulleted-list"><li style="list-style-type:disc">Un serial killer. Un tueur en série.</li></ul><ul id="5a9e8c01-fe04-4be0-8a54-a862f478abad" class="bulleted-list"><li style="list-style-type:disc">Ah... Un serial killer.</li></ul><div id="956f7c9f-3fc9-4c49-9681-74f310c65a1e" class="column-list"><div id="8ee50fd8-cb44-421a-831f-8419c9738372" style="width:22.222222222222225%" class="column"><p id="be5163b5-c34c-41d4-ac50-a7a6b63fabcb" class="">Required equipment :</p><ul id="b166b0e2-492e-4b7e-80d8-687413a26f42" class="bulleted-list"><li style="list-style-type:disc">ATMEGA328P/P-PU on boards or bare metal</li></ul><ul id="f8ef13c0-89b2-4bfc-9891-39b8555f911b" class="bulleted-list"><li style="list-style-type:disc">USB-UART convertor</li></ul><p id="eb6ae68f-8b1e-4913-bfeb-590f742fe164" class="">Code : </p></div><div id="675f94f5-b6ce-4437-a737-3f61eb993bc0" style="width:8.333333333333332%" class="column"><p id="4ae4b46f-1dc5-436b-a214-67eb134bbc17" class="">Required software :</p><ul id="d224f0d3-3935-4550-9fba-e42e72257b2b" class="bulleted-list"><li style="list-style-type:disc">XLoads</li></ul><ul id="dad87967-8247-41c3-8ccd-948929527f4a" class="bulleted-list"><li style="list-style-type:disc">MobaXterm</li></ul></div><div id="331f0124-4be0-480d-bea3-bc2a4453ab64" style="width:69.44444444444446%" class="column"><p id="d9879c3e-e744-4927-b51e-ab5ffad767db" class="">Documentation :</p><ul id="c6e6f324-56af-43b7-bd76-c95ff715b43a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf">https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf</a></li></ul><ul id="83d537c9-6e68-42af-a861-098c7809a7da" class="bulleted-list"><li style="list-style-type:disc"><a href="https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf">https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf</a></li></ul></div></div><figure id="22a6aae6-a93a-46c4-b420-f5646c24b6ce"><a href="http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/SerialKiller.ino.hex" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/SerialKiller.ino.hex</div></div></a></figure></div></figure><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="48e1fe50-8393-486a-811b-fff5d6f1ecac"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Writeup will be published after CTF ended</div></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">🟩 No power, no flag</summary><div class="indented"><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="b82af46a-4dda-46a7-b75f-441b662e8521"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%"><p id="0b0f68e0-d15a-482c-a69e-d5bb5bc47da2" class="">author : Whiterose</p><div id="d5fe7e7c-1b75-4ec2-ad35-21cb16210b15" class="column-list"><div id="5a6022fd-d6ad-4d44-a61b-a6531ede5281" style="width:25%" class="column"><p id="d46f73f9-4c5a-4233-bb79-fade3493759e" class="">Required equipment :</p><ul id="dc63ef48-8329-47b8-8e17-eab9403161b9" class="bulleted-list"><li style="list-style-type:disc">ATMEGA328P/P-PU on boards or bare metal</li></ul><ul id="53dfd3a9-bb5f-418b-9c3c-db184cbd9bb4" class="bulleted-list"><li style="list-style-type:disc">USB-UART convertor</li></ul><ul id="a8992719-a60d-42b4-8e53-487518a2e779" class="bulleted-list"><li style="list-style-type:disc">Jumper cables</li></ul></div><div id="413904fc-da56-44ef-9205-b4c25ebee9b8" style="width:8.333333333333332%" class="column"><p id="b2bd9a0f-efc9-48cd-9e28-3e2553ef4628" class="">Required software :</p><ul id="81aa47d5-4658-46f3-9ac4-97c92a19b563" class="bulleted-list"><li style="list-style-type:disc">XLoads</li></ul><ul id="e667ea85-bc32-4b67-8056-0a444c9af445" class="bulleted-list"><li style="list-style-type:disc">MobaXterm</li></ul></div><div id="30035454-6ee0-4b02-bb6a-93aef3c864df" style="width:66.66666666666667%" class="column"><p id="b9c46fee-6458-4b39-a028-1314b30c8a17" class=""><span style="border-bottom:0.05em solid">Documentation :</span></p><ul id="9562096c-506e-4970-96a1-cd5dd7d802df" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf">https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf</a></li></ul><ul id="f672e890-1164-4c81-9d6e-02830bbc98ae" class="bulleted-list"><li style="list-style-type:disc"><a href="https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf">https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf</a></li></ul></div></div><p id="e5513536-d8f1-4529-99fa-c891b7612c55" class="">Code :</p><figure id="a2d9111f-458a-41c8-b489-685e8b257a40"><a href="http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/NoPowerNoFlag.ino.hex" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/NoPowerNoFlag.ino.hex</div></div></a></figure></div></figure><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="fbd6701f-1171-4349-8282-90208d310e6d"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Writeup will be published after CTF ended</div></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">🟩 Logic Analysis - 101</summary><div class="indented"><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="561ce430-a9b2-4366-8fac-e571617df101"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">author : Whiterose<p id="4dbc04a6-7b0e-40fe-8565-d4e9e7a36301" class="">
+</p><p id="93ae1e10-61a4-4e69-9b66-129bb055f8b0" class="">01000100 00110111</p><div id="15ca94e2-e5b2-46db-8b68-cd559c24aae8" class="column-list"><div id="72e32bd5-1eaa-49af-90ee-1ff4afaea2ee" style="width:50%" class="column"><div id="ebe408b4-bd4f-4147-9458-5ca9750343da" class="column-list"><div id="e321b23e-fe02-4161-a824-123cf0b31f22" style="width:50%" class="column"><p id="afad1e40-02a9-470d-a8ae-3d6fea16f1e9" class="">Required equipment :</p><ul id="82d930cd-b959-4c34-b3a5-94e17629ea97" class="bulleted-list"><li style="list-style-type:disc">ATMEGA328P/P-PU on boards or bare metal</li></ul><ul id="4b462e95-308a-466e-8bbd-95675a1a9955" class="bulleted-list"><li style="list-style-type:disc">Logic analyser</li></ul></div><div id="919d25f8-1eca-426d-9c0a-3c2cbba6410a" style="width:50%" class="column"><p id="803d0bc2-8a0c-42da-a9bb-90e2a4140923" class="">Required software :</p><ul id="e334e487-7bea-4d3f-ae6d-65770332076c" class="bulleted-list"><li style="list-style-type:disc">XLoads</li></ul><ul id="f01ddc14-7bdc-4966-9959-d12f0c084408" class="bulleted-list"><li style="list-style-type:disc">Saleae Logic 2</li></ul></div></div><p id="2aec9cf9-21d0-4ada-aaae-37bd428aaace" class="">Code :</p></div><div id="87333327-3edc-444f-b6fe-ca2f37e705af" style="width:50%" class="column"><p id="085fa827-eca3-4a15-81dc-d51f9bef0996" class="">Documentation :<br/><br/><a href="https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf">https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf</a><a href="https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf">https://components</a></p><p id="dda46065-5677-49ce-a1a6-b3bc31ee091c" class=""><a href="https://downloads.saleae.com/specs/Logic+8+Data+Sheet.pdf">https://downloads.saleae.com/specs/Logic+8+Data+Sheet.pdf</a></p><p id="d3d89802-eed8-4a03-9f14-046c4cb6fc87" class="">
+</p></div></div><figure id="a2353985-cd8a-4a85-b832-519513a7f71e"><a href="http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/LogicAnalysis.ino.hex" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/LogicAnalysis.ino.hex</div></div></a></figure></div></figure><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="3ae42622-72e7-41e8-a7c7-ae4c630d8b70"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%"><p id="05ccecc2-314e-4297-a4c1-4e67b321d8f2" class="">Writeup will be published after CTF ended</p></div></figure></div></details><h2 id="0a196733-5498-458b-a646-3b8f222829da" class="block-color-orange_background">To be published</h2><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">🟨 Time for a recap</summary><div class="indented"><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="75e51e55-f6a6-4a73-8b94-a1e7edc12be5"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">author : Whiterose<br/><br/>Here is a challenge that will use all the steps you saw in the previous challenges at once to challenge you a bit more. <br/><p id="ad631d5c-893b-4f6a-a737-453bc6081186" class="">Have fun !</p><div id="795c8902-be40-477c-b4a8-7c8a69ad0f85" class="column-list"><div id="8abbe5fe-d003-46db-ab4c-9dc07e317609" style="width:50%" class="column"><div id="76a9339f-2ab9-483d-9285-54a4666a4cc2" class="column-list"><div id="1580c1db-f6ff-4671-be3a-0198a14f3d73" style="width:50%" class="column"><p id="3f613e1f-a836-4424-ba7d-5a00fbd03241" class="">Requiered equipement :</p><ul id="ca178eb6-864f-4a25-b5e9-bb6a7b51ca1a" class="bulleted-list"><li style="list-style-type:disc">ATMEGA328P/P-PU on boards or bare metal</li></ul><ul id="2e36c051-d214-4400-9631-905151c60415" class="bulleted-list"><li style="list-style-type:disc">USB-UART convertor</li></ul><ul id="e986c7d1-5c02-405e-b47d-58de389d9a24" class="bulleted-list"><li style="list-style-type:disc">Logic analyzer </li></ul><ul id="89993ed2-3e3f-46a6-8a88-179bd0b56c36" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange">AVRISP-MKII w/ ISP Interface   (only if played live at the events)</mark></li></ul></div><div id="41633b0a-ea8b-4956-b652-0560f9d5559d" style="width:50%" class="column"><p id="e4573233-c6d7-47a0-aa6a-b2b05d5f6678" class="">Requiered software : </p><ul id="ee61f257-0109-4320-8c2f-f8d9c50cd23c" class="bulleted-list"><li style="list-style-type:disc">MobaXterm</li></ul><ul id="d5fef82c-abf3-457c-ae59-6621b21a6c9f" class="bulleted-list"><li style="list-style-type:disc">Saleae Logic2</li></ul><ul id="51b017af-67b3-4f68-b1a8-718d5b7686fa" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange">avrdude  (only if played live at the events)</mark></li></ul></div></div><p id="5fece71d-b93c-48c4-bfe2-5752fcefaf78" class="">Code :</p></div><div id="c06fecaf-1d5a-42c1-882f-55cc78b33d4c" style="width:50%" class="column"><p id="571175f6-538e-4ce7-882a-ec71723d62ab" class="">Documentation :</p><p id="5ef1395f-ce80-4ec2-9ca8-a512b42cb0d2" class=""><a href="https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf">https://www.mouser.com/pdfdocs/gravitech_atmega328_datasheet.pdf</a></p><p id="0dec3e8f-1cb6-4e6f-af33-bf7c76d801ae" class=""><a href="https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf">https://components101.com/sites/default/files/component_datasheet/FT232RL-USB-TO-TTL-Converter-Datasheet.pdf</a></p><p id="c6f736ee-0a30-40c3-8e5c-ebab797e9bdf" class=""><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42093-AVR-ISP-mkII_UserGuide.pdf">https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42093-AVR-ISP-mkII_UserGuide.pdf</a></p><p id="7e8e6bd9-3ccd-463f-8c1e-5785be486834" class=""><a href="https://linux.die.net/man/1/avrdude">https://linux.die.net/man/1/avrdude</a></p></div></div><figure id="ce5b8601-0c1d-46d8-ab55-0232ac60e0be"><a href="http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/TimeForARecap.ino.hex" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">http://cyberwolf2077-vps.ddns.net:2077/CTF/Hardware/TimeForARecap.ino.hex</div></div></a></figure></div></figure><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="82896d32-ead0-4fac-bbff-cac7be161c2d"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Writeup will be published after CTF ended</div></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">🟥 The 5$ Fault injection</summary><div class="indented"><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="87dcfa66-8f93-4c60-bb3c-cd0c6db2c128"><div style="font-size:1.5em"><span class="icon">ℹ️</span></div><div style="width:100%">author : Whiterose<div id="29ffc278-b809-4ad9-9046-8cedd1827ac5" class="column-list"><div id="cc3e7c72-080d-45bc-bc1b-dc6b9a923470" style="width:50%" class="column"><div id="93e8b587-5f1d-42a1-8e3e-441a8e674b99" class="column-list"><div id="880126fa-1dd2-4442-985e-62e8f342db6a" style="width:50%" class="column"><p id="a60b66c6-41cc-4402-933f-7ae4dc10f71b" class="">Requiered equipement :</p><ul id="104acf61-5590-4ba3-b644-b56fb527aa38" class="bulleted-list"><li style="list-style-type:disc">Arduino uno with ATMEGA328P chip removable</li></ul><ul id="7dacb8db-d761-4246-9728-60baaf6da339" class="bulleted-list"><li style="list-style-type:disc">Arduino nano</li></ul><ul id="7c6dbd5d-a404-4b62-82e3-8a9c75051783" class="bulleted-list"><li style="list-style-type:disc">100Ω Resistor</li></ul><ul id="dd562f6f-9e61-44ee-824f-c2ec44661165" class="bulleted-list"><li style="list-style-type:disc">AP3400 MOSFET</li></ul><ul id="e714adab-7598-48f9-8dab-46bf89a8949c" class="bulleted-list"><li style="list-style-type:disc">Breadboard</li></ul><ul id="2ad4dbd8-7e43-409c-b124-cab30d814336" class="bulleted-list"><li style="list-style-type:disc">Various Breadboard Lab Cables</li></ul></div><div id="c6fa5247-51fe-4689-b198-9cd8698b5ccf" style="width:50%" class="column"><p id="aa67f77e-5a84-49e3-9989-2c313a69b04e" class="">Requiered software :</p><ul id="2cd27a8e-64c9-464c-ae9a-e168503db571" class="bulleted-list"><li style="list-style-type:disc">MobaXterm</li></ul><ul id="b8b8cfc3-14a9-41f0-bedb-94cbcea9ebdd" class="bulleted-list"><li style="list-style-type:disc">Saleae Logic2</li></ul><ul id="d6b4df34-7064-460c-a256-744248cfa717" class="bulleted-list"><li style="list-style-type:disc">avrdude </li></ul><ul id="fcc92bf7-0a1c-4ed4-8d71-1dc15835a840" class="bulleted-list"><li style="list-style-type:disc">Arduino IDE</li></ul></div></div></div><div id="438baf6c-57a8-453e-a522-051100b6e462" style="width:50%" class="column"><p id="b324f5f8-5bad-449b-ab4b-2d3607a76060" class="">Documentation : </p><p id="d7a3c98d-9611-479c-822c-9080f764ab87" class=""><a href="https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf">https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf</a></p><p id="cfa919e2-8c4b-4119-8f55-b696d0aec720" class=""><a href="https://www.arduino.cc/en/uploads/Main/ArduinoNanoManual23.pdf">https://www.arduino.cc/en/uploads/Main/ArduinoNanoManual23.pdf</a></p><p id="a94b83c3-c201-4f18-a66c-3191a1aad3f5" class=""><a href="https://datasheet.lcsc.com/lcsc/1912111437_ALLPOWER-ShenZhen-Quan-Li-Semiconductor-AP3400_C353070.pdf">https://datasheet.lcsc.com/lcsc/1912111437_ALLPOWER-ShenZhen-Quan-Li-Semiconductor-AP3400_C353070.pdf</a></p></div></div><p id="ea6678c7-0f21-4862-971d-bc5ec39a082b" class="">Code :</p><p id="154f24b6-6654-48f1-8d50-35dc6b5f0628" class="">
+</p></div></figure><p id="0ded0ef4-33a5-4a84-8d1a-cdc195a7d90e" class="">
+</p><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="bec5b2c6-6496-471d-9171-2f285226494e"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Writeup will be published after CTF ended</div></figure></div></details><h2 id="492ba28c-b591-4bf9-ad2f-814ed6871e26" class="block-color-red_background">Creation ongoing </h2><h3 id="ebed467e-9a42-487d-8ca7-6c048d76d409" class="">🟩 EEPROM Analysis <br/>(EEPROM extraction and analysis)<br/></h3><h3 id="8315cb41-4661-456a-8a60-d099f450b4fa" class="">🟨 Knowing the route <br/>(basic schematics mapping)<br/></h3><h3 id="6e745725-6ac2-40be-a37a-5f87accc7a0d" class="">🟧 Xor madness <br/>(signal analysis) <br/></h3><h3 id="eef83a63-865e-409c-b556-65e13870d902" class="">🟧 To see without a screen (I2C analysis)</h3><h3 id="b2bc607f-3158-4d0d-9719-a052bd3d9b59" class="">🟧 <strong>Simple power analysis </strong>(<strong>SPA</strong>)</h3><h3 id="b46bc23c-dd98-4e5a-9967-97f70631744c" class="">🟧 Knowing the route - 2<br/>(PCB Mapping over simple autocad file)<br/></h3><h3 id="e903b58b-3433-4a26-9186-9588d846c394" class="">🟥 <strong>Differential power analysis </strong>(<strong>DPA</strong>)</h3><h3 id="9004f785-8a55-45b0-a502-c8a8b17c354e" class="">🟥 Knowing the route - 3<br/>(PCB Mapping over advanced autocad file)<br/></h3><h1 id="5d7ad831-f2ae-4ef4-b56e-524374fd1a3f" class="block-color-blue_background">Other challenges</h1><h3 id="ead97568-0eec-4c7f-bd3e-c27f2f0ddf29" class="">🟪 Thermal analysis</h3><h3 id="de73fa38-0f2f-4694-bc70-f7d946e77dbc" class="">🟪 Messing with security<br/>(TPM tempering)<br/></h3><h3 id="f165b183-8427-421a-817c-299dc87d503c" class="">⬛ MCU microscopic analysis<br/>(Burned ROM Analysis and reverse) <br/></h3><h3 id="54821c88-81e8-4fab-bef7-ddc2de8a2f13" class="">⬛ The hammer and the anvil<br/>(row hammering)<br/></h3></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,702 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DJI Inspire 1 GPS spoofing</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="755d6076-a0e8-4c48-a3ba-6ad7a058397e" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1456615913800-c33540eac399?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 43.96%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🛰️</span></div><h1 class="page-title">DJI Inspire 1 GPS spoofing</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="b7f4218f-1897-4e7d-8c5e-72155e3cbb78"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">All of the RF emissions where made under Faraday cage</div></figure><nav id="371eed67-9a93-4f18-bd8b-06bc451cd77a" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f5cfb5be-589f-464d-8b35-baea387f273d">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#87afdf97-71b2-41f5-b1d9-23b1e99f4d4e">Configuring the HackRF for KALI Linux</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#25c47d2f-8880-4e7c-a4db-ec1f55f6ac16"><strong><strong>Installation of GPS Spoof</strong></strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6ea640d1-723d-48cf-b56b-a775debde07b">Time to c<strong><strong>reate our fake constellation</strong></strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d94da5d7-2dc9-44cc-83e2-bcfea02349e0">Getting the real GPS constellation informations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b0e0fbf6-8ca6-480c-82e6-3674713bf2a1">Finding the desired location</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dd884414-94ba-48cd-9b39-179af6b60a4e">Generating the fake constellation</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c23201bd-a8b4-434d-8b6b-b8f074004be1">Let’s travel !</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1d23fd83-1620-45f5-82c8-344ef5c8d012">Setting up the lab</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7cc46398-5ff6-4f69-862f-9d6474731315">Results on the Inspire 1</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e526a8ac-493a-4f4f-9424-850e3d04b4f8">Traveling around the world</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#35a503b8-deaa-4a6f-9bdd-9f1ad3876520">Let’s fly in restricted places</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0ce9b476-747c-46b3-9ce5-b06048060a1b">Unexpected side effects</a></div></nav><h1 id="f5cfb5be-589f-464d-8b35-baea387f273d" class="block-color-purple_background">Introduction</h1><p id="f3bd26d4-46c0-4696-9048-659fa2a38577" class="">I got a week class on RF security we ended up with some ideas to try. One of them was to spoof the GPS signal on various devices</p><p id="b78ce235-478b-40a5-b01d-e07c7266ec00" class="">The device that I decided to target was my DJI Inspire 1 drone </p><div id="1528384b-48d6-4fe0-9fa6-a4a202980ba1" class="column-list"><div id="74a41873-20f0-4fca-b15a-e565d70846a6" style="width:33.33333333333333%" class="column"><figure id="2471571b-0662-4681-bdfa-129833fecf33" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled.png"><img style="width:384px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled.png"/></a></figure></div><div id="e6e36c9a-58da-4428-91bf-1ac0ab0d620e" style="width:33.33333333333334%" class="column"><figure id="849d309b-6951-47e7-ba03-6b6f2db28eae" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%201.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%201.png"/></a></figure></div><div id="663efeb6-7b66-4f0b-b4c1-7ab4c7f49274" style="width:33.333333333333336%" class="column"><figure id="d45e8836-8d9e-465e-82a4-a58902ec0433" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/13.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/13.png"/></a></figure></div></div><h1 id="87afdf97-71b2-41f5-b1d9-23b1e99f4d4e" class="block-color-purple_background">Configuring the HackRF for KALI Linux</h1><p id="0be0baa7-ced8-4f2e-b75a-16536c705958" class="">The first step is to be able to use the HackRF device with our Virtual Machine</p><div id="c450b422-dde6-4904-86aa-6ffa1ce6331a" class="column-list"><div id="034843d8-9de0-48f1-8ce4-e199b759cada" style="width:50%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d24eb370-308d-4d34-b096-55118dbc3fad" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo apt install hackrf
+┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo hackrf_info</code></pre></div><div id="3aea4ef6-e5d2-48cc-855c-f6b715fdbd1b" style="width:50%" class="column"><figure id="bac61f35-d9ec-4387-b450-b087344d5075" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%202.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%202.png"/></a></figure><p id="f024099a-310b-4279-8fb2-cbf9fff382c5" class="">
+</p></div></div><h1 id="25c47d2f-8880-4e7c-a4db-ec1f55f6ac16" class="block-color-purple_background"><strong><strong>Installation of GPS Spoof</strong></strong></h1><p id="74d522e7-d114-46ba-9b4d-6ffd60348fc4" class="">The next step is to install GPS Spoof to generate the data that will simulate our GPS constellation and that we will send to our device</p><div id="3729d566-076c-4749-b725-898b5adf395c" class="column-list"><div id="7bb7f43c-425a-412b-a82d-40057fcad9ca" style="width:62.5%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="29f5acf9-a5fc-4338-bac1-c74f18f05b83" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ mkdir GPS_SPOOF
+┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ cd GPS_SPOOF
+┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo git clone https://github.com/osqzss/gps-sdr-sim.git
+┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ cd gps-sdr-sim
+┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo gcc gpssim.c -lm -O3 -o gps-sdr-sim -DUSER_MOTION_SIZE=4000</code></pre><figure id="4f8b7204-2abb-45e1-89a3-2cd0fc3f5841"><a href="https://github.com/osqzss/gps-sdr-sim" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub - osqzss/gps-sdr-sim: Software-Defined GPS Signal Simulator</div><div class="bookmark-description">Software-Defined GPS Signal Simulator. Contribute to osqzss/gps-sdr-sim development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/fluidicon.png" class="icon bookmark-icon"/>https://github.com/osqzss/gps-sdr-sim</div></div><img src="https://opengraph.githubassets.com/7a65288be912f473bf0293dfa018d4d83f771d4a12d1d80a243f1afd529b46f7/osqzss/gps-sdr-sim" class="bookmark-image"/></a></figure></div><div id="8fdbde4e-21fe-4c55-94e6-ee0d55c4d01d" style="width:37.5%" class="column"><figure id="fb4a42f5-74b6-4393-a672-c9c9dc75a65a" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/3-1.png"><img style="width:384px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/3-1.png"/></a></figure></div></div><h1 id="6ea640d1-723d-48cf-b56b-a775debde07b" class="block-color-purple_background">Time to c<strong><strong>reate our fake constellation</strong></strong></h1><h2 id="d94da5d7-2dc9-44cc-83e2-bcfea02349e0" class="block-color-pink_background">Getting the real GPS constellation informations</h2><p id="fbf2c94d-5790-474d-a2db-1d8411307c3f" class="">To create our fake constellation, we need to locate the teal GPS satellite. This is done through the use of the GPS broadcast ephemeris file. The archive of the daily file can be downloaded here :</p><div id="3b1798e9-5347-46cd-b6b3-e4b09675b5a7" class="column-list"><div id="575079ed-8cae-4c4d-9918-fa9b88f56c28" style="width:31.25%" class="column"><figure id="e1fead83-cb02-48ee-9686-be5427d5fb3f" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/6.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/6.png"/></a></figure></div><div id="f70037ba-a829-49c1-9bde-99c45974a942" style="width:68.75%" class="column"><figure id="82566ff0-307d-4a3d-9a22-85bc032a2c4b"><a href="https://cddis.nasa.gov/archive/gnss/data/daily/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Earthdata Login</div></div><div class="bookmark-href"><img src="https://urs.earthdata.nasa.gov/favicon.ico" class="icon bookmark-icon"/>https://cddis.nasa.gov/archive/gnss/data/daily/</div></div></a></figure><p id="1f35d697-87b5-44b7-9d01-43f232324ee1" class="">These files are used to generate a simulated pseudorange and Doppler for the satellites in range. </p><p id="a10e5993-606d-4362-ba10-635dd24d1d13" class="">This data is then used to create a simulated range data to generate digitized I/Q samples for the GPS signal.</p><figure class="block-color-orange_background callout" style="white-space:pre-wrap;display:flex" id="e4d077e9-3c60-435e-bcbc-15c1d7a0ddeb"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Make certain you download the most recent daily file.</div></figure><figure id="43cc32e4-3c1a-4579-8137-60abd17f930e" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%203.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%203.png"/></a></figure></div></div><h2 id="b0e0fbf6-8ca6-480c-82e6-3674713bf2a1" class="block-color-pink_background">Finding the desired location</h2><div id="4ae6dc6b-9f2e-4859-8e8e-e8c96149eb22" class="column-list"><div id="c798e246-5039-443e-911d-6d10bd0f170d" style="width:50%" class="column"><figure id="ac260dbd-833f-4eef-b6b7-100830247851" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%204.png"><img style="width:1756px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%204.png"/></a></figure></div><div id="338ceecf-bca3-4a73-9d10-eb957580568a" style="width:50%" class="column"><p id="89f57644-f70c-4970-a6ae-f56fd9b07d86" class="">Then, select a location you want to spoof. In my case, I want to appear to be in north korea, specifically at Kumnung Tunnel, in Pyongyang. </p><p id="82a3df80-68a0-4281-b071-8cc5eb21d00c" class="">You can go to Google maps to get the GPS coordinates. In my case, the coordinates are </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0d676fdc-0915-4aa4-ae62-700d892217bb" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">39.035688, 125.753282</code></pre></div></div><h2 id="dd884414-94ba-48cd-9b39-179af6b60a4e" class="block-color-pink_background">Generating the fake constellation</h2><p id="025355bf-f6c8-46d0-9a06-a5f6db8a0d30" class="block-color-default">to start to generate the GPS spoof, I used the following command with the ephemeris file and the GPS coordinates as follow</p><div id="13b77264-0fd8-4b1f-8343-b887f5dfd94d" class="column-list"><div id="6197904f-4fe0-4696-9ae3-e530b48efd3a" style="width:62.5%" class="column"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f79a5eaf-cd22-43bb-a7ac-1a63c733537b" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo ./gps-sdr-sim -b 8 -e ../../Desktop/brdc1450.23n -l &quot;39.035688, 125.753282, 100&quot;</code></pre><figure id="14ab953c-4099-4919-b66f-b675f304a679" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%205.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%205.png"/></a></figure><p id="c88b73d9-7396-4ae4-b4d9-db71b632f62d" class="">This will create a file called gpssim.bin. This file once played over the HackRF will simulate the GPS constellation</p></div><div id="a6c34319-02da-450d-9dde-44f7450982b8" style="width:37.50000000000001%" class="column"><figure id="0bc50e07-d3d2-4418-8bf0-c806481ab4e4" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/0.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/0.png"/></a></figure></div></div><h1 id="c23201bd-a8b4-434d-8b6b-b8f074004be1" class="block-color-purple_background">Let’s travel !</h1><p id="4d14e32f-baa3-4f7b-88a0-aef622aa3efe" class="">To send the freshly generated file to the HackRF One and by extension to our drone here is the commande used </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9af26dff-b92e-4cb6-a4d8-86403b91025e" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">┌──(kali㉿kali)-[~/GPS_SPOOF/gps-sdr-sim]
+└─$ sudo hackrf_transfer -t gpssim.bin -f 1575420000 -s 2600000 -a 1 -x 0</code></pre><figure id="efc4aa33-39cb-4065-a3be-f00dd1851732" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%206.png"><img style="width:4000px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%206.png"/></a></figure><h1 id="1d23fd83-1620-45f5-82c8-344ef5c8d012" class="block-color-purple_background">Setting up the lab</h1><p id="bb0af5fb-37fa-4e98-bc9f-e8a07d3e0841" class="">The setup it the following: My laptop running a KALI Linux VM is connected to a HackFR One. The output of the HackRF One is plugged to a +20Db amplifier and then a 1.5m antenna</p><div id="dc333b12-16e9-40a9-b739-2aceb643c795" class="column-list"><div id="3f5d38a9-8c5f-402d-a1f5-00020b8589e2" style="width:33.333333333333336%" class="column"><figure id="091fc0d5-4da6-4252-8a99-714353e284eb" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%207.png"><img style="width:3000px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%207.png"/></a></figure><p id="4d3faf66-fc39-40a6-b522-bbd62084caee" class="">
+</p></div><div id="73e28d63-ffae-43c5-98bd-b10a47cb2a94" style="width:33.333333333333336%" class="column"><figure id="6c3f7525-3aa6-4175-aaf8-b2eeef255006" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%208.png"><img style="width:364px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%208.png"/></a></figure></div><div id="069ab3d5-090c-479a-b64e-6c4453d94df6" style="width:33.33333333333333%" class="column"><figure id="0aa2f188-2ff4-4828-b6da-bcda2bc1741f" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%209.png"><img style="width:432px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%209.png"/></a></figure></div></div><h1 id="7cc46398-5ff6-4f69-862f-9d6474731315" class="block-color-purple_background">Results on the Inspire 1</h1><h2 id="e526a8ac-493a-4f4f-9424-850e3d04b4f8" class="block-color-pink_background">Traveling around the world</h2><div id="c7ebfeb5-e35f-42b6-bf98-f0d3f278004c" class="column-list"><div id="6b17a003-69d4-41fa-b396-ea5682fac21a" style="width:33.333333333333336%" class="column"><p id="6185b713-4552-407e-90de-cc1c4b00dad9" class="">Here it was in Pyongyang North Korea</p><figure id="9762958d-3858-45de-8fbf-52a579b4ba9e" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2010.png"><img style="width:1083px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2010.png"/></a></figure></div><div id="00edca54-794f-45a7-884f-7f4358f9150b" style="width:33.333333333333336%" class="column"><p id="593e98aa-4fdc-42ec-9652-7bec82a031b8" class="">We also made it to japan</p><figure id="d20a6681-482f-445d-a7fa-c508b2053937" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2011.png"><img style="width:1437px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2011.png"/></a></figure></div><div id="36dcd0c7-81f2-4681-954f-e6a1f996c345" style="width:33.33333333333333%" class="column"><p id="59a711f2-ef26-45ca-b080-8d97a69eaab0" class="">We also encoutered some weird movements while trying to reach japan, and ended up near Tunisia for some unknown reason.</p><figure id="feacebe9-f192-4c53-8c15-bae97d5ff713" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2012.png"><img style="width:1439px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2012.png"/></a></figure></div></div><h2 id="35a503b8-deaa-4a6f-9bdd-9f1ad3876520" class="block-color-pink_background">Let’s fly in restricted places</h2><div id="a22f0d6b-61d5-4368-a3c8-585406d498b1" class="column-list"><div id="ff4bc478-62e3-4398-a8dc-1fcb8a65c69d" style="width:50%" class="column"><p id="c72cad57-4dcb-46b0-af32-e2b93322cc68" class="">We also tried to move it to some random airports to see if it would let us take of</p><figure id="ab2bf293-bdd4-4fd1-8e4f-f8a42de80824" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2013.png"><img style="width:1438px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2013.png"/></a></figure><figure id="22540340-4114-48f8-826e-3c3cf17d013e" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2014.png"><img style="width:1443px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2014.png"/></a></figure></div><div id="ccf95b09-5980-4c5a-929d-e80626918ef9" style="width:50%" class="column"><p id="8d47e37d-cbe7-480d-a3fc-f3d634a9bfb6" class="">And turns out they asks us if we have clearance to take of</p><figure id="7014975b-d9c9-431e-88cb-7eaf499e30aa" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2015.png"><img style="width:1436px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2015.png"/></a></figure><figure id="3319da65-6ab8-496f-a677-ba2ebfe3a1c6" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2016.png"><img style="width:1433px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2016.png"/></a></figure><p id="520d9add-c59b-4c6a-9683-2f45d9454508" class="">However if I say I don’t have clearance the drone can take off anyways </p></div></div><h1 id="0ce9b476-747c-46b3-9ce5-b06048060a1b" class="block-color-purple_background">Unexpected side effects</h1><p id="474bf7ba-26ab-4f57-a364-a0692bce83ee" class="">The other persons in the room quickly noticed some side effects of this constellation simulation, most of the application using localisation where using the simulated constellation instead of the official one. Multiple locations have been tried during the day, here are some of the results </p><div id="2ae471f3-9bbb-47bc-82e8-7d3697139a83" class="column-list"><div id="45e1baf2-1637-4d62-a382-1de1c923a411" style="width:25%" class="column"><figure id="887eed77-b98a-48ea-bec5-36f913cb9d7f" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2017.png"><img style="width:1080px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2017.png"/></a></figure></div><div id="f6d96f11-0d77-44f5-b3dd-084d59fa12f5" style="width:25%" class="column"><figure id="2752f6c9-f2bf-4109-9962-989a99bd408d" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2018.png"><img style="width:1080px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2018.png"/></a></figure><p id="484352f3-ffce-41db-aada-6a725f568180" class="">
+</p></div><div id="e1e4322a-d1e6-4122-9a3f-c3fdb5933a3a" style="width:25%" class="column"><figure id="ead5ce96-24c8-4e38-ba31-8f88e6323b1f" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2019.png"><img style="width:316px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2019.png"/></a></figure></div><div id="28bdb609-b40f-4b6f-88c1-02828df54c93" style="width:25%" class="column"><figure id="b121da46-8cdf-4f29-9984-8e16ed5d14d7" class="image"><a href="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2020.png"><img style="width:318px" src="DJI%20Inspire%201%20GPS%20spoofing%20755d6076a0e84c48a3ba6ad7a058397e/Untitled%2020.png"/></a></figure></div></div><p id="9fa64944-74b8-4c36-b2d8-c0c3fcf3828c" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
