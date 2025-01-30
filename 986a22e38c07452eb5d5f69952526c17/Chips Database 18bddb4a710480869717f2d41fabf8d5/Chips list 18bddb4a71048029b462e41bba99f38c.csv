@@ -1,18 +1,18 @@
 ﻿Chip reference,"Amount of pins ",Package(s),Manufacturer,Datasheet,Description
-AP3400,3,SOT-23,AllPOWER,AP3400.pdf,N- CHANNEL MOSFET in a SOT23 Plastic Package.
-AT25128,"14, 16, 20, 8","Leadless Array, PDIP, SOIC, TSSOP",ATMEL,AT25256_SPI_EEPROM_datasheet.pdf,SPI Serial EEPROM
-AT25256,"14, 16, 20, 8","Leadless Array, PDIP, SOIC, TSSOP",ATMEL,AT25256_SPI_EEPROM_datasheet.pdf,SPI Serial EEPROM
-NE555,8,"DIP, MSOP",STMicroElectronics,STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
+AP3400,3,SOT-23,AllPOWER,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/AP3400%2018bddb4a710480e69472c97945e3412e/AP3400.pdf,N- CHANNEL MOSFET in a SOT23 Plastic Package.
+AT25128,"14, 16, 20, 8","Leadless Array, PDIP, SOIC, TSSOP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/AT25128%2018bddb4a7104801984a0e41775a46030/AT25256_SPI_EEPROM_datasheet.pdf,SPI Serial EEPROM
+AT25256,"14, 16, 20, 8","Leadless Array, PDIP, SOIC, TSSOP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/AT25128%2018bddb4a7104801984a0e41775a46030/AT25256_SPI_EEPROM_datasheet.pdf,SPI Serial EEPROM
+NE555,8,"DIP, MSOP",STMicroElectronics,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/NE555%2018bddb4a7104807793bbd39235d67054/STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
 "
-SA555,8,"DIP, MSOP",STMicroElectronics,STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
+SA555,8,"DIP, MSOP",STMicroElectronics,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/NE555%2018bddb4a7104807793bbd39235d67054/STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
 "
-SE555,8,"DIP, MSOP",STMicroElectronics,STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
+SE555,8,"DIP, MSOP",STMicroElectronics,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/NE555%2018bddb4a7104807793bbd39235d67054/STMicroelectronics-NE555N-datasheet.pdf,"General purpose single bipolar timers
 "
-ATmega48A,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega48PA,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega88A,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega88PA,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega168A,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega168PA,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega328A,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
-ATmega328PA,"28, 32","MLF, PDIP, TQFP",ATMEL,ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega48A,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega48PA,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega88A,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega88PA,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega168A,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega168PA,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega328A,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
+ATmega328PA,"28, 32","MLF, PDIP, TQFP",ATMEL,Chips%20Database%2018bddb4a710480869717f2d41fabf8d5/Chips%20list%2018bddb4a71048029b462e41bba99f38c/ATmega48A%2018bddb4a710480d3aae7f5caced2b302/ATMEGA328P-PU_datasheet.pdf,Microcontroller with 4K Bytes In-System Programmable Flash
